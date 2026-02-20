@@ -1,0 +1,38 @@
+.carousel-section {
+  background: var(--biscuit);
+  padding: 100px 0;
+}
+
+.carousel {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 0 40px;
+}
+
+.api-card {
+  min-width: 320px;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow:
+    0 8px 24px rgba(0,0,0,0.08),
+    0 2px 6px rgba(0,0,0,0.04);
+  scroll-snap-align: center;
+}
+
+.color-gradient1 {
+  background: linear-gradient(var(--gradient-1-start), var(--gradient-1-end));
+}
+
+.color-gradient2 {
+  background: linear-gradient(var(--gradient-2-start), var(--gradient-2-end));
+}
+
+.color-neutral {
+  background: var(--timber-wolf);
+}
+
+.color-accent {
+  background: var(--periwinkle);
+}

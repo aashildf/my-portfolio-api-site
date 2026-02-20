@@ -1,0 +1,190 @@
+section {
+  padding: 80px 0;
+}
+
+.case-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 32px;
+}
+
+.header {
+  background: #A1B4B2;
+  padding: 24px 0;
+  color: white;
+}
+
+.header-inner {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero {
+  background: #A1B4B2;
+  color: white;
+  padding: 120px 0 160px;
+  position: relative;
+  text-align: left;
+}
+
+.hero-content {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero h1 {
+  font-size: 56px;
+  font-weight: 500;
+  line-height: 110%;
+  letter-spacing: -1px;
+  margin-bottom: 24px;
+}
+
+.hero p {
+  font-size: 18px;
+  max-width: 600px;
+  line-height: 160%;
+}
+
+
+
+/* -------------------------------------------- */
+/*                    HEADER */
+/* --------------------------------------------  */
+.header {
+  background: #A1B4B2;
+  padding: 20px 0;
+  color: white;
+  position: top; top: 0; z-index: 20; 
+}
+
+.header-inner {
+  width: 90%;
+  max-width: 1300px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+}
+
+/* NAVIGATION */
+.nav {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+}
+
+.nav-item {
+  color: white;
+  text-decoration: none;
+  font-size: 15px;
+  cursor: pointer;
+  position: relative;
+}
+
+.nav-item:hover {
+  opacity: 0.8;
+}
+
+/* DROPDOWN */
+.dropdown-menu {
+  position: absolute;
+  top: 28px;
+  left: 0;
+  background: white;
+  color: #0F1422;
+  padding: 24px 12px;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+  min-width: 280px;
+  z-index: 10;
+}
+
+.dropdown-menu a {
+  padding: 8px 16px;
+  text-decoration: none;
+  color: #0F1422;
+  font-size: 14px;
+}
+
+.dropdown-menu a:hover {
+  background: #F2F2F2;
+}
+
+/* RIGHT SIDE */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.theme-toggle {
+  background: white;
+  color: #A1B4B2;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.theme-toggle:hover {
+  opacity: 0.9;
+}
+
+
+/* ----------------------------------------- */
+/*                   HERO                    */
+/* ------------------------------------------*/
+
+
+.hero {
+  background: 
+    linear-gradient(
+      180deg,
+      rgba(161,180,178,1) 0%,
+      rgba(150,167,165,1) 100%
+    ),
+    url("/src/assets/textures/paper3.png"); /* du legger inn en liten grain-tekstur her */
+
+  background-size: cover;
+  background-blend-mode: overlay;
+  color: white;
+  padding: 140px 0 200px;
+  position: relative;
+  text-align: left;
+  border-radius: 0 0px 40px 40px ;
+}
+
+/* Hero content */
+.hero-content {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero h1 {
+  font-size: 56px;
+  font-weight: 500;
+  line-height: 110%;
+  letter-spacing: -1px;
+  margin-bottom: 24px;
+}
+
+.hero p {
+  font-size: 18px;
+  max-width: 600px;
+  line-height: 160%;
+  opacity: 0.95;
+}
+

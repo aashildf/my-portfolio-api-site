@@ -1,0 +1,30 @@
+body {
+  font-family: "IBM Plex Sans", sans-serif;
+  color: var(--black-amber);
+}
+
+h1 {
+  font-size: 48px;
+  font-weight: 500;
+  letter-spacing: -1%;
+  line-height: 110%;
+}
+
+h2 {
+  font-size: 32px;
+  font-weight: 500;
+  letter-spacing: -0.5%;
+  line-height: 115%;
+}
+
+h3 {
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.5%;
+  line-height: 120%;
+}
+
+p {
+  font-size: 16px;
+  line-height: 160%;
+}
