@@ -21,31 +21,53 @@ section {
 /* ------------------------------------------------------ */
 .texture-wrapper {
   background-color: #A1B4B2;
-  background-image: url("../assets/textures/paper.png");
-  background-size: 600px;
+  
+  /* linear-gradient. Den starter hvit (lys) og blir helt gjennomsiktig halvveis ned. */
+  background-image: 
+    linear-gradient(
+      to bottom, 
+      rgba(255, 255, 255, 0.5) 0%,   
+      rgba(255, 255, 255, 0) 50%     
+    ),
+    url("../assets/textures/paper.png");
+    
+  background-size: auto, 600px;
   background-repeat: repeat;
-  background-blend-mode: multiply;
+  /* 'soft-light'gjør toppen lysere  */
+  background-blend-mode: soft-light, multiply;
   position: relative;
-  z-index: 0;
+  z-index: 10;
 }
 
 /* Buen som matcher hero + overlay */ 
 .texture-wrapper::after { 
-    content: ""; 
-    position: absolute; 
-    bottom: -40px; /* skyver buen ned i IntroSection */ 
-    left: 0; 
-    width: 100%; 
-    height: 40px; 
+  content: ""; 
+  position: absolute; 
+  top: 100%; 
+  margin-top: -2px;
+  left: 0; 
+  width: 100%; 
+  height: 42px; 
 
-    background-color: #A1B4B2; 
-    background-image: url("../assets/textures/paper.png"); background-size: 600px; 
-    background-repeat: repeat; 
-    background-blend-mode: multiply; 
+ 
+  background-color: #a1b4b2; 
+  background-image: url("../assets/textures/paper.png"); 
+  background-size: 600px; 
+  background-repeat: repeat; 
+  background-blend-mode: multiply; 
 
-    border-radius: 0 0 40px 40px; 
-    
-    z-index: 10; }
+  border-radius: 0 0 40px 40px; 
+  z-index: 11;
+  pointer-events: none;
+  
+  outline: 1px solid transparent; 
+  backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+
+  /* Minimal skygge som ikke lager strek */
+  box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+}
 
 
 
@@ -211,9 +233,9 @@ section {
   background: white;
   color: #0F1A1C;
   position: relative;
-  padding-top: 80px; 
   padding-bottom: 80px;
-  z-index: 5;
+  padding-top: 100px; /* Litt ekstra padding for å gi plass til buen */
+  z-index: 1; /* Lavere enn buen */
   
 }
 
