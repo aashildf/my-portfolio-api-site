@@ -21,8 +21,6 @@ section {
 /* ------------------------------------------------------ */
 .texture-wrapper {
   background-color: #A1B4B2;
-  
-  /* linear-gradient. Den starter hvit (lys) og blir helt gjennomsiktig halvveis ned. */
   background-image: 
     linear-gradient(
       to bottom, 
@@ -74,7 +72,7 @@ section {
 /* ------------------------------------------------------ */
 /* ---------              HEADER               ---------- */
 /* ------------------------------------------------------ */
-.header {
+/* .header {
   background-color: #A1B4B2;
   background: transparent;
   background-size: 600px;
@@ -85,6 +83,13 @@ section {
   color: white;
   position: top; 
   top: 0; 
+  z-index: 20;  
+} */
+
+.header {
+  padding: 20px 0;
+  color: white;
+  position: relative;
   z-index: 20;  
 }
 
@@ -97,6 +102,111 @@ section {
   align-items: center;
   justify-content: space-between;
 }
+
+.logo {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+}
+
+
+
+
+/* ------------------------------------------------------ */
+/* ----------           NAVIGATION           ------------ */
+/* ------------------------------------------------------ */
+.nav {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+}
+
+.nav-item {
+  color: white;
+  text-decoration: none;
+  font-size: 15px;
+  cursor: pointer;
+  position: relative;
+  padding: 10px 0; /* Lager vertikal treffflate for musen */
+}
+
+.nav-item:hover {
+  opacity: 0.8;
+}
+
+/* DROPDOWN LOGIKK (Desktop)*/
+@media (min-width: 1025px) {
+  .nav-item.dropdown {
+    padding-bottom: 30px; /* Broen som hindrer at menyen lukkes */
+    margin-bottom: -30px;
+  }
+
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    padding: 15px 0;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    flex-direction: column; 
+    min-width: 260px;
+    z-index: 100;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    visibility: hidden;
+    pointer-events: none; /* Hindrer interaksjon når den er usynlig */
+  }
+
+  .nav-item.dropdown:hover .dropdown-menu {
+    display: flex;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+
+
+}
+
+/* MENYPUNKTER (Felles stiler)*/
+.dropdown-menu a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  text-decoration: none;
+  color: #0F1422 !important; /* Tvinger mørk tekst på desktop */
+  font-size: 14px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.dropdown-menu a:hover {
+ background-color: #e2e2e2;
+  padding-left: 30px; /* Liten slide-effekt */
+  color: #000;
+}
+
+
+/* Pil-effekten */
+.dropdown-menu a::after {
+  content: "→";
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.2s ease;
+  font-weight: bold;
+}
+
+.dropdown-menu a:hover::after {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+
 
 
 
@@ -143,88 +253,6 @@ section {
 }
 
 
-.logo {
-  font-size: 20px;
-  font-weight: 600;
-  letter-spacing: -0.5px;
-}
-
-
-
-
-
-/* ------------------------------------------------------ */
-/* ----------           NAVIGATION           ------------ */
-/* ------------------------------------------------------ */
-.nav {
-  display: flex;
-  gap: 32px;
-  align-items: center;
-}
-
-.nav-item {
-  color: white;
-  text-decoration: none;
-  font-size: 15px;
-  cursor: pointer;
-  position: relative;
-}
-
-.nav-item:hover {
-  opacity: 0.8;
-}
-
-/* DROPDOWN */
-.dropdown-menu {
-  position: absolute;
-  top: 28px;
-  left: 0;
-  background: white;
-  color: #0F1422;
-  padding: 24px 12px;
-  border-radius: 20px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-  display: flex;
-  flex-direction: column;
-  min-width: 280px;
-  z-index: 20;
-}
-
-.dropdown-menu a {
-  padding: 8px 16px;
-  text-decoration: none;
-  color: #0F1422;
-  font-size: 14px;
-  z-index: 20;
-}
-
-.dropdown-menu a:hover {
-  background: #F2F2F2;
-  z-index: 20;
-}
-
-/* RIGHT SIDE */
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.theme-toggle {
-  background: white;
-  color: #A1B4B2;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.theme-toggle:hover {
-  opacity: 0.9;
-}
-
-
 /* ------------------------------------------------------ */
 /* ----------         INTROSECTION           ------------ */
 /* ------------------------------------------------------ */
@@ -240,3 +268,143 @@ section {
 }
 
 
+
+
+/* ------------------------------------------------------ */
+/* ----------        MOBILE / RESPONSIVE      ------------ */
+/* ------------------------------------------------------ */
+
+/* Hamburger-knapp */
+.mobile-menu-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 1001;
+  padding: 10px;
+}
+
+.mobile-menu-toggle span {
+  display: block;
+  width: 25px;
+  height: 2px;
+  background-color: white;
+  transition: 0.3s ease;
+}
+
+.mobile-menu-toggle.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.mobile-menu-toggle.active span:nth-child(2) { opacity: 0; }
+.mobile-menu-toggle.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 1024px) {
+  .mobile-menu-toggle {
+    display: flex;
+    order: 3;
+  }
+
+  .nav {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 280px;
+    height: 100vh;
+    background-color: #A1B4B2;
+    background-image: url("../assets/textures/paper.png");
+    background-blend-mode: multiply;
+    flex-direction: column;
+    padding: 100px 40px;
+    gap: 30px;
+    transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+    box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+  }
+
+  .nav.active {
+    right: 0;
+  }
+
+  .dropdown-menu {
+    position: static;
+    display: none;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: none;
+    width: 100%;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+
+  /* Vises når du klikker på mobil */
+  .dropdown-menu.mobile-show {
+    display: flex;
+  }
+
+  .dropdown-menu a {
+    color: white !important;
+  }
+}
+
+@media (max-width: 1024px) {
+  .hero {
+    min-height: 50vh; 
+    padding: 40px 0;
+    display: flex;
+    text-align: center;
+  }
+
+  @media (max-width: 1024px) {
+  .texture-wrapper::after {
+    height: 30px; /* Gjør buen litt grunnere på mindre skjermer */
+    border-radius: 0 0 30px 30px;
+  }
+}
+
+  .hero h1 { font-size: clamp(32px, 5vw, 56px);
+}
+
+.hero p {
+    font-size: 17px;
+    margin: 0 auto;
+  }
+
+  .hero-content {
+    width: 95%; /* Bruk litt mer av bredden på nettbrett */
+  }
+
+  .intro-section {
+    min-height: 50vh;
+    padding-top: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0,0,0,0.3);
+  z-index: 999;
+}
+
+/* Theme Toggle */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.theme-toggle {
+  background: white;
+  color: #A1B4B2;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}

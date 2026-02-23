@@ -1,44 +1,72 @@
-import {useState} from "react";
+import { useState } from "react";
 
 export default function Header() {
-    const [open, setOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [mobileDropdown, setMobileDropdown] = useState(false);
 
+  const closeAll = () => {
+    setMenuOpen(false);
+    setMobileDropdown(false);
+  };
 
   return (
     <header className="header">
-        <div className="header-inner">
+      <div className="header-inner">
+        <div className="logo">API Studio</div>
 
-        {/* Logo */}
-   <div className="logo">API Studio</div>
+        <button
+          className={`mobile-menu-toggle ${menuOpen ? "active" : ""}`}
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
 
-   {/* Navigasjon */}
-    <nav className="nav">
-          <div className="nav-item dropdown" onClick={() => setOpen(!open)}
+        <nav className={`nav ${menuOpen ? "active" : ""}`}>
+          <div
+            className="nav-item dropdown"
+            /* På mobil toggler vi klikk, på desktop styres det av CSS :hover */
+            onClick={() =>
+              window.innerWidth <= 1024 && setMobileDropdown(!mobileDropdown)
+            }
           >
             API-kategorier ▾
-            {open && (
-              <div className="dropdown-menu">
-                <a href="#">Betaling</a>
-                <a href="#">Autentisering</a>
-                <a href="#">Data</a>
-                <a href="#">Kommunikasjon</a>
-              </div>
-            )}
+            <div
+              className={`dropdown-menu ${mobileDropdown ? "mobile-show" : ""}`}
+            >
+              <a href="#" onClick={closeAll}>
+                Betaling
+              </a>
+              <a href="#" onClick={closeAll}>
+                Autentisering
+              </a>
+              <a href="#" onClick={closeAll}>
+                Data
+              </a>
+              <a href="#" onClick={closeAll}>
+                Kommunikasjon
+              </a>
+            </div>
           </div>
 
-          <a className="nav-item" href="#">Prosjekter</a>
-          <a className="nav-item" href="#">Dokumentasjon</a>
-          <a className="nav-item" href="#">Om meg</a>
+          <a className="nav-item" href="#" onClick={closeAll}>
+            Prosjekter
+          </a>
+          <a className="nav-item" href="#" onClick={closeAll}>
+            Dokumentasjon
+          </a>
+          <a className="nav-item" href="#" onClick={closeAll}>
+            Om meg
+          </a>
         </nav>
 
-        {/* Right side */}
         <div className="header-right">
           <button className="theme-toggle">☀︎</button>
         </div>
-
       </div>
-        
-   
+
+      {menuOpen && <div className="menu-overlay" onClick={closeAll}></div>}
     </header>
   );
 }
