@@ -11,10 +11,12 @@ export default function App() {
     <>
       <div className="texture-wrapper">
         <Header />
-        <HeroText/>
+        <HeroText />
       </div>
       <IntroSection />
-      <ApiCarousel />
+      <div style={{ clear: "both", width: "100%" }}>
+        <ApiCarousel />
+      </div>
       <Cases />
       <About />
       <Footer />

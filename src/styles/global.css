@@ -9,5 +9,13 @@ body {
 }
 
 section {
-    background: white;
+  background: transparent;
+}
+
+#root, body, html {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-x: hidden !important;
+    display: block !important;
 }
