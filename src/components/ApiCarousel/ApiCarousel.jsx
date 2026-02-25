@@ -1,190 +1,215 @@
-import { useRef, useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { apiList } from "../../data/apiList";
 import ApiCard from "./ApiCard";
 import "./carousel.css";
 
 export default function ApiCarousel() {
-  const carouselRef = useRef(null);
-  const [scaleMap, setScaleMap] = useState({});
-  const isDraggingRef = useRef(false);
+  const lastClientYRef = useRef(0);
+  const baseWidthRef = useRef(1);
+  const viewportRef = useRef(null);
+  const trackRef = useRef(null);
 
-  // slik at karusellen går rundt og rundt
-  const items = [...apiList, ...apiList, ...apiList];
-
-  // 1️ infinite loop
-  useEffect(() => {
-    const container = carouselRef.current;
-    if (!container) return;
-
-    const jumpToMiddle = () => {
-      const third = container.scrollWidth / 3;
-      container.scrollLeft = third;
-    };
-
-    requestAnimationFrame(jumpToMiddle);
-
-    const onScroll = () => {
-      if (isDraggingRef.current) return;
-
-      const third = container.scrollWidth / 3;
-      const x = container.scrollLeft;
-      const buffer = 300;
-
-      if (x < buffer) {
-        container.scrollLeft = x + third;
-      }
-
-      if (x > third * 2 - buffer) {
-        container.scrollLeft = x - third;
-      }
-    };
-
-    container.addEventListener("scroll", onScroll);
-    window.addEventListener("resize", jumpToMiddle);
-
-    return () => {
-      container.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", jumpToMiddle);
-    };
+  // Render mange ganger for å kunne wrappe sømløst
+  const REPEATS = 7; // 5–9 funker fint
+  const items = useMemo(() => {
+    const out = [];
+    for (let i = 0; i < REPEATS; i++) out.push(...apiList);
+    return out;
   }, []);
 
+  // State for scaling per index
+  const [scaleMap, setScaleMap] = useState({});
 
-  
-  // 2️ Scale effect 
+  // "Physics" refs
+  const xRef = useRef(0); // current translateX (px)
+  const vRef = useRef(0); // velocity (px/frame-ish)
+  const isDownRef = useRef(false);
+  const lastClientXRef = useRef(0);
+  const lastTimeRef = useRef(0);
+  const trackWidthRef = useRef(1);
+  const viewportWidthRef = useRef(1);
+  const dragBlockClickRef = useRef(false);
+
+  // Helpers
+  const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
+
   useEffect(() => {
-    const container = carouselRef.current;
-    if (!container) return;
+    const viewport = viewportRef.current;
+    const track = trackRef.current;
+    if (!viewport || !track) return;
 
-    const handleScroll = () => {
-      const cards = container.querySelectorAll(".carousel-item");
+   const measure = () => {
+     viewportWidthRef.current = viewport.clientWidth;
+     trackWidthRef.current = track.scrollWidth || 1;
 
-      const rect = container.getBoundingClientRect();
-      const center = rect.left + rect.width / 2;
+     // 🔥 bredden av én original liste
+     baseWidthRef.current = trackWidthRef.current / REPEATS;
 
-      const newScaleMap = {};
+     // start i midten (repeat 3 eller 4)
+     xRef.current = -baseWidthRef.current * Math.floor(REPEATS / 2);
+   };
 
-      cards.forEach((card, index) => {
+    measure();
+
+    // Resize observer for å tåle font/innhold endringer
+    const ro = new ResizeObserver(() => measure());
+    ro.observe(viewport);
+    ro.observe(track);
+
+    return () => ro.disconnect();
+  }, [items.length]);
+
+  useEffect(() => {
+    const viewport = viewportRef.current;
+    const track = trackRef.current;
+    if (!viewport || !track) return;
+
+    const friction = 0.92; // 0.88–0.95 (høyere = mer glide)
+    const spring = 0.18; // "responsiveness" ved drag
+    const maxVel = 80; // safety
+
+    const tick = () => {
+      const viewportW = viewportWidthRef.current;
+      const trackW = trackWidthRef.current;
+
+      // Inertia når ikke drar
+      if (!isDownRef.current) {
+        vRef.current *= friction;
+        if (Math.abs(vRef.current) < 0.02) vRef.current = 0;
+        xRef.current += vRef.current;
+      }
+
+      const base = baseWidthRef.current;
+      xRef.current = (((xRef.current % base) + base) % base) - base;
+
+      // Apply transform
+      track.style.transform = `translate3d(${xRef.current}px, 0, 0)`;
+
+      // Scale-beregning (smooth) – basert på avstand til viewport center
+      // Vi leser alle .carousel-item og måler senterposisjon
+      const cards = track.querySelectorAll(".carousel-item");
+      const center = viewport.getBoundingClientRect().left + viewportW / 2;
+
+      const newScale = {};
+      cards.forEach((card, idx) => {
         const r = card.getBoundingClientRect();
         const cardCenter = r.left + r.width / 2;
-        const distance = Math.abs(center - cardCenter);
+        const dist = Math.abs(center - cardCenter);
 
-        const scale = Math.max(0.85, 1.35 - distance / 500);
-        newScaleMap[index] = scale;
+        // litt mer smooth falloff
+        const t = clamp(1 - dist / 500, 0, 1);
+        const scale = 0.85 + t * (1.35 - 0.85);
+        newScale[idx] = scale;
       });
+      setScaleMap(newScale);
 
-      setScaleMap(newScaleMap);
+      requestAnimationFrame(tick);
     };
 
-    handleScroll();
-
-    container.addEventListener("scroll", handleScroll);
-    window.addEventListener("resize", handleScroll);
-
-    return () => {
-      container.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleScroll);
-    };
+    const raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
   }, []);
 
-
-
-  // 3  Drag-effect
   useEffect(() => {
-    const container = carouselRef.current;
-    if (!container) return;
-
-    let isPointerDown = false;
-    let startX = 0;
-    let startScrollLeft = 0;
-    let dragged = false;
-
-    const DRAG_THRESHOLD = 6; // px før vi sier "dette er drag, ikke klikk"
+    const viewport = viewportRef.current;
+    if (!viewport) return;
 
     const onPointerDown = (e) => {
-      // Bare venstre museknapp på desktop
       if (e.pointerType === "mouse" && e.button !== 0) return;
+      isDownRef.current = true;
+      dragBlockClickRef.current = false;
 
-      isPointerDown = true;
-      isDraggingRef.current = true;
+      lastClientXRef.current = e.clientX;
+      lastClientYRef.current = e.clientY;   
+      lastTimeRef.current = performance.now();
 
-      dragged = false;
-
-      startX = e.clientX;
-      startScrollLeft = container.scrollLeft;
-
-      container.setPointerCapture?.(e.pointerId);
-
-      // Hindrer tekstmarkering/ghost-drag
+      viewport.setPointerCapture?.(e.pointerId);
+      viewport.classList.add("is-dragging");
       e.preventDefault();
     };
 
-    const onPointerMove = (e) => {
-      if (!isPointerDown) return;
+   const onPointerMove = (e) => {
+     if (!isDownRef.current) return;
 
-      const dx = e.clientX - startX;
+     const now = performance.now();
+     const dx = e.clientX - lastClientXRef.current;
+     const dy = e.clientY - (lastClientYRef.current ?? e.clientY);
+     const dt = Math.max(1, now - lastTimeRef.current);
 
-      if (Math.abs(dx) > DRAG_THRESHOLD) {
-        dragged = true;
-        container.classList.add("is-dragging");
-      }
 
-      // "Grab to move": dra til høyre => innhold følger hånda
-      container.scrollLeft = startScrollLeft - dx;
 
-      e.preventDefault();
+     //  Hvis brukeren beveger mer vertikalt enn horisontalt
+     // la browser håndtere scroll opp/ned
+     if (Math.abs(dy) > Math.abs(dx)) {
+       isDownRef.current = false;
+       viewport.classList.remove("is-dragging");
+       return;
+     }
+
+     xRef.current += dx;
+
+     const instVel = (dx / dt) * 16.67;
+     vRef.current = clamp(instVel, -80, 80);
+
+     if (Math.abs(dx) > 3) dragBlockClickRef.current = true;
+
+     lastClientXRef.current = e.clientX;
+     lastClientYRef.current = e.clientY;
+     lastTimeRef.current = now;
+
+     e.preventDefault(); 
+   };
+
+    const end = () => {
+      isDownRef.current = false;
+      viewport.classList.remove("is-dragging");
     };
 
-    const endDrag = () => {
-      isPointerDown = false;
-      isDraggingRef.current = false;
-      container.classList.remove("is-dragging");
-    };
-
-    const onPointerUp = () => endDrag();
-    const onPointerCancel = () => endDrag();
-
-    // Stopp klikk hvis vi faktisk dro
+    // Stop click on cards after drag
     const onClickCapture = (e) => {
-      if (!dragged) return;
+      if (!dragBlockClickRef.current) return;
       e.preventDefault();
       e.stopPropagation();
-      dragged = false; // reset etter å ha stoppet ett klikk
+      dragBlockClickRef.current = false;
     };
 
-    container.addEventListener("pointerdown", onPointerDown, {
-      passive: false,
-    });
-    container.addEventListener("pointermove", onPointerMove, {
-      passive: false,
-    });
-    container.addEventListener("pointerup", onPointerUp, { passive: true });
-    container.addEventListener("pointercancel", onPointerCancel, {
-      passive: true,
-    });
+   const onWheel = (e) => {
+     // Kun horisontal wheel (eller Shift + wheel) skal styre karusellen
+     if (e.shiftKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+       e.preventDefault();
+       vRef.current += (e.deltaX || e.deltaY) * -0.15;
+       vRef.current = clamp(vRef.current, -80, 80);
+     }
+   };
 
-    // Capture = vi stopper klikk før det når kortet/lenker inni
-    container.addEventListener("click", onClickCapture, true);
+    viewport.addEventListener("pointerdown", onPointerDown, { passive: false });
+    viewport.addEventListener("pointermove", onPointerMove, { passive: false });
+    viewport.addEventListener("pointerup", end, { passive: true });
+    viewport.addEventListener("pointercancel", end, { passive: true });
+    viewport.addEventListener("click", onClickCapture, true);
+    viewport.addEventListener("wheel", onWheel, { passive: false });
 
     return () => {
-      container.removeEventListener("pointerdown", onPointerDown);
-      container.removeEventListener("pointermove", onPointerMove);
-      container.removeEventListener("pointerup", onPointerUp);
-      container.removeEventListener("pointercancel", onPointerCancel);
-      container.removeEventListener("click", onClickCapture, true);
+      viewport.removeEventListener("pointerdown", onPointerDown);
+      viewport.removeEventListener("pointermove", onPointerMove);
+      viewport.removeEventListener("pointerup", end);
+      viewport.removeEventListener("pointercancel", end);
+      viewport.removeEventListener("click", onClickCapture, true);
+      viewport.removeEventListener("wheel", onWheel);
     };
   }, []);
 
   return (
     <section className="carousel-section">
-      <div className="carousel" ref={carouselRef}>
-        <div className="carousel-track">
+      <div className="carousel-viewport" ref={viewportRef}>
+        <div className="carousel-track" ref={trackRef}>
           {items.map((api, index) => (
             <div
-              key={index}
+              key={`${api?.id ?? api?.name ?? "api"}-${index}`}
               className="carousel-item"
               style={{
                 transform: `scale(${scaleMap[index] || 1})`,
-                zIndex: scaleMap[index] > 1.2 ? 10 : 1,
+                zIndex: (scaleMap[index] || 1) > 1.2 ? 10 : 1,
               }}
             >
               <ApiCard api={api} />

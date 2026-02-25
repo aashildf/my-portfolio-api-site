@@ -1,104 +1,114 @@
-
-
 .carousel-section {
   width: 100%;
-  max-width: 100%;
+  padding: 100px 0;
+  overflow: visible;
+}
+
+.carousel-viewport {
+  width: 100%;
   position: relative;
-  /* Dette trikset tvinger seksjonen ut av sentrerte containere */
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
-  
-  padding: 100px 0 !important;
-  background: transparent;
-  overflow: hidden;
-}
-
-.carousel.is-dragging * {
-  pointer-events: none; /* mens du drar: ikke gå inn på lenker*/
-}
-
-.carousel{
-  width:100%;
-  overflow-x:scroll;
-  scroll-snap-type:x mandatory;
-  scroll-padding-left: calc((100% - 500px) / 2);
-  scroll-padding-right: calc((100% - 500px) / 2);
-  cursor: grab;
+  overflow: hidden;            
+  overflow-y: visible;        
+  touch-action: pan-y;
   user-select: none;
   -webkit-user-select: none;
-  /* Viktig for touch: tillat horisontal pan */
-  touch-action: pan-x;
-  scroll-behavior: smooth;
+  cursor: grab;
 }
 
-.carousel.is-dragging {
+.carousel-viewport.is-dragging {
   cursor: grabbing;
 }
 
-.carousel:active {
-  cursor: grabbing;
-}
-
-.carousel::-webkit-scrollbar {
-  display: none;
-}
-
-.carousel-track{
+.carousel-track {
+  display: flex;
   align-items: center;
-  min-height: 700px;
-  display:flex;
-  gap:80px;
-  align-items:center;
-  width:max-content;
-  padding:0;              /* <- viktig */
+  gap: 80px;
+  width: max-content;
+
+  /* Virtual scroll: */
+  will-change: transform;
+
+  /* gi plass til at skala kan vokse uten å “kuttes” */
+  padding: 0 20vw;
+  min-height: 720px;
 }
 
 .carousel-item {
-  scroll-snap-align: center;
-  /* Store, tydelige kort */
-  flex: 0 0 500px; 
+  flex: 0 0 500px;
   width: 500px;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: transform 0.2s ease-out;
+
   will-change: transform;
+  transform-origin: center;
 }
 
 @media (max-width: 768px) {
+  .carousel-track {
+    gap: 30px;
+    padding: 0 8vw;
+    min-height: 660px;
+  }
+
   .carousel-item {
     flex: 0 0 85vw;
     width: 85vw;
   }
+}
 
-  .carousel-track{
-    gap: 30px;
-  }
+/* Mens vi drar: unngå at knapper/lenker inni kortet stjeler pointer */
+.carousel-viewport.is-dragging * {
+  pointer-events: none;
+}
 
-  .carousel{
-    scroll-padding-left: calc((100% - 85vw) / 2);
-    scroll-padding-right: calc((100% - 85vw) / 2);
-  }
+/* Base card */
+.api-card {
+  width: 100%;
+  min-height: 320px;
+  padding: 50px;
+
+  border-radius: 40px;
+  border: 6px solid rgba(255,255,255,0.9);
+  overflow: hidden;
+
+  position: relative;
+
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.10),
+    0 6px 18px rgba(0,0,0,0.08);
+
+  backdrop-filter: blur(2px);
 }
 
 
-.api-card {
-  background: white;
-  color: #0F1A1C;
-  padding: 50px;
-  border-radius: 40px; 
-   overflow: hidden;              /* <- klipper innholdet til radius */
-  transform: translateZ(0);      /* <- kan stabilisere rendering ved scale */
-  backface-visibility: hidden;
-  width: 100%;
-  min-height: 320px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.1);
-  /* Sikrer at innholdet i kortet er sentrert */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 20px;
-  border: none;
+.api-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.06;
+  mix-blend-mode: multiply;
+
+  background-image:
+    radial-gradient(circle at 20% 10%, rgba(0,0,0,0.06), transparent 40%),
+    radial-gradient(circle at 80% 30%, rgba(0,0,0,0.05), transparent 40%),
+    radial-gradient(circle at 40% 90%, rgba(0,0,0,0.04), transparent 40%);
+}
+
+.gradient1 {
+  background: linear-gradient(
+    135deg,
+    #E7F0FF 0%,
+    #C9DBFF 100%
+  );
+}
+
+.neutral {
+  background: linear-gradient(
+    135deg,
+    #F3F4F6 0%,
+    #E5E7EB 100%
+  );
 }

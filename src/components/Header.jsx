@@ -1,6 +1,8 @@
 import { useState } from "react";
+import ThemeToggleButton from "./ThemeToggleButton";
 
-export default function Header() {
+
+export default function Header({ theme, toggleTheme }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [mobileDropdown, setMobileDropdown] = useState(false);
 
@@ -8,6 +10,7 @@ export default function Header() {
     setMenuOpen(false);
     setMobileDropdown(false);
   };
+
 
   return (
     <header className="header">
@@ -57,12 +60,15 @@ export default function Header() {
             Dokumentasjon
           </a>
           <a className="nav-item" href="#" onClick={closeAll}>
-            Om meg
+            Kontakt
           </a>
         </nav>
 
         <div className="header-right">
-          <button className="theme-toggle">☀︎</button>
+          <ThemeToggleButton
+            pressed={theme === "dark"}
+            onToggle={toggleTheme}
+          />
         </div>
       </div>
 

@@ -6,6 +6,8 @@ import "./styles/global.css";
 import "./styles/colors.css";
 import "./styles/typography.css";
 import "./styles/layout.css";
+import "./styles/header.css";
+import "./styles/themeToggleButton.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

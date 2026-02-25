@@ -1,4 +1,4 @@
-:root {
+/* :root {
   --timber-wolf: #E9E9E7;
   --biscuit: #EADED1;
   --periwinkle: #B3C7D0;
@@ -9,4 +9,16 @@
 
   --gradient-2-start: #D0CDC2;
   --gradient-2-end: #CDCAC2;
+} */
+
+
+:root {
+  --header-bg: #A1B4B2;
+
+  --light-shadow-dark: rgba(0,0,0,0.18);
+  --light-shadow-light: rgba(255,255,255,0.4);
+
+  --dark-surface: #1c2028;
+  --dark-shadow-dark: rgba(0,0,0,0.6);
+  --dark-shadow-light: rgba(255,255,255,0.05);
 }

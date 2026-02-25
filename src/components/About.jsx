@@ -9,3 +9,10 @@ export default function About() {
     </section>
   );
 }
+
+
+
+// https://data.norge.no/api/dataservices
+// Dette endepunktet gir deg:
+
+// en liste over alle registrerte offentlige API-er i Norge

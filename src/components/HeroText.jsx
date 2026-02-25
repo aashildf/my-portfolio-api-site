@@ -5,11 +5,11 @@ export default function HeroText() {
         <h1>
           API-STUDIO
           <br />
-          Den beste oversikten for en enklere hverdag
+          Fullstendig oversikt over alle registrerte offentlige
+          API-er i Norge 
         </h1>
         <p>
-          Utforsk API-biblioteket og oppdag moderne, elegante og
-          brukervennlige løsninger.
+          Finn lett det du trenger via kategori og søkefunksjon
         </p>
       </div>
 
@@ -18,3 +18,34 @@ export default function HeroText() {
     </section>
   );
 }
+
+// https://data.norge.no/api/dataservices
+// Dette endepunktet gir deg:
+
+// en liste over alle registrerte offentlige API-er i Norge
+
+// med metadata som:
+
+// title
+
+// description
+
+// landingPage
+
+// publisher
+
+// keywords
+
+// themes
+
+// id
+
+// endpointURLs
+
+// isOpenData
+
+// isOpenAPI
+
+// formats
+
+// accessRights

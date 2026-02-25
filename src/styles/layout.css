@@ -69,23 +69,6 @@ section {
 
 
 
-/* ------------------------------------------------------ */
-/* ---------              HEADER               ---------- */
-/* ------------------------------------------------------ */
-/* .header {
-  background-color: #A1B4B2;
-  background: transparent;
-  background-size: 600px;
-  background-repeat: repeat;
-  padding: 20px 0;
-  align-items: center;
-  justify-content: space-between;
-  color: white;
-  position: top; 
-  top: 0; 
-  z-index: 20;  
-} */
-
 .header {
   padding: 20px 0;
   color: white;
@@ -391,20 +374,4 @@ section {
   height: 100vh;
   background: rgba(0,0,0,0.3);
   z-index: 999;
-}
-
-/* Theme Toggle */
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.theme-toggle {
-  background: white;
-  color: #A1B4B2;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 6px;
-  cursor: pointer;
 }
