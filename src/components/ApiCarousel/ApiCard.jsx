@@ -1,14 +1,12 @@
 
-
-export default function ApiCard({ api }) {
+export default function ApiCard({ title }) {
   return (
-    <div className={`api-card ${api.color}`}>
-      {/* innhold */}
-      <h3>{api.title}</h3>
-      // <p>{api.description}</p>
-    </div>
+    <article className="api-card">
+      <h3>{title}</h3>
+    </article>
   );
 }
+
 
 // [ Tilbake-knapp ]
 

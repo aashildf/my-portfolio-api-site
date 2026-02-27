@@ -1,0 +1,46 @@
+
+
+[
+  {
+    "id": "1",
+    "title": { "nb": "Enhetsregisteret API" },
+    "description": { "nb": "API for oppslag i Enhetsregisteret." },
+    "landingPage": "https://data.brreg.no/enhetsregisteret/api",
+    "publisher": { "name": "Brønnøysundregistrene" },
+    "keywords": [
+      { "label": "enheter" },
+      { "label": "organisasjoner" },
+      { "label": "bedrifter" }
+    ],
+    "themes": [{ "title": "Offentlig sektor" }],
+    "endpointURLs": ["https://data.brreg.no/enhetsregisteret/api/enheter"]
+  },
+  {
+    "id": "2",
+    "title": { "nb": "Kartverket Adresse API" },
+    "description": { "nb": "API for norske adresser og stedsnavn." },
+    "landingPage": "https://ws.geonorge.no/adresser/v1",
+    "publisher": { "name": "Kartverket" },
+    "keywords": [
+      { "label": "adresser" },
+      { "label": "geodata" },
+      { "label": "kart" }
+    ],
+    "themes": [{ "title": "Geodata" }],
+    "endpointURLs": ["https://ws.geonorge.no/adresser/v1/sok"]
+  },
+  {
+    "id": "3",
+    "title": { "nb": "NAV Åpne Data API" },
+    "description": { "nb": "Statistikk og åpne data fra NAV." },
+    "landingPage": "https://data.nav.no",
+    "publisher": { "name": "NAV" },
+    "keywords": [
+      { "label": "arbeid" },
+      { "label": "statistikk" },
+      { "label": "nav" }
+    ],
+    "themes": [{ "title": "Arbeid og velferd" }],
+    "endpointURLs": []
+  }
+]
