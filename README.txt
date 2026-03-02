@@ -33,3 +33,29 @@ fetchApis.js
 → normaliserer data
 → brukes av ApiList, ApiCarousel, ApiDetail
 
+
+trengs litt backend for å hente og vise alle apier: 
+Du lager en liten proxy som kjører sammen med Vite.
+Frontend → din proxy → data.norge.no → frontend
+→ CORS er løst.
+
+-installer Express: npm install express
+-Lag en ny fil i rotmappen (samme nivå som package.json):
+-server.js
+
+Dette gjør:
+
+kjører en liten server på localhost:3001
+
+henter ekte data fra data.norge.no
+
+legger på CORS‑header
+
+sender dataene videre til frontend
+
+'Express trenger cors for å tillate at frontend får lov til å hente data fra backend‑en din.
+Det er en helt vanlig del av en proxy‑server:
+
+-installer cors:
+-npm install cors
+-svar ja på spm om tilgang

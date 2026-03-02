@@ -1,16 +1,20 @@
-import raw from "./dataservices.json";
-
 export async function fetchApis() {
-  const data = raw;
+  const response = await fetch("http://localhost:3001/api/dataservices");
+
+  if (!response.ok) {
+    throw new Error("Kunne ikke hente API-data");
+  }
+
+  const data = await response.json();
 
   return data.map((api) => ({
     id: api.id,
     name: api.title?.nb || api.title?.en || "Uten navn",
     description: api.description?.nb || api.description?.en || "",
-    url: api.landingPage,
-    publisher: api.publisher?.name || "Ukjent",
-    keywords: api.keywords?.map((k) => k.label) || [],
-    themes: api.themes?.map((t) => t.title) || [],
-    endpoints: api.endpointURLs || [],
+    publisher:
+      api.catalog?.publisher?.prefLabel?.nb ||
+      api.catalog?.publisher?.name ||
+      "Ukjent",
+    uri: api.uri,
   }));
 }

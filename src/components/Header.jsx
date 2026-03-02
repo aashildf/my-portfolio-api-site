@@ -1,8 +1,13 @@
 import { useState } from "react";
 import ThemeToggleButton from "./ThemeToggleButton";
 
-
-export default function Header({ theme, toggleTheme }) {
+export default function Header({
+  theme,
+  toggleTheme,
+  categories = [],
+  onSearch,
+  onSelectCategory,
+}) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [mobileDropdown, setMobileDropdown] = useState(false);
 
@@ -11,6 +16,10 @@ export default function Header({ theme, toggleTheme }) {
     setMobileDropdown(false);
   };
 
+  const handleCategoryClick = (categoryName) => {
+    onSelectCategory?.(categoryName);
+    closeAll();
+  };
 
   return (
     <header className="header">
@@ -27,9 +36,9 @@ export default function Header({ theme, toggleTheme }) {
         </button>
 
         <nav className={`nav ${menuOpen ? "active" : ""}`}>
+          {/* 🔥 KATEGORIER */}
           <div
             className="nav-item dropdown"
-            /* På mobil toggler vi klikk, på desktop styres det av CSS :hover */
             onClick={() =>
               window.innerWidth <= 1024 && setMobileDropdown(!mobileDropdown)
             }
@@ -38,33 +47,55 @@ export default function Header({ theme, toggleTheme }) {
             <div
               className={`dropdown-menu ${mobileDropdown ? "mobile-show" : ""}`}
             >
-              <a href="#" onClick={closeAll}>
-                Betaling
+              {/* Alle */}
+              <a
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleCategoryClick(null);
+                }}
+              >
+                Alle
               </a>
-              <a href="#" onClick={closeAll}>
-                Autentisering
-              </a>
-              <a href="#" onClick={closeAll}>
-                Data
-              </a>
-              <a href="#" onClick={closeAll}>
-                Kommunikasjon
-              </a>
+
+              {/* Dynamiske kategorier */}
+              {categories.map((cat) => (
+                <a
+                  key={cat.id}
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleCategoryClick(cat.name);
+                  }}
+                >
+                  {cat.name}
+                </a>
+              ))}
             </div>
           </div>
 
           <a className="nav-item" href="#" onClick={closeAll}>
             Prosjekter
           </a>
+
           <a className="nav-item" href="#" onClick={closeAll}>
             Dokumentasjon
           </a>
+
           <a className="nav-item" href="#" onClick={closeAll}>
             Kontakt
           </a>
         </nav>
 
+        {/* 🔥 SØK + TEMA */}
         <div className="header-right">
+          <input
+            type="text"
+            placeholder="Søk API..."
+            className="header-search"
+            onChange={(e) => onSearch?.(e.target.value)}
+          />
+
           <ThemeToggleButton
             pressed={theme === "dark"}
             onToggle={toggleTheme}

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import ApiCard from "./ApiCard";
+import ApiCard from "../card/ApiCard";
 import "./carousel.css";
 
 export default function ApiCarousel({ items }) {
@@ -8,15 +8,15 @@ export default function ApiCarousel({ items }) {
   const viewportRef = useRef(null);
   const trackRef = useRef(null);
 
-  const REPEATS = 7;
+  const REPEATS = 20;
 
   // Gjør kategorier om til items som kan repeteres
- const repeated = useMemo(() => {
-   if (!items || items.length === 0) return [];
-   const out = [];
-   for (let i = 0; i < REPEATS; i++) out.push(...items);
-   return out;
- }, [items]);
+  const repeated = useMemo(() => {
+    if (!items || items.length === 0) return [];
+    const out = [];
+    for (let i = 0; i < REPEATS; i++) out.push(...items);
+    return out;
+  }, [items]);
 
   const [scaleMap, setScaleMap] = useState({});
 
@@ -52,7 +52,7 @@ export default function ApiCarousel({ items }) {
     ro.observe(track);
 
     return () => ro.disconnect();
-  }, [items.length]);
+  }, [repeated.length]);
 
   useEffect(() => {
     const viewport = viewportRef.current;
@@ -60,7 +60,6 @@ export default function ApiCarousel({ items }) {
     if (!viewport || !track) return;
 
     const friction = 0.92;
-    const maxVel = 80;
 
     const tick = () => {
       const viewportW = viewportWidthRef.current;
@@ -181,7 +180,7 @@ export default function ApiCarousel({ items }) {
     };
   }, []);
 
-  if (!items.length) return null;
+  if (!repeated.length) return null;
 
   return (
     <section className="carousel-section">
@@ -196,7 +195,7 @@ export default function ApiCarousel({ items }) {
                 zIndex: (scaleMap[index] || 1) > 1.2 ? 10 : 1,
               }}
             >
-              <ApiCard title={category} />
+              <ApiCard title={api.name} />
             </div>
           ))}
         </div>
