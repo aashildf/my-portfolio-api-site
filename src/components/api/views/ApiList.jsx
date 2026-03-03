@@ -1,4 +1,4 @@
-import ApiCard from "./card/ApiCard";
+import ApiCard from "../card/ApiCard";
 
 export default function ApiList({ apis }) {
   if (!apis || apis.length === 0) {

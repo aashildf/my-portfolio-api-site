@@ -1,13 +1,19 @@
 import express from "express";
 import cors from "cors";
 import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 
 const app = express();
 app.use(cors());
 
 app.get("/api/dataservices", (req, res) => {
   try {
-    const raw = fs.readFileSync("./snapshot/apis.json");
+  const raw = fs.readFileSync(path.join(__dirname, "snapshot/apis.json"));
     const data = JSON.parse(raw);
 
     const cleaned = data.hits.map((source) => ({

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import ThemeToggleButton from "./ThemeToggleButton";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -8,20 +9,24 @@ export default function Header({
   toggleTheme,
   categories = [],
   onSearch,
-  onSelectCategory,
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [mobileDropdown, setMobileDropdown] = useState(false);
+  const navigate = useNavigate();
 
   const closeAll = () => {
     setMenuOpen(false);
     setMobileDropdown(false);
   };
 
-  const handleSelect = (value) => {
-    onSelectCategory?.(value);
-    closeAll();
-  };
+ const handleSelect = (value) => {
+   if (!value) {
+     navigate("/");
+   } else {
+     navigate(`/kategori/${encodeURIComponent(value)}`);
+   }
+   closeAll();
+ };
 
   console.log("HEADER categories:", categories);
 
