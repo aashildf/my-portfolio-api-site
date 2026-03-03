@@ -3,10 +3,14 @@
 
 HUSK Å ENDRE FRA README.txt til README.md
 
+
+Bygget en Express-proxy som prosesserer offentlig DCAT-data og eksponerer et optimalisert REST-endpoint til React frontend.
+En utforskningsportal for API-er fra Felles datakatalog
+
 --------------------------------------------------
 ApiCarousel/ → alt som handler om karusellen
 
-api-ui/ → alt som handler om API‑katalogen
+api/ → alt som handler om API‑katalogen
 
 data/ → alt som handler om datahenting
 

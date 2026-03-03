@@ -1,6 +1,3 @@
-
-
-
 /* ------------------------------------------------------ */
 /* ---------       FELLES FOR SEKSJONER        ---------- */
 /* ------------------------------------------------------ */
@@ -14,21 +11,19 @@ section {
   gap: 32px;
 }
 
-
-
 /* -----------------------WRAPPER------------------------ */
 /* ------- FELLES PAPIRTEKSTUR FOR HEADER OG HERO  ------ */
 /* ------------------------------------------------------ */
 .texture-wrapper {
-  background-color: #A1B4B2;
-  background-image: 
+  background-color: #a1b4b2;
+  background-image:
     linear-gradient(
-      to bottom, 
-      rgba(255, 255, 255, 0.5) 0%,   
-      rgba(255, 255, 255, 0) 50%     
+      to bottom,
+      rgba(255, 255, 255, 0.5) 0%,
+      rgba(255, 255, 255, 0) 50%
     ),
     url("../assets/textures/paper.png");
-    
+
   background-size: auto, 600px;
   background-repeat: repeat;
   /* 'soft-light'gjør toppen lysere  */
@@ -37,49 +32,45 @@ section {
   z-index: 10;
 }
 
-/* Buen som matcher hero + overlay */ 
-.texture-wrapper::after { 
-  content: ""; 
-  position: absolute; 
-  top: 100%; 
+/* Buen som matcher hero + overlay */
+.texture-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 100%;
   margin-top: -2px;
-  left: 0; 
-  width: 100%; 
-  height: 42px; 
+  left: 0;
+  width: 100%;
+  height: 42px;
 
- 
-  background-color: #a1b4b2; 
-  background-image: url("../assets/textures/paper.png"); 
-  background-size: 600px; 
-  background-repeat: repeat; 
-  background-blend-mode: multiply; 
+  background-color: #a1b4b2;
+  background-image: url("../assets/textures/paper.png");
+  background-size: 600px;
+  background-repeat: repeat;
+  background-blend-mode: multiply;
 
-  border-radius: 0 0 40px 40px; 
+  border-radius: 0 0 40px 40px;
   z-index: 11;
   pointer-events: none;
-  
-  outline: 1px solid transparent; 
+
+  outline: 1px solid transparent;
   backface-visibility: hidden;
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
 
   /* Minimal skygge som ikke lager strek */
-  box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
 }
-
-
 
 .header {
   padding: 20px 0;
   color: white;
   position: relative;
-  z-index: 20;  
+  z-index: 20;
 }
-
 
 .header-inner {
   width: 90%;
-  max-width: 1600px; 
+  max-width: 1600px;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -92,9 +83,6 @@ section {
   letter-spacing: -0.5px;
 }
 
-
-
-
 /* ------------------------------------------------------ */
 /* ----------           NAVIGATION           ------------ */
 /* ------------------------------------------------------ */
@@ -102,6 +90,12 @@ section {
   display: flex;
   gap: 32px;
   align-items: center;
+  z-index: 1001; /* Høyere enn overlay */
+}
+
+/* 3. Overlay fiks */
+.menu-overlay {
+  z-index: 1000; /* Rett under .nav */
 }
 
 .nav-item {
@@ -113,8 +107,20 @@ section {
   padding: 10px 0; /* Lager vertikal treffflate for musen */
 }
 
+/* Desktop dropdown tekstfiks */
+@media (min-width: 1025px) {
+  .dropdown-menu a {
+    color: #0f1422 !important;
+  }
+}
+
 .nav-item:hover {
   opacity: 0.8;
+}
+
+.nav-item > span,
+.nav-item > a {
+  color: white;
 }
 
 /* DROPDOWN LOGIKK (Desktop)*/
@@ -124,35 +130,46 @@ section {
     margin-bottom: -30px;
   }
 
+  .nav-item.dropdown {
+    color: inherit; /* stopper hvit arv */
+  }
+
+  .dropdown-menu a {
+    color: #0f1422;
+  }
+
   .dropdown-menu {
-    display: none;
+    /* display: none; */
     position: absolute;
     top: 100%;
     left: 0;
     background: white;
     padding: 15px 0;
     border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-    flex-direction: column; 
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    flex-direction: column;
     min-width: 260px;
     z-index: 100;
+    color: #0f1422;
+    display: flex; /* 👈 alltid flex */
+    flex-direction: column; /* 👈 viktig */
+
     opacity: 0;
     transform: translateY(10px);
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
     visibility: hidden;
     pointer-events: none; /* Hindrer interaksjon når den er usynlig */
   }
 
   .nav-item.dropdown:hover .dropdown-menu {
-    display: flex;
+    /* display: flex; */
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
     pointer-events: auto;
   }
-
-
-
 }
 
 /* MENYPUNKTER (Felles stiler)*/
@@ -162,18 +179,17 @@ section {
   align-items: center;
   padding: 12px 20px;
   text-decoration: none;
-  color: #0F1422 !important; /* Tvinger mørk tekst på desktop */
+  color: #0f1422 !important; /* Tvinger mørk tekst på desktop */
   font-size: 14px;
   transition: all 0.2s ease;
   white-space: nowrap;
 }
 
 .dropdown-menu a:hover {
- background-color: #e2e2e2;
+  background-color: #e2e2e2;
   padding-left: 30px; /* Liten slide-effekt */
   color: #000;
 }
-
 
 /* Pil-effekten */
 .dropdown-menu a::after {
@@ -188,10 +204,6 @@ section {
   opacity: 1;
   transform: translateX(0);
 }
-
-
-
-
 
 /* ------------------------------------------------------ */
 /* ----------             HERO               ------------ */
@@ -219,7 +231,6 @@ section {
   background: transparent;
 }
 
-
 .hero h1 {
   font-size: 56px;
   font-weight: 500;
@@ -235,23 +246,18 @@ section {
   opacity: 0.95;
 }
 
-
 /* ------------------------------------------------------ */
 /* ----------         INTROSECTION           ------------ */
 /* ------------------------------------------------------ */
 
 .intro-section {
   background: white;
-  color: #0F1A1C;
+  color: #0f1a1c;
   position: relative;
   padding-bottom: 80px;
   padding-top: 100px; /* Litt ekstra padding for å gi plass til buen */
   z-index: 1; /* Lavere enn buen */
-  
 }
-
-
-
 
 /* ------------------------------------------------------ */
 /* ----------        MOBILE / RESPONSIVE      ------------ */
@@ -277,9 +283,15 @@ section {
   transition: 0.3s ease;
 }
 
-.mobile-menu-toggle.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-.mobile-menu-toggle.active span:nth-child(2) { opacity: 0; }
-.mobile-menu-toggle.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.mobile-menu-toggle.active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.mobile-menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+.mobile-menu-toggle.active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
 
 @media (max-width: 1024px) {
   .mobile-menu-toggle {
@@ -293,7 +305,7 @@ section {
     right: -100%;
     width: 280px;
     height: 100vh;
-    background-color: #A1B4B2;
+    background-color: #a1b4b2;
     background-image: url("../assets/textures/paper.png");
     background-blend-mode: multiply;
     flex-direction: column;
@@ -301,7 +313,7 @@ section {
     gap: 30px;
     transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 1000;
-    box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
   }
 
   .nav.active {
@@ -311,44 +323,46 @@ section {
   .dropdown-menu {
     position: static;
     display: none;
+    opacity: 1;
+    visibility: visible;
     flex-direction: column;
     background: rgba(255, 255, 255, 0.1);
     box-shadow: none;
     width: 100%;
-    opacity: 1;
-    visibility: visible;
     transform: none;
   }
 
   /* Vises når du klikker på mobil */
   .dropdown-menu.mobile-show {
-    display: flex;
+    display: flex !important; /* Vis den når staten i React er true */
   }
 
   .dropdown-menu a {
     color: white !important;
+  
   }
 }
 
 @media (max-width: 1024px) {
   .hero {
-    min-height: 50vh; 
+    min-height: 50vh;
     padding: 40px 0;
     display: flex;
     text-align: center;
   }
 
-  @media (max-width: 1024px) {
-  .texture-wrapper::after {
-    height: 30px; /* Gjør buen litt grunnere på mindre skjermer */
-    border-radius: 0 0 30px 30px;
+ 
+    .texture-wrapper::after {
+      height: 30px; /* Gjør buen litt grunnere på mindre skjermer */
+      border-radius: 0 0 30px 30px;
+    }
+  
+
+  .hero h1 {
+    font-size: clamp(32px, 5vw, 56px);
   }
-}
 
-  .hero h1 { font-size: clamp(32px, 5vw, 56px);
-}
-
-.hero p {
+  .hero p {
     font-size: 17px;
     margin: 0 auto;
   }
@@ -372,6 +386,7 @@ section {
   left: 0;
   width: 100%;
   height: 100vh;
-  background: rgba(0,0,0,0.3);
+  background: rgba(0, 0, 0, 0.3);
   z-index: 999;
 }
+

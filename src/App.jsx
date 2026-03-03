@@ -8,6 +8,36 @@ import About from "./components/About";
 import Footer from "./components/Footer";
 import IntroSection from "./components/IntroSection";
 import { fetchApis } from "./data/fetchApis";
+import ApiDetail from "./components/api/ApiDetail";
+
+const publisherGroups = {
+  "Miljø & Energi": [
+    "Miljødirektoratet",
+    "Norges vassdrags- og energidirektorat",
+    "Norges vassdrags- og energidirektorat (nve)",
+    "Meteorologisk institutt",
+    "Norsk institutt for bioøkonomi",
+  ],
+  "Transport & Kart": [
+    "Statens kartverk",
+    "Norge i bilder",
+    "Statens vegvesen",
+  ],
+  "Økonomi & Næring": [
+    "Skatteetaten",
+    "Registerenheten i brønnøysund",
+    "Patentstyret",
+  ],
+  Utdanning: ["Utdanningsdirektoratet", "Statens lånekasse for utdanning"],
+  "Statistikk & Analyse": ["Statistisk sentralbyrå"],
+  "Forsvar & Beredskap": ["Forsvarsbygg"],
+  Kommuner: ["Oslo kommune oslo origo", "Vestland fylkeskommune"],
+  "Offentlig forvaltning": [
+    "Digitaliseringsdirektoratet",
+    "Direktoratet for byggkvalitet",
+    "Barne-, ungdoms- og familiedirektoratet",
+  ],
+};
 
 export default function App() {
   const [theme, setTheme] = useState("light");
@@ -34,36 +64,26 @@ export default function App() {
     load();
   }, []);
 
-  // 🔥 Lag kategorier basert på publisher
-  const categories = useMemo(() => {
-    return Object.values(
-      apis.reduce((acc, api) => {
-        const key = api.publisher;
-        if (!acc[key]) {
-          acc[key] = {
-            id: key,
-            name: key,
-          };
-        }
-        return acc;
-      }, {}),
-    );
-  }, [apis]);
+  const categories = Object.keys(publisherGroups);
 
-  // 🔥 Filtrer API-er
+  //  Filtrer API-er
   const filteredApis = useMemo(() => {
     return apis.filter((api) => {
       const matchesCategory = selectedCategory
-        ? api.publisher === selectedCategory
+        ? publisherGroups[selectedCategory]?.includes(api.publisher)
         : true;
 
       const matchesSearch =
         api.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         api.description.toLowerCase().includes(searchTerm.toLowerCase());
 
+      
+
       return matchesCategory && matchesSearch;
     });
   }, [apis, selectedCategory, searchTerm]);
+
+ 
 
   return (
     <>
@@ -82,14 +102,14 @@ export default function App() {
 
       <IntroSection />
 
-      {/* 🔥 Karusell viser kategorier */}
+      {/*  Karusell viser kategorier */}
       <ApiCarousel
-        items={categories}
-        onSelect={(cat) => setSelectedCategory(cat.name)}
+        items={categories.map((c) => ({ id: c, name: c }))}
+        onSelect={setSelectedCategory}
       />
 
-      {/* 🔥 Liste viser filtrerte API-er */}
-      <ApiList apis={filteredApis} />
+      {/* Vis liste kun hvis kategori eller søk er brukt */}
+      {(selectedCategory || searchTerm) && <ApiList apis={filteredApis} />}
 
       <Cases />
       <About />

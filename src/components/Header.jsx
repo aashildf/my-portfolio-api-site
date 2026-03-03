@@ -1,6 +1,8 @@
 import { useState } from "react";
 import ThemeToggleButton from "./ThemeToggleButton";
 
+
+
 export default function Header({
   theme,
   toggleTheme,
@@ -16,10 +18,12 @@ export default function Header({
     setMobileDropdown(false);
   };
 
-  const handleCategoryClick = (categoryName) => {
-    onSelectCategory?.(categoryName);
+  const handleSelect = (value) => {
+    onSelectCategory?.(value);
     closeAll();
   };
+
+  console.log("HEADER categories:", categories);
 
   return (
     <header className="header">
@@ -36,43 +40,42 @@ export default function Header({
         </button>
 
         <nav className={`nav ${menuOpen ? "active" : ""}`}>
-          {/* 🔥 KATEGORIER */}
+          {/* KATEGORIER */}
           <div
             className="nav-item dropdown"
             onClick={() =>
               window.innerWidth <= 1024 && setMobileDropdown(!mobileDropdown)
             }
           >
-            API-kategorier ▾
+            <span className="dropdown-trigger">API-kategorier ▾</span>
             <div
               className={`dropdown-menu ${mobileDropdown ? "mobile-show" : ""}`}
             >
-              {/* Alle */}
               <a
                 href="#"
                 onClick={(e) => {
                   e.preventDefault();
-                  handleCategoryClick(null);
+                  handleSelect(null);
                 }}
               >
                 Alle
               </a>
 
-              {/* Dynamiske kategorier */}
               {categories.map((cat) => (
                 <a
-                  key={cat.id}
+                  key={cat}
                   href="#"
                   onClick={(e) => {
                     e.preventDefault();
-                    handleCategoryClick(cat.name);
+                    handleSelect(cat);
                   }}
                 >
-                  {cat.name}
+                  {cat}
                 </a>
               ))}
             </div>
           </div>
+          {/* ✅ VIKTIG: dropdown-diven lukkes her */}
 
           <a className="nav-item" href="#" onClick={closeAll}>
             Prosjekter
@@ -87,7 +90,6 @@ export default function Header({
           </a>
         </nav>
 
-        {/* 🔥 SØK + TEMA */}
         <div className="header-right">
           <input
             type="text"
