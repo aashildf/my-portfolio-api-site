@@ -1,30 +1,46 @@
 body {
   font-family: "IBM Plex Sans", sans-serif;
   color: var(--black-amber);
+   -webkit-font-smoothing: antialiased;
+   /* Dette gjør fonten litt skarpere på Mac og Chrome. */
 }
 
 h1 {
   font-size: 48px;
   font-weight: 500;
-  letter-spacing: -1%;
+  letter-spacing: -0.025em; 
   line-height: 110%;
 }
 
 h2 {
   font-size: 32px;
   font-weight: 500;
-  letter-spacing: -0.5%;
+  letter-spacing:-0.015em;
   line-height: 115%;
 }
 
 h3 {
   font-size: 20px;
   font-weight: 500;
-  letter-spacing: -0.5%;
+  letter-spacing: -0.005em;
   line-height: 120%;
+  margin: 0;
 }
 
 p {
   font-size: 16px;
   line-height: 160%;
+  max-width: 65ch;
+}
+
+/* litt mer luft ellom avsitt- betyr omtrent 65 tegn per linje, som er optimal lesebredde.*/
+p + p {
+  margin-top: 0.8em;
+}
+
+
+/* luft under overskrifter */
+h1, h2, h3 {
+  margin-top: 0;
+  margin-bottom: 0.6em;
 }

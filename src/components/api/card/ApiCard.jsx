@@ -1,20 +1,28 @@
 
+import "./apiCard.css";
 
 
-export default function ApiCard({ api, title, onClick }) {
+
+export default function ApiCard({ api, title, onClick, style, image }) {
   const displayName = api?.name || title || "Ukjent";
 
   return (
-    <div className="api-card" onClick={() => onClick?.(api)}>
-      <h3>{displayName}</h3>
+    <div className="api-card" style={style} onClick={() => onClick?.(api)}>
+      <div className="api-illustration">
+        {image && <img src={image} alt="illustrasjon fra kategorien" />}
+      </div>
 
-      {api?.publisher && (
-        <p>
-          <strong>Publisert av:</strong> {api.publisher}
-        </p>
-      )}
+      <div className="api-content">
+        <h3>{displayName}</h3>
 
-      {api?.description && <p style={{ opacity: 0.8 }}>{api.description}</p>}
+        {api?.publisher && (
+          <p>
+            <strong>Publisert av:</strong> {api.publisher}
+          </p>
+        )}
+
+        {api?.description && <p className="api-desc">{api.description}</p>}
+      </div>
     </div>
   );
 }

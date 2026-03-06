@@ -1,0 +1,128 @@
+
+
+.api-card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+ 
+
+  border-radius: 40px;
+  border: 1px solid rgba(247, 240, 240, 0.9);
+  overflow: hidden;
+
+  cursor: pointer;
+
+  background-color: #E4E0DD;
+  background-image: url("../src/assets/textures/paper.png");
+  background-size: 500px;
+  
+
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.10),
+    0 6px 18px rgba(0,0,0,0.08);
+}
+
+
+    
+    /* subtil papirdybde */
+    /* .api-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: rgba(0,0,0,0.25);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        
+        background-image:
+        radial-gradient(circle at 20% 10%, rgba(0,0,0,0.06), transparent 40%),
+        radial-gradient(circle at 80% 30%, rgba(0,0,0,0.05), transparent 40%),
+        radial-gradient(circle at 40% 90%, rgba(0,0,0,0.04), transparent 40%);
+    } */
+    
+    .carousel-item:not([style*="scale(1"]) .api-card::after {
+        opacity: 1;
+    }
+    
+    /* hover */
+    .api-card:hover {
+        transform: translateY(-6px);
+        box-shadow:
+        0 28px 70px rgba(0,0,0,0.14),
+        0 10px 24px rgba(0,0,0,0.12);
+    }
+    
+   
+    .api-card h3 {
+      font-size: 26px;
+       text-align: center;
+      margin: 0;
+
+    }
+
+.api-card p {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.api-desc {
+  opacity: 0.8;
+}
+
+.api-illustration {
+  position: absolute;
+  top: 10%;
+  left: 6%;
+  width: 88%;
+  height: 65%;
+
+  background: var(--card-color);
+  border-radius: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.api-illustration img {
+  width: 70%;
+  height: auto;
+}
+
+.api-illustration::before {
+  content: "";
+  position: absolute;
+  inset: -20px;
+
+  background: inherit;
+
+  filter: blur(20px);
+  opacity: 0.35;
+
+  z-index: -1;
+}
+
+
+
+.api-illustration img {
+  width: 65%;
+   object-fit: contain;
+}
+
+
+.api-content {
+  position: absolute;
+
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(-10px);
+
+  width: 80%;
+
+  background: #E4E0DD;
+  border-radius: 24px;
+
+  padding: 16px 20px;
+
+  text-align: center;
+}

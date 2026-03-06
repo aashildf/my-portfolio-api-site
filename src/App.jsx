@@ -32,14 +32,7 @@ export default function App() {
   const categories = Object.keys(publisherGroups);
 
   return (
-    // <div className="texture-wrapper">
-    // <Header
-    //   theme={theme}
-    //   categories={categories}
-    //   toggleTheme={() =>
-    //     setTheme((t) => (t === "light" ? "dark" : "light"))
-    //   }
-    // />
+   
 
     <Routes>
       <Route

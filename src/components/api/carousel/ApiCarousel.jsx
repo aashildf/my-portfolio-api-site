@@ -1,12 +1,43 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import ApiCard from "../card/ApiCard";
 import "./carousel.css";
+import { publisherCategories } from "../../../config/publisherCategories";
+
 
 export default function ApiCarousel({ items }) {
   const lastClientYRef = useRef(0);
   const baseWidthRef = useRef(1);
   const viewportRef = useRef(null);
   const trackRef = useRef(null);
+
+
+const categoryImages = {
+  "Statistikk & Analyse": "/images/apis/statistikk.svg",
+  Kommuner: "/images/apis/kommuner.svg",
+  "Miljø & Energi": "/images/apis/miljo.svg",
+  "Transport & Kart": "/images/apis/transport.svg",
+  "Økonomi & Næring": "/images/apis/okonomi.svg",
+  "Forsvar & Beredskap": "/images/apis/forsvar.svg",
+  "Offentlig forvaltning": "/images/apis/forvaltning.svg",
+};
+
+
+
+  const categoryColors = {
+    "Miljø & Energi": "#8F9F99",
+    "Transport & Kart": "#9FB3BD",
+    "Økonomi & Næring": "#E4E1E2",
+    "Statistikk & Analyse": "#B7B9B5",
+    "Forsvar & Beredskap": "#8A7D7A",
+    Kommuner: "#B1BEC3",
+    "Offentlig forvaltning": "#BCA6A2",
+  };
+
+
+
+  const getCategoryForApi = (api) => {
+    return publisherCategories[api.publisher] || "Offentlig forvaltning";
+  };
 
   const REPEATS = 20;
 
@@ -182,11 +213,18 @@ export default function ApiCarousel({ items }) {
 
   if (!repeated.length) return null;
 
+
+
   return (
     <section className="carousel-section">
       <div className="carousel-viewport" ref={viewportRef}>
         <div className="carousel-track" ref={trackRef}>
-          {repeated.map((api, index) => (
+          
+          {repeated.map((api, index) => {
+
+            const category = getCategoryForApi(api);
+
+             return (
             <div
               key={api.id + "-" + index}
               className="carousel-item"
@@ -195,9 +233,17 @@ export default function ApiCarousel({ items }) {
                 zIndex: (scaleMap[index] || 1) > 1.2 ? 10 : 1,
               }}
             >
-              <ApiCard title={api.name} />
+              <ApiCard
+                api={api}
+                title={api.name}
+                image={categoryImages[category]}
+                style={{
+                  "--card-color": categoryColors[category],
+                }}
+              />
             </div>
-          ))}
+             );
+           })}
         </div>
       </div>
     </section>

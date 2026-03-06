@@ -8,11 +8,6 @@ Bygget en Express-proxy som prosesserer offentlig DCAT-data og eksponerer et opt
 En utforskningsportal for API-er fra Felles datakatalog
 
 --------------------------------------------------
-ApiCarousel/ → alt som handler om karusellen
-
-api/ → alt som handler om API‑katalogen
-
-data/ → alt som handler om datahenting
 
 ----------------------------------------------
 
@@ -39,9 +34,8 @@ fetchApis.js
 
 
 trengs litt backend for å hente og vise alle apier: 
-Du lager en liten proxy som kjører sammen med Vite.
-Frontend → din proxy → data.norge.no → frontend
-→ CORS er løst.
+Laget en proxy som kjører sammen med Vite.
+
 
 -installer Express: npm install express
 -Lag en ny fil i rotmappen (samme nivå som package.json):
@@ -50,16 +44,13 @@ Frontend → din proxy → data.norge.no → frontend
 Dette gjør:
 
 kjører en liten server på localhost:3001
-
-henter ekte data fra data.norge.no
-
-legger på CORS‑header
-
 sender dataene videre til frontend
 
-'Express trenger cors for å tillate at frontend får lov til å hente data fra backend‑en din.
-Det er en helt vanlig del av en proxy‑server:
+'Express trenger cors for å tillate at frontend får lov til å hente data fra backend‑en.
 
--installer cors:
+
+-installere cors:
 -npm install cors
 -svar ja på spm om tilgang
+
+adresse til api: http://localhost:3001/api/dataservices
