@@ -1,0 +1,72 @@
+/* Fast hamburger-knapp øverst til høyre på alle sider unntatt forsiden */
+.gnav-btn {
+  position: fixed;
+  top: 1.4rem;
+  right: 2rem;
+  z-index: 600;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background: rgba(0, 0, 0, 0.18);
+  border: 1.5px solid rgba(0, 0, 0, 0.22);
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 8px 10px;
+  transition: background 0.2s;
+}
+
+.gnav-btn:hover {
+  background: rgba(0, 0, 0, 0.28);
+}
+
+.gnav-btn span {
+  display: block;
+  width: 24px;
+  height: 3px;
+  background: white;
+  border-radius: 2px;
+  transition: all 0.2s;
+}
+
+.gnav-btn--open span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+.gnav-btn--open span:nth-child(2) {
+  opacity: 0;
+}
+.gnav-btn--open span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Overlay */
+.gnav-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+  z-index: 998;
+}
+
+/* Slide-in panel — samme utseende som Header-panelet */
+.gnav-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 280px;
+  height: 100vh;
+  background-color: #a1b4b2;
+  background-image: url("../assets/textures/paper.png");
+  background-blend-mode: multiply;
+  display: flex;
+  flex-direction: column;
+  padding: 120px 32px 40px;
+  gap: 0;
+  z-index: 999;
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.gnav-panel--open {
+  transform: translateX(0);
+}

@@ -6,17 +6,11 @@ import Cases from "../components/Cases";
 import About from "../components/About";
 import Footer from "../components/Footer";
 
-export default function Home({ categories, theme, setTheme }) {
+export default function Home({ categories, apis }) {
   return (
     <>
       <div className="texture-wrapper">
-        <Header
-          theme={theme}
-          categories={categories}
-          toggleTheme={() =>
-            setTheme((t) => (t === "light" ? "dark" : "light"))
-          }
-        />
+        <Header categories={categories} apis={apis} />
 
         <HeroText />
       </div>

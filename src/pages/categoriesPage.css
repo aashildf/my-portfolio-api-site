@@ -1,0 +1,125 @@
+.categories-page {
+  min-height: 100vh;
+}
+
+.categories-hero {
+  padding: 28px 0 72px;
+}
+
+.categories-hero__inner {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.categories-hero .back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  border-radius: 40px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: white;
+  padding: 0.55rem 1.2rem;
+  margin-bottom: 2.5rem;
+  letter-spacing: 0.02em;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.categories-hero .back-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: white;
+}
+
+.categories-hero__title {
+  color: white;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 110%;
+  margin: 0 0 0.5rem;
+}
+
+.categories-hero__meta {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1rem;
+  margin: 0;
+  max-width: none;
+}
+
+/* ---- Innhold ---- */
+.categories-content {
+  background: #e8e8e8;
+  padding: 60px 0 100px;
+}
+
+.categories-grid {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* ---- Kategorikort ---- */
+.category-card {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  cursor: pointer;
+  background: #E4E0DD;
+  background-image: url("../assets/textures/paper.png");
+  background-size: 500px;
+  background-blend-mode: multiply;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.category-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.14);
+}
+
+/* Fargeblob — samme akvarell-effekt som karuselkortene */
+.category-card__blob {
+  position: absolute;
+  inset: 0;
+  background: var(--cat-color);
+  filter: url(#watercolor-cat);
+  opacity: 0.85;
+}
+
+.category-card__content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem;
+}
+
+.category-card__name {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin: 0 0 0.25rem;
+  line-height: 1.2;
+  color: rgba(0, 0, 0, 0.85);
+}
+
+.category-card__count {
+  font-size: 0.82rem;
+  color: rgba(0, 0, 0, 0.5);
+  margin: 0;
+  max-width: none;
+}
+
+/* SVG-filter for watercolor — renderes usynlig */
+.watercolor-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+}

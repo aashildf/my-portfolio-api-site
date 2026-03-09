@@ -1,20 +1,16 @@
 import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import Header from "./components/Header";
 import { fetchApis } from "./data/fetchApis";
 import publisherGroups from "./data/publisherGroups";
+import ScrollToTop from "./components/ScrollToTop";
+import GlobalNav from "./components/GlobalNav";
 import Home from "./pages/Home";
+import CategoriesPage from "./pages/CategoriesPage";
 import CategoryPage from "./pages/CategoryPage";
+import ApiDetail from "./components/api/views/ApiDetail";
 
 export default function App() {
-  const [theme, setTheme] = useState("light");
   const [apis, setApis] = useState([]);
-
-  // Tema
-  useEffect(() => {
-    document.body.classList.remove("theme-light", "theme-dark");
-    document.body.classList.add(`theme-${theme}`);
-  }, [theme]);
 
   // Hent API-er
   useEffect(() => {
@@ -32,20 +28,35 @@ export default function App() {
   const categories = Object.keys(publisherGroups);
 
   return (
-   
+    <>
+      <ScrollToTop />
+      <GlobalNav categories={categories} />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Home categories={categories} apis={apis} />
+          }
+        />
 
-    <Routes>
-      <Route
-        path="/"
-        element={
-          <Home categories={categories} theme={theme} setTheme={setTheme} />
-        }
-      />
+        <Route
+          path="/kategorier"
+          element={
+            <CategoriesPage
+              categories={categories}
+              publisherGroups={publisherGroups}
+              apis={apis}
+            />
+          }
+        />
 
-      <Route
-        path="/kategori/:slug"
-        element={<CategoryPage apis={apis} publisherGroups={publisherGroups} />}
-      />
-    </Routes>
+        <Route
+          path="/kategori/:slug"
+          element={<CategoryPage apis={apis} publisherGroups={publisherGroups} />}
+        />
+
+        <Route path="/api/:id" element={<ApiDetail apis={apis} publisherGroups={publisherGroups} />} />
+      </Routes>
+    </>
   );
 }

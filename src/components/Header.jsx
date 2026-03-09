@@ -1,116 +1,156 @@
-import { useState } from "react";
-import ThemeToggleButton from "./ThemeToggleButton";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-
-
-export default function Header({
-  theme,
-  toggleTheme,
-  categories = [],
-  onSearch,
-}) {
+export default function Header({ categories = [], apis = [] }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [mobileDropdown, setMobileDropdown] = useState(false);
+  const closeTimer = useRef(null);
+
+  const startCloseTimer = () => {
+    closeTimer.current = setTimeout(() => setMenuOpen(false), 200);
+  };
+  const cancelCloseTimer = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+  };
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
   const navigate = useNavigate();
 
   const closeAll = () => {
     setMenuOpen(false);
-    setMobileDropdown(false);
+    setSearchQuery("");
+    setSearchResults([]);
   };
 
- const handleSelect = (value) => {
-   if (!value) {
-     navigate("/");
-   } else {
-     navigate(`/kategori/${encodeURIComponent(value)}`);
-   }
-   closeAll();
- };
+  const go = (path) => {
+    navigate(path);
+    closeAll();
+  };
 
-  console.log("HEADER categories:", categories);
+  const handleSearch = (value) => {
+    setSearchQuery(value);
+    if (!value.trim()) {
+      setSearchResults([]);
+      return;
+    }
+    const q = value.toLowerCase();
+    const results = apis
+      .filter(
+        (api) =>
+          api.name?.toLowerCase().includes(q) ||
+          api.publisher?.toLowerCase().includes(q) ||
+          api.description?.toLowerCase().includes(q)
+      )
+      .slice(0, 6);
+    setSearchResults(results);
+  };
 
   return (
     <header className="header">
       <div className="header-inner">
-        <div className="logo">API Studio</div>
+        <div className="logo">
+          <span className="logo__api">API</span>
+          <span className="logo__studio">STUDIO</span>
+        </div>
 
+        {/* Senter: dropdown + søk */}
+        <div className="header-center">
+          <div className="header-dropdown">
+            <button className="header-dropdown__trigger">
+              API-kategorier ▾
+            </button>
+            <div className="header-dropdown__menu">
+              <button
+                className="header-dropdown__item"
+                onClick={() => go("/kategorier")}
+              >
+                Alle
+              </button>
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  className="header-dropdown__item"
+                  onClick={() => go(`/kategori/${encodeURIComponent(cat)}`)}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="search-wrapper">
+            <input
+              type="text"
+              placeholder="Søk API..."
+              className="header-search"
+              value={searchQuery}
+              onChange={(e) => handleSearch(e.target.value)}
+            />
+            {searchResults.length > 0 && (
+              <div className="search-results">
+                {searchResults.map((api) => (
+                  <button
+                    key={api.id}
+                    className="search-result-item"
+                    onClick={() => go(`/api/${api.id}`)}
+                  >
+                    <span className="search-result-name">{api.name}</span>
+                    <span className="search-result-pub">{api.publisher}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Hamburger */}
         <button
           className={`mobile-menu-toggle ${menuOpen ? "active" : ""}`}
           onClick={() => setMenuOpen(!menuOpen)}
+          onMouseEnter={() => { cancelCloseTimer(); setMenuOpen(true); }}
+          onMouseLeave={startCloseTimer}
         >
           <span></span>
           <span></span>
           <span></span>
         </button>
 
-        <nav className={`nav ${menuOpen ? "active" : ""}`}>
-          {/* KATEGORIER */}
-          <div
-            className="nav-item dropdown"
-            onClick={() =>
-              window.innerWidth <= 1024 && setMobileDropdown(!mobileDropdown)
-            }
-          >
-            <span className="dropdown-trigger">API-kategorier ▾</span>
-            <div
-              className={`dropdown-menu ${mobileDropdown ? "mobile-show" : ""}`}
+        {/* Slide-in panel */}
+        <nav
+          className={`nav ${menuOpen ? "active" : ""}`}
+          onMouseEnter={cancelCloseTimer}
+          onMouseLeave={startCloseTimer}
+        >
+          <p className="nav-section-label">API-kategorier</p>
+          <button className="nav-item" onClick={() => go("/kategorier")}>
+            Alle
+          </button>
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              className="nav-item"
+              onClick={() => go(`/kategori/${encodeURIComponent(cat)}`)}
             >
-              <a
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleSelect(null);
-                }}
-              >
-                Alle
-              </a>
-
-              {categories.map((cat) => (
-                <a
-                  key={cat}
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleSelect(cat);
-                  }}
-                >
-                  {cat}
-                </a>
-              ))}
-            </div>
-          </div>
-          {/* ✅ VIKTIG: dropdown-diven lukkes her */}
-
-          <a className="nav-item" href="#" onClick={closeAll}>
-            Prosjekter
-          </a>
-
-          <a className="nav-item" href="#" onClick={closeAll}>
-            Dokumentasjon
-          </a>
-
-          <a className="nav-item" href="#" onClick={closeAll}>
-            Kontakt
-          </a>
+              {cat}
+            </button>
+          ))}
+          <div className="nav-divider" />
+          <a className="nav-item" href="#">Prosjekter</a>
+          <a className="nav-item" href="#">Dokumentasjon</a>
+          <a className="nav-item" href="#">Kontakt</a>
         </nav>
-
-        <div className="header-right">
-          <input
-            type="text"
-            placeholder="Søk API..."
-            className="header-search"
-            onChange={(e) => onSearch?.(e.target.value)}
-          />
-
-          <ThemeToggleButton
-            pressed={theme === "dark"}
-            onToggle={toggleTheme}
-          />
-        </div>
       </div>
 
-      {menuOpen && <div className="menu-overlay" onClick={closeAll}></div>}
+      {/* Backdrop — lukker søk ved klikk utenfor */}
+      {searchResults.length > 0 && (
+        <div
+          className="search-overlay"
+          onClick={() => {
+            setSearchQuery("");
+            setSearchResults([]);
+          }}
+        />
+      )}
+      {menuOpen && <div className="menu-overlay" onClick={closeAll} />}
     </header>
   );
 }

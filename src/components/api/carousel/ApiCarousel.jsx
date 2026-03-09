@@ -1,27 +1,27 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import ApiCard from "../card/ApiCard";
 import "./carousel.css";
-import { publisherCategories } from "../../../config/publisherCategories";
-
 
 export default function ApiCarousel({ items }) {
-  const lastClientYRef = useRef(0);
-  const baseWidthRef = useRef(1);
-  const viewportRef = useRef(null);
-  const trackRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const navigate = useNavigate();
+  const stageRef = useRef(null);
+  const cardsRef = useRef(null);
+  const dragStartRef = useRef(null);
+  const dragHappenedRef = useRef(false);
 
-
-const categoryImages = {
-  "Statistikk & Analyse": "/images/apis/statistikk.svg",
-  Kommuner: "/images/apis/kommuner.svg",
-  "Miljø & Energi": "/images/apis/miljo.svg",
-  "Transport & Kart": "/images/apis/transport.svg",
-  "Økonomi & Næring": "/images/apis/okonomi.svg",
-  "Forsvar & Beredskap": "/images/apis/forsvar.svg",
-  "Offentlig forvaltning": "/images/apis/forvaltning.svg",
-};
-
-
+  // For at data-hentingen skal fungere på GitHub Pages
+  const base = import.meta.env.BASE_URL;
+  const categoryImages = {
+    "Statistikk & Analyse": base + "images/apis/statistikk.svg",
+    Kommuner: base + "images/apis/kommuner.svg",
+    "Miljø & Energi": base + "images/apis/miljo.svg",
+    "Transport & Kart": base + "images/apis/transport.svg",
+    "Økonomi & Næring": base + "images/apis/okonomi.svg",
+    "Forsvar & Beredskap": base + "images/apis/forsvar.svg",
+    "Offentlig forvaltning": base + "images/apis/forvaltning.svg",
+  };
 
   const categoryColors = {
     "Miljø & Energi": "#8F9F99",
@@ -33,218 +33,116 @@ const categoryImages = {
     "Offentlig forvaltning": "#BCA6A2",
   };
 
-
-
-  const getCategoryForApi = (api) => {
-    return publisherCategories[api.publisher] || "Offentlig forvaltning";
-  };
-
-  const REPEATS = 20;
-
-  // Gjør kategorier om til items som kan repeteres
-  const repeated = useMemo(() => {
-    if (!items || items.length === 0) return [];
-    const out = [];
-    for (let i = 0; i < REPEATS; i++) out.push(...items);
-    return out;
-  }, [items]);
-
-  const [scaleMap, setScaleMap] = useState({});
-
-  const xRef = useRef(0);
-  const vRef = useRef(0);
-  const isDownRef = useRef(false);
-  const lastClientXRef = useRef(0);
-  const lastTimeRef = useRef(0);
-  const trackWidthRef = useRef(1);
-  const viewportWidthRef = useRef(1);
-  const dragBlockClickRef = useRef(false);
-
-  const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
+  const count = items?.length ?? 0;
+  const prevIndex = (activeIndex - 1 + count) % count;
+  const nextIndex = (activeIndex + 1) % count;
 
   useEffect(() => {
-    const viewport = viewportRef.current;
-    const track = trackRef.current;
-    if (!viewport || !track) return;
+    const el = stageRef.current;
+    if (!el) return;
 
-    const measure = () => {
-      viewportWidthRef.current = viewport.clientWidth;
-      trackWidthRef.current = track.scrollWidth || 1;
-
-      baseWidthRef.current = trackWidthRef.current / REPEATS;
-
-      xRef.current = -baseWidthRef.current * Math.floor(REPEATS / 2);
+    // pointerdown på scenen starter draget
+    const onDown = (e) => {
+      if (e.target.closest("button")) return; // ikke forstyrr pil-klikk
+      dragStartRef.current = e.clientX;
+      dragHappenedRef.current = false;
     };
 
-    measure();
-
-    const ro = new ResizeObserver(() => measure());
-    ro.observe(viewport);
-    ro.observe(track);
-
-    return () => ro.disconnect();
-  }, [repeated.length]);
-
-  useEffect(() => {
-    const viewport = viewportRef.current;
-    const track = trackRef.current;
-    if (!viewport || !track) return;
-
-    const friction = 0.92;
-
-    const tick = () => {
-      const viewportW = viewportWidthRef.current;
-
-      if (!isDownRef.current) {
-        vRef.current *= friction;
-        if (Math.abs(vRef.current) < 0.02) vRef.current = 0;
-        xRef.current += vRef.current;
+    // pointermove og pointerup lytter på window — da mister vi aldri
+    // slipp-hendelsen selv om pekeren glir utenfor scenen.
+    const onWindowMove = (e) => {
+      if (dragStartRef.current === null) return;
+      if (Math.abs(e.clientX - dragStartRef.current) > 8) {
+        dragHappenedRef.current = true;
       }
-
-      const base = baseWidthRef.current;
-      xRef.current = (((xRef.current % base) + base) % base) - base;
-
-      track.style.transform = `translate3d(${xRef.current}px, 0, 0)`;
-
-      const cards = track.querySelectorAll(".carousel-item");
-      const center = viewport.getBoundingClientRect().left + viewportW / 2;
-
-      const newScale = {};
-      cards.forEach((card, idx) => {
-        const r = card.getBoundingClientRect();
-        const cardCenter = r.left + r.width / 2;
-        const dist = Math.abs(center - cardCenter);
-
-        const t = clamp(1 - dist / 500, 0, 1);
-        const scale = 0.85 + t * (1.35 - 0.85);
-        newScale[idx] = scale;
-      });
-      setScaleMap(newScale);
-
-      requestAnimationFrame(tick);
     };
 
-    const raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, []);
-
-  useEffect(() => {
-    const viewport = viewportRef.current;
-    if (!viewport) return;
-
-    const onPointerDown = (e) => {
-      if (e.pointerType === "mouse" && e.button !== 0) return;
-      isDownRef.current = true;
-      dragBlockClickRef.current = false;
-
-      lastClientXRef.current = e.clientX;
-      lastClientYRef.current = e.clientY;
-      lastTimeRef.current = performance.now();
-
-      viewport.setPointerCapture?.(e.pointerId);
-      viewport.classList.add("is-dragging");
-      e.preventDefault();
+    const onWindowUp = (e) => {
+      if (dragStartRef.current === null) return;
+      const dx = e.clientX - dragStartRef.current;
+      dragStartRef.current = null;
+      if (dx > 50) setActiveIndex((i) => (i - 1 + count) % count);
+      else if (dx < -50) setActiveIndex((i) => (i + 1) % count);
     };
 
-    const onPointerMove = (e) => {
-      if (!isDownRef.current) return;
-
-      const now = performance.now();
-      const dx = e.clientX - lastClientXRef.current;
-      const dy = e.clientY - (lastClientYRef.current ?? e.clientY);
-      const dt = Math.max(1, now - lastTimeRef.current);
-
-      if (Math.abs(dy) > Math.abs(dx)) {
-        isDownRef.current = false;
-        viewport.classList.remove("is-dragging");
-        return;
-      }
-
-      xRef.current += dx;
-
-      const instVel = (dx / dt) * 16.67;
-      vRef.current = clamp(instVel, -80, 80);
-
-      if (Math.abs(dx) > 3) dragBlockClickRef.current = true;
-
-      lastClientXRef.current = e.clientX;
-      lastClientYRef.current = e.clientY;
-      lastTimeRef.current = now;
-
-      e.preventDefault();
-    };
-
-    const end = () => {
-      isDownRef.current = false;
-      viewport.classList.remove("is-dragging");
-    };
-
+    // Capture-phase click-blocker: hindrer at et drag trigger onClick på slot
     const onClickCapture = (e) => {
-      if (!dragBlockClickRef.current) return;
-      e.preventDefault();
-      e.stopPropagation();
-      dragBlockClickRef.current = false;
-    };
-
-    const onWheel = (e) => {
-      if (e.shiftKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-        e.preventDefault();
-        vRef.current += (e.deltaX || e.deltaY) * -0.15;
-        vRef.current = clamp(vRef.current, -80, 80);
+      if (dragHappenedRef.current) {
+        e.stopPropagation();
+        dragHappenedRef.current = false;
       }
     };
 
-    viewport.addEventListener("pointerdown", onPointerDown, { passive: false });
-    viewport.addEventListener("pointermove", onPointerMove, { passive: false });
-    viewport.addEventListener("pointerup", end, { passive: true });
-    viewport.addEventListener("pointercancel", end, { passive: true });
-    viewport.addEventListener("click", onClickCapture, true);
-    viewport.addEventListener("wheel", onWheel, { passive: false });
+    el.addEventListener("pointerdown", onDown);
+    window.addEventListener("pointermove", onWindowMove);
+    window.addEventListener("pointerup", onWindowUp);
+    el.addEventListener("click", onClickCapture, true);
 
     return () => {
-      viewport.removeEventListener("pointerdown", onPointerDown);
-      viewport.removeEventListener("pointermove", onPointerMove);
-      viewport.removeEventListener("pointerup", end);
-      viewport.removeEventListener("pointercancel", end);
-      viewport.removeEventListener("click", onClickCapture, true);
-      viewport.removeEventListener("wheel", onWheel);
+      el.removeEventListener("pointerdown", onDown);
+      window.removeEventListener("pointermove", onWindowMove);
+      window.removeEventListener("pointerup", onWindowUp);
+      el.removeEventListener("click", onClickCapture, true);
     };
-  }, []);
+  }, [count]);
 
-  if (!repeated.length) return null;
+  if (!items || items.length === 0) return null;
 
-
+  const slots = [
+    { item: items[prevIndex], position: "prev", index: prevIndex },
+    { item: items[activeIndex], position: "active", index: activeIndex },
+    { item: items[nextIndex], position: "next", index: nextIndex },
+  ];
 
   return (
     <section className="carousel-section">
-      <div className="carousel-viewport" ref={viewportRef}>
-        <div className="carousel-track" ref={trackRef}>
-          
-          {repeated.map((api, index) => {
+      <p className="carousel-label">Bla gjennom kategoriene</p>
 
-            const category = getCategoryForApi(api);
+      <div className="carousel-stage" ref={stageRef}>
+        {/* Pilene er absolute og sitter utenfor kortene */}
+        <button
+          className="carousel-arrow carousel-arrow--left"
+          onClick={() => setActiveIndex(prevIndex)}
+          aria-label="Forrige"
+        />
+        <button
+          className="carousel-arrow carousel-arrow--right"
+          onClick={() => setActiveIndex(nextIndex)}
+          aria-label="Neste"
+        />
 
-             return (
+        <div className="carousel-cards" ref={cardsRef}>
+          {slots.map(({ item, position, index }) => (
             <div
-              key={api.id + "-" + index}
-              className="carousel-item"
-              style={{
-                transform: `scale(${scaleMap[index] || 1})`,
-                zIndex: (scaleMap[index] || 1) > 1.2 ? 10 : 1,
-              }}
+              key={item.id + "-" + position}
+              className={`carousel-slot carousel-slot--${position}`}
+              onClick={
+                position === "active"
+                  ? () => navigate(`/kategori/${encodeURIComponent(item.id)}`)
+                  : () => setActiveIndex(index)
+              }
             >
               <ApiCard
-                api={api}
-                title={api.name}
-                image={categoryImages[category]}
-                style={{
-                  "--card-color": categoryColors[category],
-                }}
+                api={item}
+                title={item.name}
+                image={categoryImages[item.id]}
+                style={{ "--card-color": categoryColors[item.id] }}
               />
             </div>
-             );
-           })}
+          ))}
         </div>
+      </div>
+
+      {/* Prikker som viser posisjon i karusellen */}
+      <div className="carousel-dots">
+        {items.map((item, i) => (
+          <button
+            key={item.id}
+            className={`carousel-dot${i === activeIndex ? " carousel-dot--active" : ""}`}
+            onClick={() => setActiveIndex(i)}
+            aria-label={item.name}
+          />
+        ))}
       </div>
     </section>
   );
