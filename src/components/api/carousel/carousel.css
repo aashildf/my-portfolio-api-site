@@ -11,13 +11,12 @@
 /* Overskrift */
 .carousel-label {
   display: block;
-  width: 100%;
-  text-align: center;
+  width: fit-content;
+  margin: 0 auto 36px;
   color: rgba(255, 255, 255, 0.75);
   font-size: 0.85rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  margin: 0 0 36px;
 }
 
 /* Scenen: position relative slik at pilene kan plasseres absolute */
@@ -137,10 +136,16 @@
   transform: scale(1.35);
 }
 
+@media (max-width: 1100px) {
+  .carousel-section {
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
+  }
+}
+
 @media (max-width: 768px) {
   .carousel-section {
-    margin: 30px 16px;
-    border-radius: 28px;
     padding: 48px 0 44px;
   }
 

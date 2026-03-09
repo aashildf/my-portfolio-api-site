@@ -1,7 +1,15 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import ApiCard from "../card/ApiCard";
+import CategoryCard from "../card/CategoryCard";
 import "./carousel.css";
+
+import imgStatistikk from "../../../assets/images/statistikk.jpg";
+import imgKommuner from "../../../assets/images/kommune.jpg";
+import imgMiljo from "../../../assets/images/miljo.jpg";
+import imgTransport from "../../../assets/images/transport.jpg";
+import imgOkonomi from "../../../assets/images/okonomi.jpg";
+import imgForsvar from "../../../assets/images/forsvar.jpg";
+import imgForvaltning from "../../../assets/images/forvaltning.jpg";
 
 export default function ApiCarousel({ items }) {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -11,26 +19,24 @@ export default function ApiCarousel({ items }) {
   const dragStartRef = useRef(null);
   const dragHappenedRef = useRef(false);
 
-  // For at data-hentingen skal fungere på GitHub Pages
-  const base = import.meta.env.BASE_URL;
   const categoryImages = {
-    "Statistikk & Analyse": base + "images/apis/statistikk.svg",
-    Kommuner: base + "images/apis/kommuner.svg",
-    "Miljø & Energi": base + "images/apis/miljo.svg",
-    "Transport & Kart": base + "images/apis/transport.svg",
-    "Økonomi & Næring": base + "images/apis/okonomi.svg",
-    "Forsvar & Beredskap": base + "images/apis/forsvar.svg",
-    "Offentlig forvaltning": base + "images/apis/forvaltning.svg",
+    "Statistikk & Analyse": imgStatistikk,
+    Kommuner: imgKommuner,
+    "Miljø & Energi": imgMiljo,
+    "Transport & Kart": imgTransport,
+    "Økonomi & Næring": imgOkonomi,
+    "Forsvar & Beredskap": imgForsvar,
+    "Offentlig forvaltning": imgForvaltning,
   };
 
   const categoryColors = {
-    "Miljø & Energi": "#8F9F99",
-    "Transport & Kart": "#9FB3BD",
-    "Økonomi & Næring": "#E4E1E2",
-    "Statistikk & Analyse": "#B7B9B5",
-    "Forsvar & Beredskap": "#8A7D7A",
-    Kommuner: "#B1BEC3",
-    "Offentlig forvaltning": "#BCA6A2",
+    "Miljø & Energi": "#99A6A1",
+    "Transport & Kart": "#A7B7BF",
+    "Økonomi & Næring": "#88857E",
+    "Statistikk & Analyse": "#C7CBC3",
+    "Forsvar & Beredskap": "#BCA6A2",
+    Kommuner: "#ADB3B4",
+    "Offentlig forvaltning": "#8A7D7A",
   };
 
   const count = items?.length ?? 0;
@@ -122,11 +128,11 @@ export default function ApiCarousel({ items }) {
                   : () => setActiveIndex(index)
               }
             >
-              <ApiCard
-                api={item}
-                title={item.name}
+              <CategoryCard
+                name={item.name}
                 image={categoryImages[item.id]}
-                style={{ "--card-color": categoryColors[item.id] }}
+                color={categoryColors[item.id]}
+                count={item.count}
               />
             </div>
           ))}

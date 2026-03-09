@@ -6,6 +6,20 @@
   padding: 28px 0 72px;
 }
 
+@media (max-width: 1024px) {
+  .categories-hero {
+    padding-top: 140px;
+  }
+
+  .categories-hero__title {
+    text-align: center;
+  }
+
+  .categories-hero__meta {
+    text-align: center;
+  }
+}
+
 .categories-hero__inner {
   width: 90%;
   max-width: 1200px;

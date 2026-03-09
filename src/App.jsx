@@ -30,7 +30,7 @@ export default function App() {
   return (
     <>
       <ScrollToTop />
-      <GlobalNav categories={categories} />
+      <GlobalNav categories={categories} apis={apis} />
       <Routes>
         <Route
           path="/"

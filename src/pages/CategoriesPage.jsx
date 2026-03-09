@@ -18,9 +18,6 @@ export default function CategoriesPage({ categories, publisherGroups, apis }) {
     <div className="categories-page">
       <div className="texture-wrapper categories-hero">
         <div className="categories-hero__inner">
-          <button className="back-btn" onClick={() => navigate("/")}>
-            ← Hjem
-          </button>
           <h1 className="categories-hero__title">API-kategorier</h1>
           <p className="categories-hero__meta">
             Velg en kategori for å utforske tilgjengelige API-er

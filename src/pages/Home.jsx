@@ -1,6 +1,7 @@
 import Header from "../components/Header";
 import HeroText from "../components/HeroText";
 import ApiCarousel from "../components/api/carousel/ApiCarousel";
+import publisherGroups from "../data/publisherGroups";
 import IntroSection from "../components/IntroSection";
 import Cases from "../components/Cases";
 import About from "../components/About";
@@ -16,7 +17,13 @@ export default function Home({ categories, apis }) {
       </div>
       <IntroSection />
 
-      <ApiCarousel items={categories.map((c) => ({ id: c, name: c }))} />
+      <ApiCarousel
+        items={categories.map((c) => ({
+          id: c,
+          name: c,
+          count: apis.filter((a) => publisherGroups[c]?.includes(a.publisher)).length,
+        }))}
+      />
 
       <Cases />
 

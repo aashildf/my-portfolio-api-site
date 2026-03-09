@@ -79,6 +79,14 @@
   margin-top: 2px;
 }
 
+@media (max-width: 900px) {
+  .header-search {
+    width: 150px;
+    font-size: 0.82rem;
+    padding: 0.45rem 0.9rem;
+  }
+}
+
 /* Overlay som lukker søket ved klikk utenfor */
 .search-overlay {
   position: fixed;

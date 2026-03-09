@@ -1,6 +1,14 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
+import imgA from "../assets/images/a.png";
+import imgS from "../assets/images/s.png";
+import imgT from "../assets/images/t.png";
+import imgU from "../assets/images/u.png";
+import imgD from "../assets/images/d.png";
+import imgI from "../assets/images/i.png";
+import imgO from "../assets/images/o.png";
+
 export default function Header({ categories = [], apis = [] }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const closeTimer = useRef(null);
@@ -47,10 +55,14 @@ export default function Header({ categories = [], apis = [] }) {
   return (
     <header className="header">
       <div className="header-inner">
-        <div className="logo">
-          <span className="logo__api">API</span>
-          <span className="logo__studio">STUDIO</span>
-        </div>
+        <button className="logo" onClick={() => navigate("/")} aria-label="Hjem">
+          <img src={imgA} className="logo__a" alt="A" draggable={false} />
+          <div className="logo__studio-row">
+            {[imgS, imgT, imgU, imgD, imgI, imgO].map((src, i) => (
+              <img key={i} src={src} className="logo__studio-letter" alt="" draggable={false} />
+            ))}
+          </div>
+        </button>
 
         {/* Senter: dropdown + søk */}
         <div className="header-center">
