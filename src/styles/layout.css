@@ -319,17 +319,16 @@ section {
   background: transparent;
   background-size: 600px;
   background-repeat: repeat;
-  min-height: 80vh;
+  min-height: 50vh;
   display: flex;
   align-items: center;
   color: white;
-  padding: 32px 0 0;
+  padding: 140px 0 200px;
   text-align: left;
 }
 
 .hero-content {
-  width: 90%;
-  max-width: 1200px;
+  width: calc(100% - 400px);
   margin: 0 auto;
 }
 
@@ -338,17 +337,17 @@ section {
 }
 
 .hero h1 {
-  font-size: 56px;
+  font-size: clamp(40px, 5vw, 72px);
   font-weight: 500;
   line-height: 110%;
-  letter-spacing: -1px;
-  margin-bottom: 24px;
+  letter-spacing: -2px;
+  margin-bottom: 32px;
 }
 
 .hero p {
-  font-size: 18px;
-  max-width: 600px;
-  line-height: 160%;
+  font-size: clamp(16px, 1.6vw, 26px);
+  max-width: 800px;
+  line-height: 150%;
   opacity: 0.95;
 }
 
@@ -445,16 +444,16 @@ section {
   
 
   .hero h1 {
-    font-size: clamp(32px, 5vw, 56px);
+    font-size: clamp(32px, 6vw, 80px);
   }
 
   .hero p {
-    font-size: 17px;
+    font-size: clamp(16px, 2.2vw, 28px);
     margin: 0 auto;
   }
 
   .hero-content {
-    width: 95%; /* Bruk litt mer av bredden på nettbrett */
+    width: 90%;
   }
 
   .intro-section {

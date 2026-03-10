@@ -5,8 +5,8 @@ export default function HeroText() {
         <h1>
           API-STUDIO
           <br />
-          Fullstendig oversikt over alle registrerte offentlige
-          API-er i Norge 
+          Fullstendig oversikt over alle
+          <br />registrerte offentlige API-er i Norge
         </h1>
         <p>
           Finn lett det du trenger via kategori og søkefunksjon
