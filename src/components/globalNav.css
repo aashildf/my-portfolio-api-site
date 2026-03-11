@@ -11,7 +11,17 @@
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0;
+  padding: 4px;
+}
+
+.gnav-logo,
+.gnav-btn {
+  transition: filter 0.3s ease;
+}
+
+.gnav-logo:hover,
+.gnav-btn:hover {
+  filter: brightness(1.5) drop-shadow(0 0 10px rgba(255,255,255,0.5));
 }
 
 /* Fast hamburger-knapp øverst til høyre på alle sider unntatt forsiden */
@@ -20,39 +30,14 @@
   top: 3.75rem;
   right: 5vw;
   z-index: 600;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  background: rgba(0, 0, 0, 0.18);
-  border: 1.5px solid rgba(0, 0, 0, 0.22);
-  border-radius: 8px;
+  background: none;
+  border: none;
   cursor: pointer;
-  padding: 8px 10px;
-  transition: background 0.2s;
+  padding: 4px;
 }
 
-.gnav-btn:hover {
-  background: rgba(0, 0, 0, 0.28);
-}
 
-.gnav-btn span {
-  display: block;
-  width: 24px;
-  height: 3px;
-  background: white;
-  border-radius: 2px;
-  transition: all 0.2s;
-}
 
-.gnav-btn--open span:nth-child(1) {
-  transform: translateY(8px) rotate(45deg);
-}
-.gnav-btn--open span:nth-child(2) {
-  opacity: 0;
-}
-.gnav-btn--open span:nth-child(3) {
-  transform: translateY(-8px) rotate(-45deg);
-}
 
 /* Overlay */
 .gnav-overlay {

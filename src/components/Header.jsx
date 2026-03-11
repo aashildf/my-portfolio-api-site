@@ -8,6 +8,8 @@ import imgU from "../assets/images/u.png";
 import imgD from "../assets/images/d.png";
 import imgI from "../assets/images/i.png";
 import imgO from "../assets/images/o.png";
+import imgHamburger from "../assets/images/hamburgermeny.png";
+import imgClose from "../assets/images/x-close.png";
 
 export default function Header({ categories = [], apis = [] }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -116,14 +118,18 @@ export default function Header({ categories = [], apis = [] }) {
 
         {/* Hamburger */}
         <button
-          className={`mobile-menu-toggle ${menuOpen ? "active" : ""}`}
+          className="mobile-menu-toggle"
           onClick={() => setMenuOpen(!menuOpen)}
           onMouseEnter={() => { cancelCloseTimer(); setMenuOpen(true); }}
           onMouseLeave={startCloseTimer}
+          aria-label={menuOpen ? "Lukk meny" : "Åpne meny"}
         >
-          <span></span>
-          <span></span>
-          <span></span>
+          <img
+            src={menuOpen ? imgClose : imgHamburger}
+            alt=""
+            className="hamburger-icon"
+            draggable={false}
+          />
         </button>
 
         {/* Slide-in panel */}

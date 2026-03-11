@@ -16,7 +16,6 @@ const publisherGroups = {
     "Registerenheten i brønnøysund",
     "Patentstyret",
   ],
-  Utdanning: ["Utdanningsdirektoratet", "Statens lånekasse for utdanning"],
   "Statistikk & Analyse": ["Statistisk sentralbyrå"],
   "Forsvar & Beredskap": ["Forsvarsbygg"],
   Kommuner: ["Oslo kommune oslo origo", "Vestland fylkeskommune"],

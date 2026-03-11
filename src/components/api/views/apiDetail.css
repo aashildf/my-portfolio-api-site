@@ -120,6 +120,22 @@
   transform: translateY(-2px);
 }
 
+.detail-card__links {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.api-link-btn--secondary {
+  background: transparent;
+  color: #989692;
+  border: 1.5px solid #989692;
+}
+
+.api-link-btn--secondary:hover {
+  background: rgba(152, 150, 146, 0.1);
+}
+
 .detail-card__no-link {
   font-size: 0.85rem;
   color: rgba(0, 0, 0, 0.3);

@@ -9,6 +9,8 @@ import imgU from "../assets/images/u.png";
 import imgD from "../assets/images/d.png";
 import imgI from "../assets/images/i.png";
 import imgO from "../assets/images/o.png";
+import imgHamburger from "../assets/images/hamburgermeny.png";
+import imgClose from "../assets/images/x-close.png";
 
 export default function GlobalNav({ categories = [], apis = [] }) {
   const [open, setOpen] = useState(false);
@@ -58,13 +60,16 @@ export default function GlobalNav({ categories = [], apis = [] }) {
       </button>
 
       <button
-        className={`gnav-btn${open ? " gnav-btn--open" : ""}`}
+        className="gnav-btn"
         onClick={() => setOpen((v) => !v)}
-        aria-label="Åpne meny"
+        aria-label={open ? "Lukk meny" : "Åpne meny"}
       >
-        <span />
-        <span />
-        <span />
+        <img
+          src={open ? imgClose : imgHamburger}
+          alt=""
+          className="hamburger-icon"
+          draggable={false}
+        />
       </button>
 
       {open && <div className="gnav-overlay" onClick={() => setOpen(false)} />}

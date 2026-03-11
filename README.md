@@ -10,7 +10,7 @@ Dataen er hentet som et snapshot fra Felles datakatalog og lagret lokalt som en 
 - Lar deg bla gjennom kategorier via header-menyen eller karusellen
 - Viser alle API-er innenfor en kategori på en egen side
 - Klikk på et API-kort for å se detaljer: beskrivelse, utgiver, tema og lenke til API-et
-- Støtter lyst og mørkt tema
+
 
 ## Kategorier
 

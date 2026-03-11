@@ -72,23 +72,26 @@ export default function ApiDetail({ apis, publisherGroups }) {
           )}
         </div>
 
-        {api.endpoint ? (
-          <div>
+        <div className="detail-card__links">
+          <a
+            href={`https://data.norge.no/data-services/${api.id}`}
+            target="_blank"
+            rel="noreferrer"
+            className="api-link-btn"
+          >
+            Se på data.norge.no ↗
+          </a>
+          {api.endpoint && (
             <a
               href={api.endpoint}
               target="_blank"
               rel="noreferrer"
-              className="api-link-btn"
+              className="api-link-btn api-link-btn--secondary"
             >
               Åpne API-endepunkt ↗
             </a>
-            <p className="detail-card__link-note">
-              Åpner API-et direkte — kan vise rå data i nettleseren.
-            </p>
-          </div>
-        ) : (
-          <p className="detail-card__no-link">Ingen lenke tilgjengelig</p>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

@@ -1,4 +1,9 @@
 
+import "../styles/cases.css";
+import "../styles/colors.css";
+import "../styles/typography.css";
+import "../styles/layout.css";
+import "../styles/global.css";
 
 
 export default function Cases() {
