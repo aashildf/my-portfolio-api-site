@@ -7,10 +7,10 @@ Dataen er hentet som et snapshot fra Felles datakatalog og lagret lokalt som en 
 ## Hva siden gjør
 
 - Viser en interaktiv karusell med API-kategorier på forsiden
-- Lar deg bla gjennom kategorier via header-menyen eller karusellen
-- Viser alle API-er innenfor en kategori på en egen side
-- Klikk på et API-kort for å se detaljer: beskrivelse, utgiver, tema og lenke til API-et
-
+- Lar deg bla gjennom kategorier via navigasjonsmenyen eller karusellen
+- Viser alle API-er innenfor en kategori, med søk og filtrering
+- Klikk på et API for å se detaljer: beskrivelse, utgiver, tema, nøkkelord og lenke til data.norge.no
+- Globalt søk tilgjengelig fra alle sider via hamburgermenyen
 
 ## Kategorier
 
@@ -52,17 +52,24 @@ npm run deploy
 src/
   components/
     api/
-      card/       # ApiCard – kort som viser ett API
+      card/       # ApiCard og CategoryCard – kortvising
       carousel/   # ApiCarousel – interaktiv karusell på forsiden
       views/      # ApiList og ApiDetail – liste og detaljvisning
+    GlobalNav.jsx   # Fast logo og hamburger-meny med søk (alle sider unntatt forsiden)
+    Header.jsx      # Header med søk og meny (kun forsiden)
+    HeroText.jsx    # Hero-seksjon på forsiden
+    IntroSection.jsx
+    Cases.jsx
+    Footer.jsx
   config/
-    publisherCategories.js  # Kobler utgiver til kategori (kilde til sannhet)
+    publisherCategories.js  # Kobler utgiver til kategori
   data/
     fetchApis.js        # Henter og normaliserer data fra JSON-filen
-    publisherGroups.js  # Utleder kategori → [utgivere] fra publisherCategories
+    publisherGroups.js  # Kategori → [utgivere]-mapping
   pages/
-    Home.jsx          # Forside
-    CategoryPage.jsx  # Kategoriside
+    Home.jsx            # Forside
+    CategoriesPage.jsx  # Oversikt over alle kategorier
+    CategoryPage.jsx    # Kategoriside med API-liste og søk
 public/
   data/
     apis.json   # Snapshot av API-data fra data.norge.no
