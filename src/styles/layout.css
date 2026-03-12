@@ -73,20 +73,16 @@ section {
   width: 90%;
   max-width: 1600px;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  display: flex;
+  justify-content: center;
   align-items: center;
 }
 
 .logo {
-  justify-self: start;
-}
-
-.mobile-menu-toggle {
-  justify-self: end;
-}
-
-.logo {
+  position: fixed;
+  top: 1.5rem;
+  left: 5vw;
+  z-index: 600;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -95,6 +91,30 @@ section {
   border: none;
   cursor: pointer;
   padding: 0;
+}
+
+.mobile-menu-toggle {
+  position: fixed;
+  top: 1.5rem;
+  right: 5vw;
+  z-index: 600;
+}
+
+@media (max-width: 700px) {
+  .logo__a {
+    height: 32px;
+  }
+
+  .logo__studio-letter {
+    height: 12px;
+  }
+}
+
+@media (min-width: 701px) {
+  .logo,
+  .mobile-menu-toggle {
+    top: 3.75rem;
+  }
 }
 
 .logo__a {
@@ -324,7 +344,7 @@ section {
   align-items: center;
   color: white;
   padding: 140px 0 200px;
-  text-align: left;
+  text-align: center;
 }
 
 .hero-content {
@@ -344,11 +364,54 @@ section {
   margin-bottom: 32px;
 }
 
+.hero-title {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+.hero-title__letters {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.hero-letter {
+  height: clamp(48px, 7vw, 96px);
+  width: auto;
+  display: block;
+}
+
+.hero-title__hyphen {
+  color: white;
+  font-size: clamp(40px, 6vw, 80px);
+  font-weight: 300;
+  line-height: 1;
+  margin: 0 4px;
+  opacity: 0.7;
+}
+
+.hero-subtitle,
+.hero-tagline {
+  /* text-transform: uppercase; */
+  letter-spacing: 0.06em;
+  font-weight: 300;
+  font-size: 24px;
+  opacity: 0.85;
+}
+
+.hero-subtitle {
+  margin-bottom: 12px;
+  margin-top: 72px;
+}
+
 .hero p {
   font-size: clamp(16px, 1.6vw, 26px);
   max-width: 800px;
   line-height: 150%;
   opacity: 0.95;
+  text-align: center;
+  margin: 0 auto;
 }
 
 /* ------------------------------------------------------ */
@@ -433,6 +496,7 @@ section {
   .hero h1 {
     font-size: clamp(32px, 6vw, 80px);
   }
+
 
   .hero p {
     font-size: clamp(16px, 2.2vw, 28px);

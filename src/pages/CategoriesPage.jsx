@@ -1,17 +1,36 @@
 import { useNavigate } from "react-router-dom";
+import CategoryCard from "../components/api/card/CategoryCard";
 import "./categoriesPage.css";
 
-const categoryColors = {
-  "Miljø & Energi": "#8F9F99",
-  "Transport & Kart": "#9FB3BD",
-  "Økonomi & Næring": "#E4E1E2",
-  "Statistikk & Analyse": "#B7B9B5",
-  "Forsvar & Beredskap": "#8A7D7A",
-  Kommuner: "#ADB3B4",
-  "Offentlig forvaltning": "#BCA6A2",
+import imgStatistikk from "../assets/images/statistikk.jpg";
+import imgKommuner from "../assets/images/kommune.jpg";
+import imgMiljo from "../assets/images/miljo.jpg";
+import imgTransport from "../assets/images/transport.jpg";
+import imgOkonomi from "../assets/images/okonomi.jpg";
+import imgForsvar from "../assets/images/forsvar.jpg";
+import imgForvaltning from "../assets/images/forvaltning.jpg";
+
+const categoryImages = {
+  "Statistikk & Analyse": imgStatistikk,
+  Kommuner: imgKommuner,
+  "Miljø & Energi": imgMiljo,
+  "Transport & Kart": imgTransport,
+  "Økonomi & Næring": imgOkonomi,
+  "Forsvar & Beredskap": imgForsvar,
+  "Offentlig forvaltning": imgForvaltning,
 };
 
-export default function CategoriesPage({ categories, publisherGroups, apis }) {
+const categoryColors = {
+  "Miljø & Energi": "#99A6A1",
+  "Transport & Kart": "#A7B7BF",
+  "Økonomi & Næring": "#88857E",
+  "Statistikk & Analyse": "#C7CBC3",
+  "Forsvar & Beredskap": "#BCA6A2",
+  Kommuner: "#ADB3B4",
+  "Offentlig forvaltning": "#8A7D7A",
+};
+
+export default function CategoriesPage({ categories }) {
   const navigate = useNavigate();
 
   return (
@@ -26,34 +45,20 @@ export default function CategoriesPage({ categories, publisherGroups, apis }) {
       </div>
 
       <div className="categories-content">
-        <svg width="0" height="0" style={{ position: "absolute" }}>
-          <defs>
-            <filter id="watercolor-cat" x="-15%" y="-15%" width="130%" height="130%">
-              <feTurbulence type="turbulence" baseFrequency="0.035" numOctaves="4" seed="2" result="noise" />
-              <feDisplacementMap in="SourceGraphic" in2="noise" scale="1" xChannelSelector="R" yChannelSelector="G" />
-            </filter>
-          </defs>
-        </svg>
         <div className="categories-grid">
           {categories.map((cat) => {
-            const apiCount = apis.filter((api) =>
-              publisherGroups[cat]?.includes(api.publisher)
-            ).length;
-
             return (
               <div
                 key={cat}
-                className="category-card"
-                style={{ "--cat-color": categoryColors[cat] ?? "#B0B0B0" }}
-                onClick={() =>
-                  navigate(`/kategori/${encodeURIComponent(cat)}`)
-                }
+                className="categories-grid__item"
+                onClick={() => navigate(`/kategori/${encodeURIComponent(cat)}`)}
               >
-                <div className="category-card__blob" />
-                <div className="category-card__content">
-                  <h2 className="category-card__name">{cat}</h2>
-                  <p className="category-card__count">{apiCount} API-er</p>
-                </div>
+                <CategoryCard
+                  name={cat}
+                  image={categoryImages[cat]}
+                  color={categoryColors[cat]}
+                  showStamp={false}
+                />
               </div>
             );
           })}

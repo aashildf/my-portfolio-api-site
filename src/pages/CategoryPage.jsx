@@ -3,13 +3,13 @@ import { useParams, useNavigate } from "react-router-dom";
 import "./categoryPage.css";
 
 const categoryColors = {
-  "Miljø & Energi": "#8F9F99",
-  "Transport & Kart": "#9FB3BD",
-  "Økonomi & Næring": "#E4E1E2",
-  "Statistikk & Analyse": "#B7B9B5",
-  "Forsvar & Beredskap": "#8A7D7A",
+  "Miljø & Energi": "#CACEC7",
+  "Transport & Kart": "#ced9df",
+  "Økonomi & Næring": "#F7EAC8",
+  "Statistikk & Analyse": "#b3b6ac",
+  "Forsvar & Beredskap": "#bfb7b5",
   Kommuner: "#ADB3B4",
-  "Offentlig forvaltning": "#BCA6A2",
+  "Offentlig forvaltning": "#c2a8a4",
 };
 
 export default function CategoryPage({ apis, publisherGroups }) {

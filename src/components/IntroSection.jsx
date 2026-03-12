@@ -9,8 +9,10 @@ export default function IntroSection() {
         <div className="intro-text">
           API-studio er en samlet oversikt over API-er fra norske offentlige
           etater. Her kan du oppdage hvilke data som finnes, hvem som tilbyr
-          dem, og hvordan de kan brukes. Per i dag samler API-studio{" "}
-          <strong>583 API-er</strong> fra <strong>14 etater</strong>.
+          dem, og hvordan de kan brukes.
+          <br /> <br />
+          Per i dag samler API-studio <strong>583 API-er</strong> fra{" "}
+          <strong>14 etater</strong>.
         </div>
 
         <div className="intro-list">
@@ -22,7 +24,6 @@ export default function IntroSection() {
             <li>få oversikt over det offentlige API-økosystemet</li>
           </ul>
         </div>
-
       </div>
     </section>
   );

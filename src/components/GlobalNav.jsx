@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { createPortal } from "react-dom";
+import { useNavigate } from "react-router-dom";
 import "./globalNav.css";
 
 import imgA from "../assets/images/a.png";
@@ -17,10 +18,6 @@ export default function GlobalNav({ categories = [], apis = [] }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const navigate = useNavigate();
-  const { pathname } = useLocation();
-
-  // Forsiden har hamburger i Header — ikke vis to stykker
-  if (pathname === "/" || pathname === "") return null;
 
   const go = (path) => {
     navigate(path);
@@ -47,35 +44,44 @@ export default function GlobalNav({ categories = [], apis = [] }) {
     setSearchResults(results);
   };
 
+  const navRoot = document.getElementById("nav-root");
+
   return (
     <>
-      {/* Logo øverst til venstre — lenke hjem */}
-      <button className="gnav-logo" onClick={() => navigate("/")} aria-label="Hjem">
-        <img src={imgA} className="logo__a" alt="A" draggable={false} />
-        <div className="logo__studio-row">
-          {[imgS, imgT, imgU, imgD, imgI, imgO].map((src, i) => (
-            <img key={i} src={src} className="logo__studio-letter" alt="" draggable={false} />
-          ))}
-        </div>
-      </button>
+      {createPortal(
+        <>
+          <button
+            className="gnav-logo"
+            onClick={() => navigate("/")}
+            aria-label="Hjem"
+          >
+            <img src={imgA} className="logo__a" alt="A" draggable={false} />
+            <div className="logo__studio-row">
+              {[imgS, imgT, imgU, imgD, imgI, imgO].map((src, i) => (
+                <img key={i} src={src} className="logo__studio-letter" alt="" draggable={false} />
+              ))}
+            </div>
+          </button>
 
-      <button
-        className="gnav-btn"
-        onClick={() => setOpen((v) => !v)}
-        aria-label={open ? "Lukk meny" : "Åpne meny"}
-      >
-        <img
-          src={open ? imgClose : imgHamburger}
-          alt=""
-          className="hamburger-icon"
-          draggable={false}
-        />
-      </button>
+          <button
+            className="gnav-btn"
+            onClick={() => setOpen((v) => !v)}
+            aria-label={open ? "Lukk meny" : "Åpne meny"}
+          >
+            <img
+              src={open ? imgClose : imgHamburger}
+              alt=""
+              className="hamburger-icon"
+              draggable={false}
+            />
+          </button>
+        </>,
+        navRoot
+      )}
 
       {open && <div className="gnav-overlay" onClick={() => setOpen(false)} />}
 
       <nav className={`gnav-panel${open ? " gnav-panel--open" : ""}`}>
-        {/* Søk */}
         <div className="gnav-search-wrapper">
           <input
             type="text"
@@ -100,6 +106,9 @@ export default function GlobalNav({ categories = [], apis = [] }) {
           )}
         </div>
 
+        <button className="nav-item" onClick={() => go("/")}>
+          Hjem
+        </button>
         <div className="nav-divider" />
         <p className="nav-section-label">API-kategorier</p>
         <button className="nav-item" onClick={() => go("/kategorier")}>

@@ -3,20 +3,20 @@
 }
 
 .categories-hero {
-  padding: 28px 0 72px;
+  padding: 3.75rem 0 60px;
+}
+
+.categories-hero__title {
+  text-align: center;
+}
+
+.categories-hero__meta {
+  text-align: center;
 }
 
 @media (max-width: 1024px) {
   .categories-hero {
-    padding-top: 140px;
-  }
-
-  .categories-hero__title {
-    text-align: center;
-  }
-
-  .categories-hero__meta {
-    text-align: center;
+    padding: 3.75rem 0 36px;
   }
 }
 
@@ -75,65 +75,40 @@
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, 260px);
+  justify-content: center;
+  gap: 16px;
 }
 
-/* ---- Kategorikort ---- */
-.category-card {
-  position: relative;
-  border-radius: 24px;
-  overflow: hidden;
-  aspect-ratio: 4 / 3;
+.categories-grid__item {
   cursor: pointer;
-  background: #E4E0DD;
-  background-image: url("../assets/textures/paper.png");
-  background-size: 500px;
-  background-blend-mode: multiply;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.25s ease;
 }
 
-.category-card:hover {
+.categories-grid__item:hover {
   transform: translateY(-6px);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.14);
 }
 
-/* Fargeblob — samme akvarell-effekt som karuselkortene */
-.category-card__blob {
-  position: absolute;
-  inset: 0;
-  background: var(--cat-color);
-  filter: url(#watercolor-cat);
-  opacity: 0.85;
+/* Kvadratiske kort */
+.categories-grid__item .cat-card {
+  aspect-ratio: 1 / 1;
+  background-position: center 15%;
 }
 
-.category-card__content {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 1.5rem;
+.categories-grid__item .cat-card__footer {
+  bottom: 5%;
 }
 
-.category-card__name {
-  font-size: 1.25rem;
-  font-weight: 500;
-  margin: 0 0 0.25rem;
-  line-height: 1.2;
-  color: rgba(0, 0, 0, 0.85);
+.categories-grid__item .cat-card__name {
+  font-size: 1.4rem;
 }
 
-.category-card__count {
-  font-size: 0.82rem;
-  color: rgba(0, 0, 0, 0.5);
-  margin: 0;
-  max-width: none;
-}
+@media (max-width: 480px) {
+  .categories-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
-/* SVG-filter for watercolor — renderes usynlig */
-.watercolor-defs {
-  position: absolute;
-  width: 0;
-  height: 0;
+  .categories-grid__item .cat-card__name {
+    font-size: 0.9rem;
+  }
 }

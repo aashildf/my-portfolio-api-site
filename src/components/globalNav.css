@@ -1,9 +1,9 @@
-/* Fast logo øverst til venstre — lenke hjem */
+/* Fast logo øverst til venstre */
 .gnav-logo {
   position: fixed;
-  top: 3.75rem;
+  top: 1.5rem;
   left: 5vw;
-  z-index: 600;
+  z-index: 9999;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -12,28 +12,48 @@
   border: none;
   cursor: pointer;
   padding: 4px;
-}
-
-.gnav-logo,
-.gnav-btn {
   transition: filter 0.3s ease;
 }
 
-.gnav-logo:hover,
-.gnav-btn:hover {
-  filter: brightness(1.5) drop-shadow(0 0 10px rgba(255,255,255,0.5));
-}
-
-/* Fast hamburger-knapp øverst til høyre på alle sider unntatt forsiden */
+/* Fast hamburger-knapp øverst til høyre */
 .gnav-btn {
   position: fixed;
-  top: 3.75rem;
+  top: 1.5rem;
   right: 5vw;
-  z-index: 600;
+  z-index: 9999;
   background: none;
   border: none;
   cursor: pointer;
   padding: 4px;
+  transition: filter 0.3s ease;
+}
+
+@media (min-width: 701px) {
+  .gnav-logo,
+  .gnav-btn {
+    top: 3.75rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .gnav-logo .logo__a {
+    height: 32px;
+  }
+  .gnav-logo .logo__studio-letter {
+    height: 12px;
+  }
+}
+
+.gnav-logo:hover,
+.gnav-btn:hover {
+  filter: brightness(1.5) drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+}
+
+/* Hamburger-ikon */
+.gnav-btn .hamburger-icon {
+  display: block;
+  height: 20px;
+  width: auto;
 }
 
 
@@ -44,7 +64,7 @@
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.25);
-  z-index: 998;
+  z-index: 9997;
 }
 
 /* Slide-in panel — samme utseende som Header-panelet */
@@ -61,7 +81,7 @@
   flex-direction: column;
   padding: 120px 32px 40px;
   gap: 0;
-  z-index: 999;
+  z-index: 9998;
   box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
   transform: translateX(100%);

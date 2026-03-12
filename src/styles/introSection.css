@@ -5,7 +5,8 @@
 }
 
 .intro-grid {
-  width: calc(100% - 400px);
+  width: 90%;
+  max-width: 1200px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -14,11 +15,12 @@
 
 .intro-title {
   grid-column: 1 / -1;
-  font-size: clamp(1.6rem, 2.8vw, 3rem);
+  font-size: clamp(1.4rem, 2.4vw, 2.15rem);
   font-weight: 500;
-  letter-spacing: -0.02em;
-  line-height: 1.15;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
   margin: 0;
+  text-align: center;
 }
 
 .intro-text,
@@ -26,7 +28,6 @@
   font-size: clamp(1rem, 1.2vw, 1.5rem);
   line-height: 1.6;
   color: rgba(0, 0, 0, 0.65);
-  max-width: 48ch;
 }
 
 .intro-list ul {

@@ -1,12 +1,12 @@
 import "./categoryCard.css";
 
-export default function CategoryCard({ name, image, color, count }) {
+export default function CategoryCard({ name, image, color, count, showStamp = true }) {
   return (
     <div
       className="cat-card"
       style={{ ...(image ? { "--cat-img": `url(${image})` } : {}), "--cat-color": color }}
     >
-      <div className="cat-card__stamp">API Studio</div>
+      {showStamp && <div className="cat-card__stamp">API Studio</div>}
 
       <div className="cat-card__footer">
         <p className="cat-card__name">
