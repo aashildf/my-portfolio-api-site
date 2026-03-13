@@ -1,7 +1,8 @@
+import "../assets/devices.min.css";
 import "../styles/cases.css";
-import imgCatFacts from "../assets/images/catfacts (2).png";
-import imgVaerapp from "../assets/images/værapp (2).png";
-import imgGutendex from "../assets/images/gutendex (2).png";
+import imgCatFacts from "../assets/images/catFacts.png";
+import imgVaerapp from "../assets/images/værapp.png";
+import imgGutendex from "../assets/images/gutendex (3).png";
 
 const cases = [
   {
@@ -64,20 +65,28 @@ export default function Cases() {
                 rel="noopener noreferrer"
                 className="case-card"
               >
-                <div className="case-card__screen">
-                  <div className="case-card__notch" />
-                  <img src={c.image} alt={c.title} className="case-card__img" />
-
-                  <div className="case-card__body">
-                    <p className="case-card__tag">{c.tag}</p>
-                    <h3 className="case-card__title">{c.title}</h3>
-                    <p className="case-card__desc">{c.description}</p>
-                    <p className="case-card__api">{c.api}</p>
-                    <div className="case-card__expand">
-                      <div className="case-card__expand-inner">
-                        <span className="case-card__cta">Åpne app →</span>
+                <div className="phone-wrapper">
+                  <div className="device device-iphone-x">
+                    <div className="device-frame">
+                      <div className="device-screen">
+                        <img
+                          src={c.image}
+                          alt={c.title}
+                          className="case-card__img"
+                        />
+                        <div className="case-card__overlay">
+                          <p className="case-card__tag">{c.tag}</p>
+                          <h3 className="case-card__title">{c.title}</h3>
+                          <p className="case-card__desc">{c.description}</p>
+                          <span className="case-card__cta">Åpne app →</span>
+                        </div>
                       </div>
                     </div>
+                    <div className="device-stripe" />
+                    <div className="device-header" />
+                    <div className="device-sensors" />
+                    <div className="device-btns" />
+                    <div className="device-power" />
                   </div>
                 </div>
               </a>

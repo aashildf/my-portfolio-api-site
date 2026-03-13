@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import { fetchApis } from "./data/fetchApis";
 import publisherGroups from "./data/publisherGroups";
 import ScrollToTop from "./components/ScrollToTop";
+import GlobalNav from "./components/GlobalNav";
 import Home from "./pages/Home";
 import CategoriesPage from "./pages/CategoriesPage";
 import CategoryPage from "./pages/CategoryPage";
@@ -29,6 +30,7 @@ export default function App() {
   return (
     <>
       <ScrollToTop />
+      <GlobalNav categories={categories} apis={apis} />
       <Routes>
         <Route
           path="/"
