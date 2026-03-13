@@ -1,7 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import CategoryTabsNav from "../components/CategoryTabsNav";
 import "./categoryPage.css";
+
+const placeholders = [
+  "Søk etter Locationforecast...",
+  "Søk etter Kartverket...",
+  "Søk etter akvakultur...",
+  "Søk etter Tidalwater...",
+  "Søk etter Enhetsregisteret...",
+  "Søk etter skattemelding...",
+  "Søk etter Sunrise...",
+];
 
 const categoryColors = {
   "Miljø & Energi": "#BAC3BB",
@@ -19,6 +29,20 @@ export default function CategoryPage({ apis, publisherGroups }) {
 
   const [selectedPublisher, setSelectedPublisher] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+
+  const [phIdx, setPhIdx] = useState(0);
+  const [phFading, setPhFading] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPhFading(true);
+      setTimeout(() => {
+        setPhIdx((i) => (i + 1) % placeholders.length);
+        setPhFading(false);
+      }, 350);
+    }, 3500);
+    return () => clearInterval(interval);
+  }, []);
 
   const category = decodeURIComponent(slug);
   const heroColor = categoryColors[category] ?? "#A1B4B2";
@@ -82,8 +106,8 @@ export default function CategoryPage({ apis, publisherGroups }) {
             <div className="category-search-wrapper">
               <input
                 type="text"
-                placeholder="Søk i API-er..."
-                className="category-search"
+                placeholder={placeholders[phIdx]}
+                className={`category-search${phFading ? " category-search--fading" : ""}`}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />

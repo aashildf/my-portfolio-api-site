@@ -1,3 +1,13 @@
+@keyframes heroFadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes tabsSlideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 .category-page {
   min-height: 100vh;
 }
@@ -17,10 +27,12 @@
 
 .category-hero__title {
   text-align: center;
+  animation: heroFadeUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .category-hero__meta {
   text-align: center;
+  animation: heroFadeUp 0.55s 0.1s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .category-hero__inner {
@@ -143,12 +155,18 @@
 
 .category-search::placeholder {
   color: rgba(0, 0, 0, 0.35);
+  transition: opacity 0.35s ease;
+}
+
+.category-search--fading::placeholder {
+  opacity: 0;
 }
 
 .category-search:focus {
   background: rgba(255, 255, 255, 0.9);
   border-color: rgba(0, 0, 0, 0.2);
 }
+
 
 .publisher-sidebar__label {
   font-size: 0.7rem;

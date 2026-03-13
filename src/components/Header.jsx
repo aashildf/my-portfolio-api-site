@@ -1,9 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
+const placeholders = [
+  "Søk etter Locationforecast...",
+  "Søk etter Kartverket...",
+  "Søk etter akvakultur...",
+  "Søk etter Tidalwater...",
+  "Søk etter Enhetsregisteret...",
+  "Søk etter skattemelding...",
+  "Søk etter Sunrise...",
+];
 
 export default function Header({ categories = [], apis = [] }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [phIdx, setPhIdx] = useState(0);
+  const [phFading, setPhFading] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPhFading(true);
+      setTimeout(() => {
+        setPhIdx((i) => (i + 1) % placeholders.length);
+        setPhFading(false);
+      }, 350);
+    }, 3500);
+    return () => clearInterval(interval);
+  }, []);
   const navigate = useNavigate();
 
   const go = (path) => {
@@ -61,8 +84,8 @@ export default function Header({ categories = [], apis = [] }) {
           <div className="search-wrapper">
             <input
               type="text"
-              placeholder="Søk API..."
-              className="header-search"
+              placeholder={placeholders[phIdx]}
+              className={`header-search${phFading ? " header-search--fading" : ""}`}
               value={searchQuery}
               onChange={(e) => handleSearch(e.target.value)}
             />

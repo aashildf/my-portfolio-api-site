@@ -13,11 +13,14 @@ import imgForvaltning from "../../../assets/images/forvaltning.jpg";
 
 export default function ApiCarousel({ items }) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [visible, setVisible] = useState(false);
   const navigate = useNavigate();
+  const sectionRef = useRef(null);
   const stageRef = useRef(null);
   const cardsRef = useRef(null);
   const dragStartRef = useRef(null);
   const dragHappenedRef = useRef(false);
+  const isPausedRef = useRef(false);
 
   const categoryImages = {
     "Statistikk & Analyse": imgStatistikk,
@@ -42,6 +45,33 @@ export default function ApiCarousel({ items }) {
   const count = items?.length ?? 0;
   const prevIndex = (activeIndex - 1 + count) % count;
   const nextIndex = (activeIndex + 1) % count;
+
+  // Scroll-triggered entrance
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.15 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // Auto-advance
+  useEffect(() => {
+    const id = setInterval(() => {
+      if (!isPausedRef.current) {
+        setActiveIndex((i) => (i + 1) % count);
+      }
+    }, 5000);
+    return () => clearInterval(id);
+  }, [count]);
 
   useEffect(() => {
     const el = stageRef.current;
@@ -101,7 +131,12 @@ export default function ApiCarousel({ items }) {
   ];
 
   return (
-    <section className="carousel-section">
+    <section
+      className={`carousel-section${visible ? " carousel-section--visible" : ""}`}
+      ref={sectionRef}
+      onMouseEnter={() => { isPausedRef.current = true; }}
+      onMouseLeave={() => { isPausedRef.current = false; }}
+    >
       <p className="carousel-label">Bla gjennom kategoriene</p>
 
       <div className="carousel-stage" ref={stageRef}>

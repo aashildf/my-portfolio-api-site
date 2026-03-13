@@ -6,6 +6,14 @@
   background-color: #BFCBCA;
   border-radius: 40px;
   overflow: hidden;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.carousel-section--visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Overskrift */
@@ -50,7 +58,7 @@
   left: 50%;
   margin-left: -190px;
   margin-top: -253px;
-  transition: transform 0.4s ease, opacity 0.4s ease;
+  transition: transform 0.85s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.85s ease;
   cursor: pointer;
 }
 
@@ -73,6 +81,11 @@
 }
 
 /* --- Trekant-piler, absolute utenfor kortene --- */
+@keyframes arrowPulse {
+  0%, 100% { opacity: 0.5; }
+  50%       { opacity: 0.9; }
+}
+
 .carousel-arrow {
   position: absolute;
   top: 50%;
@@ -82,9 +95,9 @@
   border: none;
   cursor: pointer;
   z-index: 20;
-  opacity: 0.6;
   transition: opacity 0.2s, transform 0.2s;
   padding: 0;
+  animation: arrowPulse 2.5s ease-in-out infinite;
 
   /* Trekant-form via CSS border-trick */
   width: 0;
@@ -108,6 +121,7 @@
 }
 
 .carousel-arrow:hover {
+  animation: none;
   opacity: 1;
   transform: translateY(-50%) scale(1.2);
 }

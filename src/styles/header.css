@@ -25,12 +25,18 @@
 
 .header-search::placeholder {
   color: rgba(0, 0, 0, 0.4);
+  transition: opacity 0.35s ease;
+}
+
+.header-search--fading::placeholder {
+  opacity: 0;
 }
 
 .header-search:focus {
   background: rgba(255, 255, 255, 0.95);
   border-color: white;
 }
+
 
 /* --- Søkeresultater dropdown --- */
 .search-results {
