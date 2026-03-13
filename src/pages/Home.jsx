@@ -1,16 +1,17 @@
 import Header from "../components/Header";
 import HeroText from "../components/HeroText";
+import GlobalNav from "../components/GlobalNav";
 import ApiCarousel from "../components/api/carousel/ApiCarousel";
 import publisherGroups from "../data/publisherGroups";
 import IntroSection from "../components/IntroSection";
 import Cases from "../components/Cases";
-import About from "../components/About";
 import Footer from "../components/Footer";
 
 export default function Home({ categories, apis }) {
   return (
     <>
       <div className="texture-wrapper">
+        <GlobalNav categories={categories} apis={apis} />
         <Header categories={categories} apis={apis} />
 
         <HeroText />
@@ -26,8 +27,6 @@ export default function Home({ categories, apis }) {
       />
 
       <Cases />
-
-      <About />
 
       <Footer />
     </>

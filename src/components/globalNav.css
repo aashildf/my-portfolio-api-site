@@ -1,9 +1,9 @@
-/* Fast logo øverst til venstre */
+/* Logo øverst til venstre — inni den faste #nav-root */
 .gnav-logo {
-  position: fixed;
+  position: absolute;
   top: 1.5rem;
   left: 5vw;
-  z-index: 9999;
+  pointer-events: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -13,19 +13,21 @@
   cursor: pointer;
   padding: 4px;
   transition: filter 0.3s ease;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.45));
 }
 
-/* Fast hamburger-knapp øverst til høyre */
+/* Hamburger-knapp øverst til høyre */
 .gnav-btn {
-  position: fixed;
+  position: absolute;
   top: 1.5rem;
   right: 5vw;
-  z-index: 9999;
+  pointer-events: auto;
   background: none;
   border: none;
   cursor: pointer;
   padding: 4px;
   transition: filter 0.3s ease;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.45));
 }
 
 @media (min-width: 701px) {
@@ -59,15 +61,16 @@
 
 
 
-/* Overlay */
+/* Overlay — dekker hele viewporten */
 .gnav-overlay {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.25);
-  z-index: 9997;
+  pointer-events: auto;
+  z-index: 100;
 }
 
-/* Slide-in panel — samme utseende som Header-panelet */
+/* Slide-in panel */
 .gnav-panel {
   position: fixed;
   top: 0;
@@ -81,7 +84,8 @@
   flex-direction: column;
   padding: 120px 32px 40px;
   gap: 0;
-  z-index: 9998;
+  pointer-events: auto;
+  z-index: 101;
   box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
   transform: translateX(100%);

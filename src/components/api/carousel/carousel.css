@@ -92,18 +92,18 @@
 }
 
 .carousel-arrow--left {
-  left: calc(50% - 560px);
-  border-top: 18px solid transparent;
-  border-bottom: 18px solid transparent;
-  border-right: 26px solid white;
+  left: calc(45% - 560px);
+  border-top: 26px solid transparent;
+  border-bottom: 26px solid transparent;
+  border-right: 30px solid white;
   transform: translateY(-50%);
 }
 
 .carousel-arrow--right {
-  right: calc(50% - 560px);
-  border-top: 18px solid transparent;
-  border-bottom: 18px solid transparent;
-  border-left: 26px solid white;
+  right: calc(45% - 560px);
+  border-top: 26px solid transparent;
+  border-bottom: 26px solid transparent;
+  border-left: 30px solid white;
   transform: translateY(-50%);
 }
 
@@ -142,6 +142,26 @@
     margin: 0;
     border-radius: 0;
   }
+
+  .carousel-stage {
+    height: 540px;
+  }
+
+  .carousel-slot--prev {
+    transform: translateX(-360px) scale(0.78);
+  }
+
+  .carousel-slot--next {
+    transform: translateX(360px) scale(0.78);
+  }
+
+  .carousel-arrow--left {
+    left: 20px;
+  }
+
+  .carousel-arrow--right {
+    right: 20px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -150,25 +170,25 @@
   }
 
   .carousel-stage {
-    height: 130vw;
+    height: 100vw;
   }
 
   .carousel-cards {
-    width: 72vw;
+    width: 64vw;
   }
 
   .carousel-slot {
-    width: 72vw;
-    margin-left: calc(-72vw / 2);
-    margin-top: calc(-72vw * 2 / 3);
+    width: 64vw;
+    margin-left: calc(-64vw / 2);
+    margin-top: calc(-64vw * 2 / 3);
   }
 
   .carousel-slot--prev {
-    transform: translateX(-65vw) scale(0.75);
+    transform: translateX(-58vw) scale(0.75);
   }
 
   .carousel-slot--next {
-    transform: translateX(65vw) scale(0.75);
+    transform: translateX(58vw) scale(0.75);
   }
 
   .carousel-arrow--left {
@@ -177,5 +197,31 @@
 
   .carousel-arrow--right {
     right: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-stage {
+    height: 115vw;
+  }
+
+  .carousel-cards {
+    width: 78vw;
+  }
+
+  .carousel-slot {
+    width: 78vw;
+    margin-left: calc(-78vw / 2);
+    margin-top: calc(-78vw * 2 / 3);
+  }
+
+  .carousel-slot--prev {
+    transform: translateX(-70vw) scale(0.72);
+    opacity: 0.4;
+  }
+
+  .carousel-slot--next {
+    transform: translateX(70vw) scale(0.72);
+    opacity: 0.4;
   }
 }

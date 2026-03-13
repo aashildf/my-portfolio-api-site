@@ -1,0 +1,110 @@
+.site-footer {
+  background-color: #6d8888;
+  background-image: url("../assets/textures/paper.png");
+  background-size: 600px;
+  background-repeat: repeat;
+  background-blend-mode: multiply;
+  color: white;
+  position: relative;
+}
+
+.site-footer__inner {
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 28px 0 22px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  align-items: center;
+}
+
+/* ── Om-meg ── */
+.site-footer__name {
+  font-size: clamp(1.1rem, 2vw, 1.8rem);
+  letter-spacing: 0.03em;
+  line-height: 1.1;
+  margin: 0 0 0.3rem;
+  opacity: 0.9;
+ 
+}
+
+.site-footer__tagline {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: rgba(255, 255, 255, 0.4);
+  margin: 0 0 0.75rem;
+}
+
+.site-footer__bio {
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.6;
+  margin: 0;
+  max-width: 360px;
+}
+
+/* ── Kontaktlenker ── */
+.site-footer__links {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  justify-self: end;
+  align-self: center;
+  width: 100%;
+  max-width: 300px;
+}
+
+.site-footer__link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.2s, padding-left 0.2s;
+}
+
+.site-footer__link:first-child {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.site-footer__link:hover {
+  color: white;
+  padding-left: 6px;
+}
+
+.site-footer__arrow {
+  opacity: 0.35;
+  transition: opacity 0.2s, transform 0.2s;
+  font-size: 0.85rem;
+}
+
+.site-footer__link:hover .site-footer__arrow {
+  opacity: 1;
+  transform: translateX(4px);
+}
+
+.site-footer__copy {
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.2);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin: 0.75rem 0 0;
+}
+
+@media (max-width: 700px) {
+  .site-footer__inner {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 24px 0 18px;
+  }
+
+  .site-footer__links {
+    justify-self: start;
+    max-width: 100%;
+  }
+}

@@ -1,7 +1,263 @@
+/* ── Hvit intro-seksjon over kortene ── */
+.cases-intro {
+  background: #e8e8e8;
+  padding: 20px 0 140px;
+}
+
+.cases-intro__inner {
+  width: 90%;
+  max-width: 1400px;
+  margin: 0 auto;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+@media (max-width: 1024px) {
+  .cases-intro {
+    padding: 60px 0 100px;
+  }
+}
+
+    
+
+.cases-intro__label {
+  font-size: 1.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(0, 0, 0, 0.38);
+  margin: 0 0 1rem;
+  padding-bottom: 4rem;
+  text-align: center;
+}
+
+.cases-intro__heading {
+  font-size: clamp(1.4rem, 2.4vw, 2.15rem);
+  font-weight: 500;
+  color: #0f1422;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  margin: 0 auto;
+  max-width: 860px;
+}
+
+.cases-intro__sub {
+  font-size: clamp(1rem, 1.2vw, 1.5rem);
+  color: rgba(0, 0, 0, 0.55);
+  margin: 0 auto;
+  max-width: 860px;
+  line-height: 1.6;
+}
+
+/* ── Teal kortseksjon ── */
+.cases {
+  background-color: #A1B4B2;
+  background-image:
+    linear-gradient(
+      to top,
+      rgba(255, 255, 255, 0.5) 0%,
+      rgba(255, 255, 255, 0) 50%
+    ),
+    url("../assets/textures/paper.png");
+  background-size: auto, 600px;
+  background-repeat: repeat;
+  background-blend-mode: soft-light, multiply;
+  padding: 100px 0 180px;
+  position: relative;
+}
+
+/* Bue øverst — speiler hero-bunnen */
+.cases::before {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  margin-bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 42px;
+
+  background-color: #A1B4B2;
+  background-image: url("../assets/textures/paper.png");
+  background-size: 600px;
+  background-repeat: repeat;
+  background-blend-mode: multiply;
+
+  border-radius: 40px 40px 0 0;
+  z-index: 11;
+  pointer-events: none;
+
+  outline: 1px solid transparent;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.03);
+}
+
+.cases__inner {
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.cases__grid {
+  display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(240px, 240px));
+  gap: 28px;
+  justify-items: center;
+}
+
+.case-card {
+    max-width: 260px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.92);
+  border: 3px solid #2a4f4c;
+  border-radius: 35px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  transition: border-radius 0.35s, box-shadow 0.35s, background 0.25s;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.case-card:hover {
+  background: white;
+  border-radius: 28px;
+  box-shadow: 0 10px 44px rgba(0, 0, 0, 0.2);
+}
+
+/* ── Skjermforhåndsvisning ── */
+.case-card__screen {
+  position: relative;
+  width: 300px;           /* telefonbredde */
+  height: 520px; 
+  overflow: hidden;
+  background: #c8d4d2;
+  flex-shrink: 0;
+  border-radius: 28px 28px 0 0;
+}
+
+.case-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+  transition: transform 0.45s ease;
+}
 
 
-.cases{
-    background-color: #989692;
-    margin-top: 15em;
-    margin-bottom: 5em;
+/* Notch — liten pille øverst i skjermområdet */
+.case-card__notch {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 44px;
+  height: 5px;
+  background: rgba(0, 0, 0, 0.18);
+  border-radius: 3px;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.case-card:hover .case-card__notch {
+  opacity: 1;
+}
+
+/* ── Tekstinnhold ── */
+.case-card__body {
+  position: absolute;       /* viktig: ligger inni skjermen */
+  bottom: 0;                /* starter nederst */
+  left: 0;
+  right: 0;
+  padding: 1.4rem 1.6rem 1.3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+
+  max-height: 60%;          /* viser bare toppen av teksten først */
+  overflow: hidden;
+  transition: max-height 0.35s cubic-bezier(.22,.61,.36,1);
+}
+
+.case-card__tag {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(0, 0, 0, 0.38);
+  margin: 0 0 0.1rem;
+}
+
+.case-card__title {
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: #0f1422;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.case-card__desc {
+  font-size: 0.85rem;
+  color: rgba(0, 0, 0, 0.55);
+  line-height: 1.6;
+  margin: 0.1rem 0 0;
+}
+
+.case-card__api {
+  font-size: 0.7rem;
+  color: rgba(0, 0, 0, 0.28);
+  margin: 0.5rem 0 0;
+  font-family: monospace;
+  letter-spacing: 0.03em;
+}
+
+/* Expand-seksjon — grid-trick, kortet vokser nedover */
+.case-card__expand {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+
+.case-card:hover .case-card__expand {
+  max-height: 80px;
+}
+
+.case-card:hover .case-card__body {
+  max-height: 100%;
+}
+
+.case-card__expand-inner {
+  overflow: hidden;
+}
+
+.case-card__cta {
+  display: inline-block;
+  padding-top: 0.85rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #2a4f4c;
+  letter-spacing: 0.03em;
+}
+
+@media (max-width: 900px) {
+  .cases__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .cases__grid {
+    grid-template-columns: 1fr;
+    
+  }
+
+  .cases {
+    padding: 60px 0 80px;
+  }
 }

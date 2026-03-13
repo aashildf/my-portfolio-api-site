@@ -126,3 +126,13 @@
     drop-shadow(20px 40px 8px rgba(0,0,0,0.12))
     drop-shadow(40px 80px 12px rgba(0,0,0,0.06));
 }
+
+@media (max-width: 1024px) {
+  .hero-letter--api,
+  .hero-letter--studio {
+    height: clamp(56px, 9vw, 100px);
+  }
+  .hero-title__hyphen {
+    height: clamp(44px, 6vw, 80px);
+  }
+}
