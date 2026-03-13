@@ -1,13 +1,13 @@
 import { useNavigate } from "react-router-dom";
 
 const categoryColors = {
-  "Miljø & Energi": "#BAC3BB",
-  "Transport & Kart": "#B7C2C2",
-  "Økonomi & Næring": "#BABCB8",
-  "Statistikk & Analyse": "#b3b6ac",
-  "Forsvar & Beredskap": "#bfb7b5",
-  Kommuner: "#ADB3B4",
-  "Offentlig forvaltning": "#948986",
+  "Miljø & Energi": "#FDFAFA",
+  "Transport & Kart": "#FDFAFA",
+  "Økonomi & Næring": "#FDFAFA",
+  "Statistikk & Analyse": "#FDFAFA",
+  "Forsvar & Beredskap": "#FDFAFA",
+  Kommuner: "#FDFAFA",
+  "Offentlig forvaltning": "#FDFAFA",
 };
 
 export default function CategoryTabsNav({ categories, activeCategory = null }) {
@@ -17,6 +17,9 @@ export default function CategoryTabsNav({ categories, activeCategory = null }) {
     <div className="category-tabs">
       <button
         className={`category-tab${activeCategory === null ? " category-tab--active" : ""}`}
+        style={
+          activeCategory !== null ? { backgroundColor: "#FDFAFA" } : undefined
+        }
         onClick={() => navigate("/kategorier")}
       >
         Alle
@@ -27,7 +30,11 @@ export default function CategoryTabsNav({ categories, activeCategory = null }) {
           <button
             key={cat}
             className={`category-tab${isActive ? " category-tab--active" : ""}`}
-            style={!isActive ? { backgroundColor: categoryColors[cat] ?? "#8a9c9a" } : undefined}
+            style={
+              !isActive
+                ? { backgroundColor: categoryColors[cat] ?? "#FDFAFA" }
+                : undefined
+            }
             onClick={() => navigate(`/kategori/${encodeURIComponent(cat)}`)}
           >
             {cat}

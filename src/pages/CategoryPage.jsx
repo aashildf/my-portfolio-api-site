@@ -3,6 +3,24 @@ import { useParams, useNavigate } from "react-router-dom";
 import CategoryTabsNav from "../components/CategoryTabsNav";
 import "./categoryPage.css";
 
+import imgStatistikk from "../assets/images/statistikk.jpg";
+import imgKommuner from "../assets/images/kommune.jpg";
+import imgMiljo from "../assets/images/miljo.jpg";
+import imgTransport from "../assets/images/transport.jpg";
+import imgOkonomi from "../assets/images/okonomi.jpg";
+import imgForsvar from "../assets/images/forsvar.jpg";
+import imgForvaltning from "../assets/images/forvaltning.jpg";
+
+const categoryImages = {
+  "Statistikk & Analyse": imgStatistikk,
+  Kommuner: imgKommuner,
+  "Miljø & Energi": imgMiljo,
+  "Transport & Kart": imgTransport,
+  "Økonomi & Næring": imgOkonomi,
+  "Forsvar & Beredskap": imgForsvar,
+  "Offentlig forvaltning": imgForvaltning,
+};
+
 const placeholders = [
   "Søk etter Locationforecast...",
   "Søk etter Kartverket...",
@@ -15,12 +33,12 @@ const placeholders = [
 
 const categoryColors = {
   "Miljø & Energi": "#BAC3BB",
-  "Transport & Kart": "#B7C2C2",
-  "Økonomi & Næring": "#BABCB8",
+  "Transport & Kart": "#8CA1AC",
+  "Økonomi & Næring": "#C2BCA3",
   "Statistikk & Analyse": "#b3b6ac",
-  "Forsvar & Beredskap": "#bfb7b5",
-  Kommuner: "#ADB3B4",
-  "Offentlig forvaltning": "#948986",
+  "Forsvar & Beredskap": "#c2ac93",
+  Kommuner: "#8DA1A0",
+  "Offentlig forvaltning": "#a79d9a",
 };
 
 export default function CategoryPage({ apis, publisherGroups }) {
@@ -48,14 +66,6 @@ export default function CategoryPage({ apis, publisherGroups }) {
   const heroColor = categoryColors[category] ?? "#A1B4B2";
   const publishers = publisherGroups[category] || [];
 
-  const hex = heroColor.replace("#", "");
-  const r = parseInt(hex.slice(0, 2), 16);
-  const g = parseInt(hex.slice(2, 4), 16);
-  const b = parseInt(hex.slice(4, 6), 16);
-  const luminance = (r * 299 + g * 587 + b * 114) / 1000;
-  const isDark = luminance < 190;
-  const heroText = isDark ? "white" : "rgba(0,0,0,0.8)";
-  const heroTextMuted = isDark ? "rgba(255,255,255,0.6)" : "rgba(0,0,0,0.45)";
 
   const grouped = {};
   publishers.forEach((pub) => {
@@ -84,12 +94,17 @@ export default function CategoryPage({ apis, publisherGroups }) {
 
   return (
     <div className="category-page">
-      <div className="texture-wrapper category-hero" style={{ "--hero-bg": heroColor, "--hero-text": heroText, "--hero-text-muted": heroTextMuted }}>
+      <div className="texture-wrapper category-hero" style={{ "--hero-bg": heroColor, "--hero-img": `url(${categoryImages[category] ?? ""})` }}>
         <div className="category-hero__inner">
-          <h1 className="category-hero__title">{category}</h1>
-          <p className="category-hero__meta">
-            {totalApis} API-er · {Object.keys(grouped).length} etater
-          </p>
+          {categoryImages[category] && (
+            <div className="category-hero__medallion" />
+          )}
+          <div className="category-hero__text">
+            <h1 className="category-hero__title">{category}</h1>
+            <p className="category-hero__meta">
+              {totalApis} API-er · {Object.keys(grouped).length} etater
+            </p>
+          </div>
         </div>
         <CategoryTabsNav categories={Object.keys(publisherGroups)} activeCategory={category} />
       </div>
