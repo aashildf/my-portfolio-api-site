@@ -13,7 +13,6 @@
   cursor: pointer;
   padding: 4px;
   transition: filter 0.3s ease;
-  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.45));
 }
 
 /* Hamburger-knapp øverst til høyre */
@@ -27,7 +26,6 @@
   cursor: pointer;
   padding: 4px;
   transition: filter 0.3s ease;
-  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.45));
 }
 
 @media (min-width: 701px) {

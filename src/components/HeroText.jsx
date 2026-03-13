@@ -10,6 +10,8 @@ import imgHyphen from "../assets/images/hyphen.png";
 
 const API_LETTERS = [imgA, imgP, imgI];
 const STUDIO_LETTERS = [imgS, imgT, imgU, imgD, imgI, imgO];
+const API_CHARS = ["A", "P", "I"];
+const STUDIO_CHARS = ["S", "T", "U", "D", "I", "O"];
 
 export default function HeroText() {
   return (
@@ -18,25 +20,32 @@ export default function HeroText() {
         <div className="hero-title">
           <div className="hero-title__letters">
             {API_LETTERS.map((src, i) => (
-              <img
-                key={i}
-                src={src}
-                alt=""
-                className="hero-letter hero-letter--api"
-                draggable={false}
-              />
+              <div key={i} className="hero-letter-wrap">
+                <span className="hero-letter-shadow hero-letter-shadow--api">{API_CHARS[i]}</span>
+                <img
+                  src={src}
+                  alt=""
+                  className="hero-letter hero-letter--api"
+                  draggable={false}
+                />
+              </div>
             ))}
-            <br /> 
-            <img src={imgHyphen} alt="-" className="hero-title__hyphen" draggable={false} />
+            <br />
+            <div className="hero-letter-wrap">
+              <span className="hero-letter-shadow hero-letter-shadow--hyphen">-</span>
+              <img src={imgHyphen} alt="-" className="hero-title__hyphen" draggable={false} />
+            </div>
             <br />
             {STUDIO_LETTERS.map((src, i) => (
-              <img
-                key={i}
-                src={src}
-                alt=""
-                className="hero-letter hero-letter--studio"
-                draggable={false}
-              />
+              <div key={i} className="hero-letter-wrap">
+                <span className="hero-letter-shadow hero-letter-shadow--studio">{STUDIO_CHARS[i]}</span>
+                <img
+                  src={src}
+                  alt=""
+                  className="hero-letter hero-letter--studio"
+                  draggable={false}
+                />
+              </div>
             ))}
           </div>
         </div>

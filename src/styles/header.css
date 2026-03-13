@@ -95,36 +95,62 @@
 }
 
 
+/* HERO-TITLE LETTERS — wrapper + floor shadow */
+.hero-letter-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: flex-end;
+}
+
+.hero-letter-shadow {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform-origin: bottom center;
+  transform: translateX(-50%) scaleY(0.35) skewX(-8deg);
+  font-family: "Arial Black", Arial, sans-serif;
+  font-weight: 900;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.5);
+  filter: blur(7px);
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+  z-index: 0;
+}
+
+.hero-letter-wrap img {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-letter-shadow--api {
+  font-size: clamp(84px, 12vw, 168px);
+}
+
+.hero-letter-shadow--studio {
+  font-size: clamp(84px, 12vw, 168px);
+}
+
+.hero-letter-shadow--hyphen {
+  font-size: clamp(64px, 9vw, 128px);
+}
+
 /* HERO-TITLE LETTERS */
 .hero-title__hyphen {
   color: #2E4C40;
-   margin: 0 12px; 
+  margin: 0 12px;
   height: clamp(64px, 9vw, 128px);
-    filter:
-    drop-shadow(2px 4px 2px rgba(0,0,0,0.35))
-    drop-shadow(8px 16px 4px rgba(0,0,0,0.2))
-    drop-shadow(20px 40px 8px rgba(0,0,0,0.12))
-    drop-shadow(40px 80px 12px rgba(0,0,0,0.06));
 }
 
 .hero-letter--api {
   height: clamp(84px, 12vw, 168px);
   width: auto;
-   filter:
-    drop-shadow(2px 4px 2px rgba(0,0,0,0.35))
-    drop-shadow(8px 16px 4px rgba(0,0,0,0.2))
-    drop-shadow(20px 40px 8px rgba(0,0,0,0.12))
-    drop-shadow(40px 80px 12px rgba(0,0,0,0.06));
 }
 
 .hero-letter--studio {
-   height: clamp(84px, 12vw, 168px);
+  height: clamp(84px, 12vw, 168px);
   width: auto;
-    filter:
-    drop-shadow(2px 4px 2px rgba(0,0,0,0.35))
-    drop-shadow(8px 16px 4px rgba(0,0,0,0.2))
-    drop-shadow(20px 40px 8px rgba(0,0,0,0.12))
-    drop-shadow(40px 80px 12px rgba(0,0,0,0.06));
 }
 
 @media (max-width: 1024px) {

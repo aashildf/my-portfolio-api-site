@@ -1,15 +1,16 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import CategoryTabsNav from "../components/CategoryTabsNav";
 import "./categoryPage.css";
 
 const categoryColors = {
-  "Miljø & Energi": "#CACEC7",
-  "Transport & Kart": "#ced9df",
-  "Økonomi & Næring": "#F7EAC8",
+  "Miljø & Energi": "#BAC3BB",
+  "Transport & Kart": "#B7C2C2",
+  "Økonomi & Næring": "#BABCB8",
   "Statistikk & Analyse": "#b3b6ac",
   "Forsvar & Beredskap": "#bfb7b5",
   Kommuner: "#ADB3B4",
-  "Offentlig forvaltning": "#c2a8a4",
+  "Offentlig forvaltning": "#948986",
 };
 
 export default function CategoryPage({ apis, publisherGroups }) {
@@ -66,6 +67,7 @@ export default function CategoryPage({ apis, publisherGroups }) {
             {totalApis} API-er · {Object.keys(grouped).length} etater
           </p>
         </div>
+        <CategoryTabsNav categories={Object.keys(publisherGroups)} activeCategory={category} />
       </div>
 
       <div className="category-content">

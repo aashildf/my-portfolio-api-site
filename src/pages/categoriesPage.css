@@ -3,7 +3,19 @@
 }
 
 .categories-hero {
-  padding: 3.75rem 0 60px;
+  padding: 3.75rem 0 100px;
+  overflow: visible;
+  position: relative;
+}
+
+/* Ingen bue-overgang her — rett kant med papirskygge */
+.categories-hero.texture-wrapper::after {
+  display: none;
+}
+
+/* Hero kaster skygge ned på fanene under = papirkant-effekt */
+.categories-hero {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
 }
 
 .categories-hero__title {
@@ -14,11 +26,6 @@
   text-align: center;
 }
 
-@media (max-width: 1024px) {
-  .categories-hero {
-    padding: 3.75rem 0 36px;
-  }
-}
 
 .categories-hero__inner {
   width: 90%;
@@ -64,10 +71,106 @@
   max-width: none;
 }
 
+
+/* ── Filofax-style pappfaner over header/hero ── */
+.category-tabs {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: flex-start;
+  z-index: 9;  /* under hero (z-index: 10), over innhold */
+  pointer-events: none;
+}
+
+/* Hovedfane */
+.category-tab {
+  flex: 1;
+  padding: 12px 8px 26px;
+  border: none;
+  border-radius: 0 0 24px 24px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.65);
+  background-color: #8a9c9a;
+  position: relative;
+  margin-left: -8px;
+  transition: padding-bottom 0.15s ease;
+  pointer-events: auto;
+}
+
+/* Paper.png tekstur — samme som kortene */
+.category-tab::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: url("../assets/textures/paper.png");
+  background-size: 480px;
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Emboss-ramme — topplinje fjernes (fanen henger i hero over) */
+.category-tab::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  border-top-color: transparent;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.category-tab:first-child {
+  margin-left: 0;
+  background-color: #8a9c9a;
+}
+
+/* Tab 1 = del av hero-arket: ingen ramme, ingen tekstur */
+.category-tab:first-child::before,
+.category-tab:first-child::after {
+  display: none;
+}
+
+/* Samme farge alle, bare z-index skiller dem */
+.category-tab:nth-child(1) { z-index: 8; }
+.category-tab:nth-child(2) { z-index: 7; }
+.category-tab:nth-child(3) { z-index: 6; }
+.category-tab:nth-child(4) { z-index: 5; }
+.category-tab:nth-child(5) { z-index: 4; }
+.category-tab:nth-child(6) { z-index: 3; }
+.category-tab:nth-child(7) { z-index: 2; }
+.category-tab:nth-child(8) { z-index: 1; }
+
+/* Aktiv fane: matche hero-fargen, fjern tekstur og ramme */
+.category-tab--active {
+  background-color: var(--hero-bg, #8a9c9a);
+}
+.category-tab--active::before,
+.category-tab--active::after {
+  display: none;
+}
+
+.category-tab:hover {
+  padding-bottom: 34px;
+  z-index: 10;
+}
+
 /* ---- Innhold ---- */
 .categories-content {
   background: #e8e8e8;
-  padding: 60px 0 100px;
+  padding: 90px 0 100px;
 }
 
 .categories-grid {

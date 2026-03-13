@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import CategoryCard from "../components/api/card/CategoryCard";
+import CategoryTabsNav from "../components/CategoryTabsNav";
 import "./categoriesPage.css";
 
 import imgStatistikk from "../assets/images/statistikk.jpg";
@@ -42,6 +43,7 @@ export default function CategoriesPage({ categories }) {
             Velg en kategori for å utforske tilgjengelige API-er
           </p>
         </div>
+        <CategoryTabsNav categories={categories} activeCategory={null} />
       </div>
 
       <div className="categories-content">

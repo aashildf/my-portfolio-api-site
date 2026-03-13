@@ -4,7 +4,15 @@
 
 /* ---- Toppbanner — bruker texture-wrapper fra layout.css ---- */
 .category-hero {
-  padding: 3.75rem 0 72px;
+  padding: 3.75rem 0 100px;
+  overflow: visible;
+  position: relative;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+}
+
+/* Ingen bue-overgang — rett kant med papirskygge */
+.category-hero.texture-wrapper::after {
+  display: none;
 }
 
 .category-hero__title {
@@ -70,7 +78,7 @@
 /* ---- Innholdsområde ---- */
 .category-content {
   background: #e8e8e8;
-  padding: 60px 0 100px;
+  padding: 90px 0 100px;
 }
 
 /* To-kolonne layout */
@@ -283,7 +291,7 @@
 /* ---- Mellomstore skjermer ---- */
 @media (max-width: 1024px) {
   .category-hero {
-    padding: 3.75rem 0 40px;
+    padding: 3.75rem 0 100px;
   }
 
   .category-layout {

@@ -52,17 +52,17 @@
 
 /* ── Teal kortseksjon ── */
 .cases {
-  background-color: #A1B4B2;
+  background-color: #8a9c9a;
   background-image:
     linear-gradient(
       to top,
-      rgba(255, 255, 255, 0.5) 0%,
+      rgba(255, 255, 255, 0.35) 0%,
       rgba(255, 255, 255, 0) 50%
     ),
-    url("../assets/textures/paper.png");
-  background-size: auto, 600px;
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23n)' opacity='0.22'/%3E%3C/svg%3E");
+  background-size: auto, 250px;
   background-repeat: repeat;
-  background-blend-mode: soft-light, multiply;
+  background-blend-mode: normal, overlay;
   padding: 100px 0 180px;
   position: relative;
 }
@@ -77,11 +77,11 @@
   width: 100%;
   height: 42px;
 
-  background-color: #A1B4B2;
-  background-image: url("../assets/textures/paper.png");
-  background-size: 600px;
+  background-color: #8a9c9a;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23n)' opacity='0.22'/%3E%3C/svg%3E");
+  background-size: 250px;
   background-repeat: repeat;
-  background-blend-mode: multiply;
+  background-blend-mode: overlay;
 
   border-radius: 40px 40px 0 0;
   z-index: 11;
@@ -151,8 +151,7 @@
   background: white;
 }
 
-/* ── Overlay — sklir opp fra bunnen av skjermen på hover ──
-   Størrelser er i full (ikke-skalert) enhet → ser riktig ut ved 0.62x */
+
 .case-card__overlay {
   position: absolute;
   inset: 0;
