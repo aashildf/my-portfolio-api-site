@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./apiDetail.css";
 
@@ -11,9 +12,10 @@ const categoryColors = {
   "Offentlig forvaltning": "#BCA6A2",
 };
 
-export default function ApiDetail({ apis, publisherGroups }) {
+export default function ApiDetail({ apis, isLoading, publisherGroups }) {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [showEndpointHelp, setShowEndpointHelp] = useState(false);
   const api = apis?.find((a) => a.id === id);
 
   const category = api
@@ -29,7 +31,11 @@ export default function ApiDetail({ apis, publisherGroups }) {
         <button className="back-btn" onClick={() => navigate(-1)}>
           ← Tilbake
         </button>
-        <p>Ingen API funnet.</p>
+        {isLoading ? (
+          <p>Laster...</p>
+        ) : (
+          <p>Ingen API funnet.</p>
+        )}
       </div>
     );
   }
@@ -88,10 +94,26 @@ export default function ApiDetail({ apis, publisherGroups }) {
               rel="noreferrer"
               className="api-link-btn api-link-btn--secondary"
             >
-              Åpne API-endepunkt ↗
+              API-endepunkt ↗
             </a>
           )}
         </div>
+
+        {api.endpoint && (
+          <div className="endpoint-help">
+            <button
+              className="endpoint-help__toggle"
+              onClick={() => setShowEndpointHelp((v) => !v)}
+            >
+              Får du ikke opp API-endepunktet? {showEndpointHelp ? "▲" : "▼"}
+            </button>
+            {showEndpointHelp && (
+              <p className="endpoint-help__text">
+                API-endepunkter er maskinlesbare grensesnitt beregnet på programvare, ikke nettlesere. Når du åpner lenken kan du se rå data i JSON- eller XML-format, eller en helt tom side — det er normalt. For å bruke APIet trenger du vanligvis et programmeringsspråk som JavaScript, Python eller lignende, og gjerne en API-nøkkel fra tilbyderen. For mer informasjon om hvordan du kan bruke APIet, se dokumentasjonen på data.norge.no eller kontakt API-tilbyderen direkte.
+              </p>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

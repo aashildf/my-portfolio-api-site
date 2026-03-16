@@ -22,8 +22,8 @@ export default function CategoryTabsNav({ categories, activeCategory = null }) {
         }
         onClick={() => navigate("/kategorier")}
       >
-        Alle
-      </button>
+        Alle kategorier
+</button>
       {categories.map((cat) => {
         const isActive = activeCategory === cat;
         return (

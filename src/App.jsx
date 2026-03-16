@@ -4,6 +4,7 @@ import { fetchApis } from "./data/fetchApis";
 import publisherGroups from "./data/publisherGroups";
 import ScrollToTop from "./components/ScrollToTop";
 import GlobalNav from "./components/GlobalNav";
+import BackToTopButton from "./components/BackToTopButton";
 import Home from "./pages/Home";
 import CategoriesPage from "./pages/CategoriesPage";
 import CategoryPage from "./pages/CategoryPage";
@@ -11,6 +12,7 @@ import ApiDetail from "./components/api/views/ApiDetail";
 
 export default function App() {
   const [apis, setApis] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Hent API-er
   useEffect(() => {
@@ -20,6 +22,8 @@ export default function App() {
         setApis(cleanData);
       } catch (err) {
         console.error("FEIL I FRONTEND:", err);
+      } finally {
+        setIsLoading(false);
       }
     }
     load();
@@ -31,6 +35,7 @@ export default function App() {
     <>
       <ScrollToTop />
       <GlobalNav categories={categories} apis={apis} />
+      <BackToTopButton />
       <Routes>
         <Route
           path="/"
@@ -55,7 +60,7 @@ export default function App() {
           element={<CategoryPage apis={apis} publisherGroups={publisherGroups} />}
         />
 
-        <Route path="/api/:id" element={<ApiDetail apis={apis} publisherGroups={publisherGroups} />} />
+        <Route path="/api/:id" element={<ApiDetail apis={apis} isLoading={isLoading} publisherGroups={publisherGroups} />} />
       </Routes>
     </>
   );

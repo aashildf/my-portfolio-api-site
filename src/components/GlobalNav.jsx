@@ -12,35 +12,12 @@ import imgO from "../assets/images/o.png";
 import imgHamburger from "../assets/images/hamburgermeny.png";
 import imgClose from "../assets/images/x-close.png";
 
-export default function GlobalNav({ categories = [], apis = [] }) {
+export default function GlobalNav({ categories = [] }) {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-
   const go = (path) => {
     navigate(path);
     setOpen(false);
-    setSearchQuery("");
-    setSearchResults([]);
-  };
-
-  const handleSearch = (value) => {
-    setSearchQuery(value);
-    if (!value.trim()) {
-      setSearchResults([]);
-      return;
-    }
-    const q = value.toLowerCase();
-    const results = apis
-      .filter(
-        (api) =>
-          api.name?.toLowerCase().includes(q) ||
-          api.publisher?.toLowerCase().includes(q) ||
-          api.description?.toLowerCase().includes(q)
-      )
-      .slice(0, 6);
-    setSearchResults(results);
   };
 
   return (
@@ -61,6 +38,7 @@ export default function GlobalNav({ categories = [], apis = [] }) {
       <button
         className="gnav-btn"
         onClick={() => setOpen((v) => !v)}
+        onMouseEnter={() => setOpen(true)}
         aria-label={open ? "Lukk meny" : "Åpne meny"}
       >
         <img
@@ -73,31 +51,7 @@ export default function GlobalNav({ categories = [], apis = [] }) {
 
       {open && <div className="gnav-overlay" onClick={() => setOpen(false)} />}
 
-      <nav className={`gnav-panel${open ? " gnav-panel--open" : ""}`}>
-        <div className="gnav-search-wrapper">
-          <input
-            type="text"
-            placeholder="Søk API..."
-            className="gnav-search"
-            value={searchQuery}
-            onChange={(e) => handleSearch(e.target.value)}
-          />
-          {searchResults.length > 0 && (
-            <div className="gnav-search-results">
-              {searchResults.map((api) => (
-                <button
-                  key={api.id}
-                  className="gnav-search-item"
-                  onClick={() => go(`/api/${api.id}`)}
-                >
-                  <span className="gnav-search-item__name">{api.name}</span>
-                  <span className="gnav-search-item__pub">{api.publisher}</span>
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-
+      <nav className={`gnav-panel${open ? " gnav-panel--open" : ""}`} onMouseLeave={() => setOpen(false)}>
         <button className="nav-item" onClick={() => go("/")}>
           Hjem
         </button>
@@ -116,9 +70,12 @@ export default function GlobalNav({ categories = [], apis = [] }) {
           </button>
         ))}
         <div className="nav-divider" />
-        <a className="nav-item" href="#">Prosjekter</a>
-        <a className="nav-item" href="#">Dokumentasjon</a>
-        <a className="nav-item" href="#">Kontakt</a>
+        <button className="nav-item" onClick={() => {
+          navigate("/");
+          setOpen(false);
+          setTimeout(() => document.getElementById("eksempelprosjekter")?.scrollIntoView({ behavior: "smooth" }), 100);
+        }}>Eksempelprosjekter</button>
+        <a className="nav-item" href="mailto:faas0825@gmail.com">Kontakt</a>
       </nav>
     </>
   );

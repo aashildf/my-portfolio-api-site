@@ -16,7 +16,7 @@ export async function fetchApis() {
       source.organization?.name ||
       "Ukjent",
     endpoint: source.uri || null,
-    keywords: source.keyword || [],
+    keywords: (source.keyword || []).map((kw) => kw?.nb || kw?.en || kw).filter((kw) => typeof kw === "string" && kw),
     theme:
       source.dataTheme?.[0]?.title?.nb ||
       source.dataTheme?.[0]?.title?.en ||

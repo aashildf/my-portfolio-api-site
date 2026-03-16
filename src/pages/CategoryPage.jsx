@@ -32,13 +32,13 @@ const placeholders = [
 ];
 
 const categoryColors = {
-  "Miljø & Energi": "#BAC3BB",
+  "Miljø & Energi": "#99A6A1",
   "Transport & Kart": "#8CA1AC",
-  "Økonomi & Næring": "#C2BCA3",
-  "Statistikk & Analyse": "#b3b6ac",
-  "Forsvar & Beredskap": "#c2ac93",
+  "Økonomi & Næring": "#88857E",
+  "Statistikk & Analyse": "#888C84",
+  "Forsvar & Beredskap": "#BCA6A2",
   Kommuner: "#8DA1A0",
-  "Offentlig forvaltning": "#a79d9a",
+  "Offentlig forvaltning": "#8A7D7A",
 };
 
 export default function CategoryPage({ apis, publisherGroups }) {

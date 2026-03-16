@@ -87,6 +87,11 @@
 }
 
 
+@keyframes tabUnderlineIn {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
 /* ── Filofax-style pappfaner  ── */
 .category-tabs {
   position: absolute;
@@ -96,8 +101,9 @@
   display: flex;
   align-items: flex-start;
   animation: tabsSlideDown 0.5s 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
-  z-index: 9;  /* under hero (z-index: 10), over innhold */
+  z-index: 9;
   pointer-events: none;
+  isolation: isolate; /* hindrer mix-blend-mode fra å blø ut */
 }
 
 /* Hovedfane */
@@ -115,9 +121,9 @@
   text-transform: uppercase;
   text-align: center;
   color: rgba(0, 0, 0, 0.65);
-  background-color: #8a9c9a;
   position: relative;
   margin-left: -8px;
+  min-height: 64px;
   transition: padding-bottom 0.15s ease;
   pointer-events: auto;
 }
@@ -169,6 +175,7 @@
 /* Aktiv fane: matche hero-fargen, fjern tekstur og ramme */
 .category-tab--active {
   background-color: #FDFAFA;
+  z-index: 10 !important;
 }
 
 .category-tab--active::before{
@@ -176,12 +183,25 @@
 }
 
 .category-tab--active::after {
-  border-bottom: 4px solid var(--hero-bg, #8a9c9a);
+  /* Reset emboss-ramme */
+  border: none;
+  box-shadow: none;
+  /* Animert strek under teksten */
+  inset: auto;
+  bottom: 12px;
+  left: 20%;
+  width: 60%;
+  height: 2px;
+  border-radius: 1px;
+  background-color: var(--hero-bg, #8a9c9a);
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: tabUnderlineIn 0.5s 0.1s ease forwards;
 }
 
 .category-tab:hover {
   padding-bottom: 34px;
-  z-index: 10;
+  z-index: 11 !important;
 }
 
 /* ---- Innhold ---- */

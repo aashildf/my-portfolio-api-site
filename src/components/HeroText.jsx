@@ -54,6 +54,9 @@ export default function HeroText() {
           Norge
         </h2>
         <h2 className="hero-tagline">Utforsk via kategori og søkefunksjon</h2>
+
+        {/* Embosset skillelinje */}
+        <div className="hero-divider" />
       </div>
 
       {/* Buet avslutning */}

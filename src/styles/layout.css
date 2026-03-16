@@ -151,14 +151,16 @@ section {
 }
 
 .header-dropdown__trigger {
-  color: white;
+  color: rgba(0, 0, 0, 0.45);
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.5),
+    0 -1px 0 rgba(0, 0, 0, 0.15);
   font-size: 15px;
   font-family: inherit;
   background: none;
   border: none;
   cursor: pointer;
   padding: 6px 0;
-  opacity: 0.9;
   white-space: nowrap;
   text-transform: uppercase;
   letter-spacing: 0.2em;
@@ -341,7 +343,7 @@ section {
   display: flex;
   align-items: center;
   color: white;
-  padding: 140px 0 200px;
+  padding: 140px 0 60px;
   text-align: center;
 }
 
@@ -478,8 +480,8 @@ section {
 
 @media (max-width: 1024px) {
   .hero {
-    min-height: 50vh;
-    padding: 40px 0;
+    min-height: 0;
+    padding: 40px 0 20px;
     display: flex;
     text-align: center;
   }

@@ -36,7 +36,7 @@ export default function ApiCarousel({ items }) {
     "Miljø & Energi": "#99A6A1",
     "Transport & Kart": "#A7B7BF",
     "Økonomi & Næring": "#88857E",
-    "Statistikk & Analyse": "#C7CBC3",
+    "Statistikk & Analyse": "#555C50",
     "Forsvar & Beredskap": "#BCA6A2",
     Kommuner: "#ADB3B4",
     "Offentlig forvaltning": "#8A7D7A",

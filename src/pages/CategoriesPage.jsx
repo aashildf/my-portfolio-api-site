@@ -23,11 +23,11 @@ const categoryImages = {
 
 const categoryColors = {
   "Miljø & Energi": "#99A6A1",
-  "Transport & Kart": "#A7B7BF",
+  "Transport & Kart": "#8CA1AC",
   "Økonomi & Næring": "#88857E",
-  "Statistikk & Analyse": "#C7CBC3",
+  "Statistikk & Analyse": "#888C84",
   "Forsvar & Beredskap": "#BCA6A2",
-  Kommuner: "#ADB3B4",
+  Kommuner: "#8DA1A0",
   "Offentlig forvaltning": "#8A7D7A",
 };
 
