@@ -10,7 +10,7 @@ Dataen er hentet som et snapshot fra Felles datakatalog og lagret lokalt som en 
 - Lar deg bla gjennom kategorier via navigasjonsmenyen eller karusellen
 - Viser alle API-er innenfor en kategori, med søk og filtrering
 - Klikk på et API for å se detaljer: beskrivelse, utgiver, tema, nøkkelord og lenke til data.norge.no
-- Globalt søk tilgjengelig fra alle sider via hamburgermenyen
+- Hamburger-meny tilgjengelig fra alle sider med navigasjon til kategorier og eksempelprosjekter
 
 ## Kategorier
 
@@ -46,6 +46,16 @@ Siden åpnes på `http://localhost:5173`.
 npm run deploy
 ```
 
+## Skjermbilder
+
+![Forsiden](src/assets/images/readme/Skjermbilde%202026-03-16%20154913.png)
+
+![Kategori-karusell](src/assets/images/readme/Skjermbilde%202026-03-16%20155056.png)
+
+![Eksempelprosjekter](src/assets/images/readme/Skjermbilde%202026-03-16%20155018.png)
+
+![Detaljside for API](src/assets/images/readme/Skjermbilde%202026-03-16%20155531.png)
+
 ## Prosjektstruktur
 
 ```
@@ -54,15 +64,13 @@ src/
     api/
       card/       # ApiCard og CategoryCard – kortvising
       carousel/   # ApiCarousel – interaktiv karusell på forsiden
-      views/      # ApiList og ApiDetail – liste og detaljvisning
-    GlobalNav.jsx   # Fast logo og hamburger-meny med søk (alle sider unntatt forsiden)
+      views/      # ApiDetail – detaljvisning av enkelt-API
+    GlobalNav.jsx   # Fast logo og hamburger-meny (alle sider)
     Header.jsx      # Header med søk og meny (kun forsiden)
     HeroText.jsx    # Hero-seksjon på forsiden
     IntroSection.jsx
     Cases.jsx
     Footer.jsx
-  config/
-    publisherCategories.js  # Kobler utgiver til kategori
   data/
     fetchApis.js        # Henter og normaliserer data fra JSON-filen
     publisherGroups.js  # Kategori → [utgivere]-mapping
