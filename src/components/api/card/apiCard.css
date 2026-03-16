@@ -25,10 +25,6 @@
 
 
     
-    .carousel-item:not([style*="scale(1"]) .api-card::after {
-        opacity: 1;
-    }
-    
     /* hover */
     .api-card:hover {
         transform: translateY(-6px);

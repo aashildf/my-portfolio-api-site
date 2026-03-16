@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CategoryCard from "../components/api/card/CategoryCard";
 import CategoryTabsNav from "../components/CategoryTabsNav";
@@ -33,6 +34,7 @@ const categoryColors = {
 
 export default function CategoriesPage({ categories }) {
   const navigate = useNavigate();
+  useEffect(() => { document.title = "Kategorier | API-Studio"; }, []);
 
   return (
     <div className="categories-page">

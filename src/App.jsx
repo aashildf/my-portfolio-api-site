@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 import CategoriesPage from "./pages/CategoriesPage";
 import CategoryPage from "./pages/CategoryPage";
 import ApiDetail from "./components/api/views/ApiDetail";
+import NotFound from "./pages/NotFound";
 
 export default function App() {
   const [apis, setApis] = useState([]);
@@ -61,6 +62,7 @@ export default function App() {
         />
 
         <Route path="/api/:id" element={<ApiDetail apis={apis} isLoading={isLoading} publisherGroups={publisherGroups} />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );

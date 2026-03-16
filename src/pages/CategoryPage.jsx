@@ -63,6 +63,7 @@ export default function CategoryPage({ apis, publisherGroups }) {
   }, []);
 
   const category = decodeURIComponent(slug);
+  useEffect(() => { document.title = `${category} | API-Studio`; }, [category]);
   const heroColor = categoryColors[category] ?? "#A1B4B2";
   const publishers = publisherGroups[category] || [];
 

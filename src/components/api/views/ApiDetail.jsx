@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./apiDetail.css";
 
@@ -17,6 +17,7 @@ export default function ApiDetail({ apis, isLoading, publisherGroups }) {
   const navigate = useNavigate();
   const [showEndpointHelp, setShowEndpointHelp] = useState(false);
   const api = apis?.find((a) => a.id === id);
+  useEffect(() => { document.title = api ? `${api.name} | API-Studio` : "API-Studio"; }, [api]);
 
   const category = api
     ? Object.keys(publisherGroups ?? {}).find((cat) =>

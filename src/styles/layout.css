@@ -5,12 +5,6 @@ section {
   padding: 80px 0;
 }
 
-.case-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 32px;
-}
-
 /* -----------------------WRAPPER------------------------ */
 /* ------- FELLES PAPIRTEKSTUR FOR HEADER OG HERO  ------ */
 /* ------------------------------------------------------ */
@@ -327,10 +321,6 @@ section {
   transform: translateY(-50%) translateX(0);
 }
 
-.menu-overlay {
-  z-index: 999;
-}
-
 /* ------------------------------------------------------ */
 /* ----------             HERO               ------------ */
 /* ------------------------------------------------------ */
@@ -352,18 +342,6 @@ section {
   margin: 0 auto;
 }
 
-.hero-text {
-  background: transparent;
-}
-
-.hero h1 {
-  font-size: clamp(40px, 5vw, 72px);
-  font-weight: 500;
-  line-height: 110%;
-  letter-spacing: -2px;
-  margin-bottom: 32px;
-}
-
 .hero-title {
   display: flex;
   justify-content: center;
@@ -376,24 +354,8 @@ section {
   gap: 4px;
 }
 
-.hero-letter {
-  height: clamp(48px, 7vw, 96px);
-  width: auto;
-  display: block;
-}
-
-.hero-title__hyphen {
-  color: white;
-  font-size: clamp(40px, 6vw, 80px);
-  font-weight: 300;
-  line-height: 1;
-  margin: 0 4px;
-  opacity: 0.7;
-}
-
 .hero-subtitle,
 .hero-tagline {
-  /* text-transform: uppercase; */
   letter-spacing: 0.06em;
   font-weight: 300;
   font-size: 24px;
@@ -403,15 +365,6 @@ section {
 .hero-subtitle {
   margin-bottom: 12px;
   margin-top: 72px;
-}
-
-.hero p {
-  font-size: clamp(16px, 1.6vw, 26px);
-  max-width: 800px;
-  line-height: 150%;
-  opacity: 0.95;
-  text-align: center;
-  margin: 0 auto;
 }
 
 /* ------------------------------------------------------ */

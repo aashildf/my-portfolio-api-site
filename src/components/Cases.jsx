@@ -76,8 +76,8 @@ const cases = [
     url: "https://aashildf.github.io/cookie-ny/",
     screen: (
       <>
-        <img src={imgCatFacts} alt="Cat Facts" className="case-card__img" />
-        <img src={animCat} alt="" className="case-cat-anim" />
+        <img src={imgCatFacts} alt="Cat Facts" className="case-card__img" loading="lazy" />
+        <img src={animCat} alt="" className="case-cat-anim" loading="lazy" />
       </>
     ),
   },
@@ -90,7 +90,7 @@ const cases = [
     url: "https://aashildf.github.io/Weather-app/",
     screen: (
       <>
-        <img src={imgVaerapp} alt="Været i Bergen" className="case-card__img" />
+        <img src={imgVaerapp} alt="Været i Bergen" className="case-card__img" loading="lazy" />
         <video
           className="case-weather-video"
           autoPlay
@@ -112,7 +112,7 @@ const cases = [
     url: "https://aashildf.github.io/Gutenberg_booksearch/",
     screen: (
       <>
-        <img src={imgGutendex} alt="Gutenberg Book Search" className="case-card__img" />
+        <img src={imgGutendex} alt="Gutenberg Book Search" className="case-card__img" loading="lazy" />
         <div className="book-carousel-wrapper">
           <BookCarousel />
         </div>
