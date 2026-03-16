@@ -106,7 +106,7 @@
 .api-link-btn {
   display: inline-block;
   padding: 0.9rem 2.2rem;
-  background: #989692;
+  background: #AD6659;
   color: white;
   border-radius: 40px;
   text-decoration: none;
@@ -116,7 +116,7 @@
 }
 
 .api-link-btn:hover {
-  background: #7a7774;
+  background: #92524a;
   transform: translateY(-2px);
 }
 
@@ -128,12 +128,12 @@
 
 .api-link-btn--secondary {
   background: transparent;
-  color: #989692;
-  border: 1.5px solid #989692;
+  color: #AD6659;
+  border: 1.5px solid #AD6659;
 }
 
 .api-link-btn--secondary:hover {
-  background: rgba(152, 150, 146, 0.1);
+  background: rgba(221, 148, 127, 0.1);
 }
 
 .endpoint-help {

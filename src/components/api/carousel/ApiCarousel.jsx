@@ -145,12 +145,20 @@ export default function ApiCarousel({ items }) {
           className="carousel-arrow carousel-arrow--left"
           onClick={() => setActiveIndex(prevIndex)}
           aria-label="Forrige"
-        />
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+        </button>
         <button
           className="carousel-arrow carousel-arrow--right"
           onClick={() => setActiveIndex(nextIndex)}
           aria-label="Neste"
-        />
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </button>
 
         <div className="carousel-cards" ref={cardsRef}>
           {slots.map(({ item, position, index }) => (

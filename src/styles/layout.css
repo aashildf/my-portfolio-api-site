@@ -243,7 +243,7 @@ section {
 /* Skillelinje i nav-panelet */
 .nav-divider {
   height: 1px;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(241, 237, 236, 0.55);
   margin: 0.75rem 0;
 }
 

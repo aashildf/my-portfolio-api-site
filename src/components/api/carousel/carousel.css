@@ -86,49 +86,42 @@
 }
 
 /* --- Trekant-piler, absolute utenfor kortene --- */
-@keyframes arrowPulse {
-  0%, 100% { opacity: 0.5; }
-  50%       { opacity: 0.9; }
-}
-
 .carousel-arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
 
-  background: none;
-  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(173, 102, 89, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   z-index: 20;
-  transition: opacity 0.2s, transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 0;
-  animation: arrowPulse 2.5s ease-in-out infinite;
+  transition: background 0.2s, transform 0.2s;
+}
 
-  /* Trekant-form via CSS border-trick */
-  width: 0;
-  height: 0;
+.carousel-arrow svg {
+  width: 20px;
+  height: 20px;
 }
 
 .carousel-arrow--left {
   left: calc(45% - 560px);
-  border-top: 26px solid transparent;
-  border-bottom: 26px solid transparent;
-  border-right: 30px solid white;
-  transform: translateY(-50%);
 }
 
 .carousel-arrow--right {
   right: calc(45% - 560px);
-  border-top: 26px solid transparent;
-  border-bottom: 26px solid transparent;
-  border-left: 30px solid white;
-  transform: translateY(-50%);
 }
 
 .carousel-arrow:hover {
-  animation: none;
-  opacity: 1;
-  transform: translateY(-50%) scale(1.2);
+  background: rgba(173, 102, 89, 0.95);
+  transform: translateY(-50%) scale(1.1);
 }
 
 /* --- Prikke-indikatorer --- */

@@ -7,6 +7,7 @@ import imgU from "../assets/images/u.png";
 import imgD from "../assets/images/d.png";
 import imgO from "../assets/images/o.png";
 import imgHyphen from "../assets/images/hyphen.png";
+import imgIDot from "../assets/images/i_dot.png";
 
 const API_LETTERS = [imgA, imgP, imgI];
 const STUDIO_LETTERS = [imgS, imgT, imgU, imgD, imgI, imgO];
@@ -20,7 +21,7 @@ export default function HeroText() {
         <div className="hero-title">
           <div className="hero-title__letters">
             {API_LETTERS.map((src, i) => (
-              <div key={i} className="hero-letter-wrap">
+              <div key={i} className={`hero-letter-wrap${i === 2 ? " hero-letter-wrap--accent-i" : ""}`}>
                 <span className="hero-letter-shadow hero-letter-shadow--api">{API_CHARS[i]}</span>
                 <img
                   src={src}
@@ -28,6 +29,12 @@ export default function HeroText() {
                   className="hero-letter hero-letter--api"
                   draggable={false}
                 />
+                {i === 2 && (
+                  <>
+                    <img src={imgIDot} alt="" className="hero-letter-idot" draggable={false} />
+                    <span className="hero-dot-shadow" aria-hidden="true">●</span>
+                  </>
+                )}
               </div>
             ))}
             <br />
