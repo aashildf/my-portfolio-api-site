@@ -1,143 +1,52 @@
-@keyframes heroFadeUp {
-  from { opacity: 0; transform: translateY(18px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes tabsSlideDown {
-  from { opacity: 0; transform: translateY(-10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
 .category-page {
   min-height: 100vh;
 }
 
-/* ---- Toppbanner — bruker texture-wrapper fra layout.css ---- */
-.category-hero {
-  padding: 3.75rem 0 100px;
-  overflow: visible;
-  position: relative;
-  box-shadow:
-    0 8px 28px rgba(0, 0, 0, 0.18),
-    inset 0 0 0 1px rgba(0, 0, 0, 0.15),
-    inset 0 0 0 2px rgba(255, 255, 255, 0.18);
+/* Bakgrunnen fader fra en lys tint av kategorifargen øverst til nesten hvit nedover */
+.category-page.texture-wrapper {
+  background-color: color-mix(in srgb, var(--hero-bg, #8a9c9a) 22%, white);
+  background-image:
+    linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.5) 0%,
+      rgba(255, 255, 255, 0) 25%,
+      rgba(255, 255, 255, 0.8) 100%
+    ),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23n)' opacity='0.22'/%3E%3C/svg%3E");
+  background-size: auto, 250px;
 }
 
-/* Kortbakgrunn: #FEFBFB — overstyrer texture-wrapper sin kategori-farge */
-.category-hero.texture-wrapper {
-  background-color: #FEFBFB;
-}
-
-/* Paper.png tekstur — identisk med cat-card */
-.category-hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: url("../assets/textures/paper.png");
-  background-size: 480px;
-  mix-blend-mode: multiply;
-  opacity: 0.5;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Ingen bue-overgang — rett kant med papirskygge */
-.category-hero.texture-wrapper::after {
+.category-page.texture-wrapper::after {
   display: none;
-}
-
-/* Medaljonge — background-image skalert til å vise illustrasjonssirkelen */
-.category-hero__medallion {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  background-image: var(--hero-img, none);
-  background-size: 185%;
-  background-position: center 17%;
-  box-shadow:
-    0 4px 16px rgba(0, 0, 0, 0.2),
-    0 0 0 3px var(--hero-bg, #8a9c9a),
-    0 0 0 5px rgba(0, 0, 0, 0.06);
-}
-
-.category-hero__title {
-  animation: heroFadeUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
-  margin-bottom: 0.25rem;
-}
-
-.category-hero__meta {
-  animation: heroFadeUp 0.55s 0.1s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-.category-hero__text {
-  text-align: left;
-}
-
-.category-hero__inner {
-  width: 90%;
-  max-width: 700px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  gap: 2.5rem;
-}
-
-/* Toprad: tilbake-knapp til venstre, hamburgermeny til høyre */
-.category-hero__toprow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 2.5rem;
-}
-
-/* Tilbake-knapp: tydelig pill-knapp på tekstur-bakgrunnen */
-.category-hero .back-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: rgba(0, 0, 0, 0.08);
-  border: 1.5px solid rgba(0, 0, 0, 0.15);
-  border-radius: 40px;
-  cursor: pointer;
-  font-size: 0.95rem;
-  font-family: inherit;
-  color: var(--hero-text, white);
-  padding: 0.55rem 1.2rem;
-  letter-spacing: 0.02em;
-  transition: background 0.2s, border-color 0.2s;
-}
-
-.category-hero .back-btn:hover {
-  background: rgba(0, 0, 0, 0.14);
-  border-color: rgba(0, 0, 0, 0.25);
-}
-
-.category-hero__title {
-  color: var(--hero-bg, #8a9c9a);
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 500;
-  letter-spacing: -0.025em;
-  line-height: 110%;
-  margin: 0 0 0.5rem;
-  text-shadow:
-    0 2px 0 rgba(255, 255, 255, 0.65),
-    0 -1px 0 rgba(0, 0, 0, 0.3);
-}
-
-.category-hero__meta {
-  color: rgba(0, 0, 0, 0.4);
-  font-size: 1rem;
-  margin: 0;
-  max-width: none;
 }
 
 /* ---- Innholdsområde ---- */
 .category-content {
-  background: #e8e8e8;
-  padding: 90px 0 100px;
+  background: transparent;
+  padding: 60px 0 100px;
+}
+
+/* Kategorioverskrift */
+.category-heading {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto 2.5rem;
+}
+
+.category-heading__title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 500;
+  color: color-mix(in srgb, var(--hero-bg, #8a9c9a) 80%, black);
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  margin: 0 0 0.3rem;
+  text-shadow: 0 2px 0 rgba(255, 255, 255, 0.5);
+}
+
+.category-heading__meta {
+  color: rgba(0, 0, 0, 0.4);
+  font-size: 0.95rem;
+  margin: 0;
 }
 
 /* To-kolonne layout */
@@ -169,8 +78,8 @@
   border: none;
   cursor: pointer;
   font-family: inherit;
-  font-size: 0.82rem;
-  color: rgba(0, 0, 0, 0.45);
+  font-size: 0.9rem;
+  color: rgba(0, 0, 0, 0.6);
   padding: 0 0.5rem 0.75rem;
   letter-spacing: 0.02em;
   text-align: left;
@@ -188,20 +97,21 @@
 
 .category-search {
   width: 100%;
-  background: rgba(255, 255, 255, 0.6);
-  border: 1.5px solid rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.85);
+  border: 1.5px solid rgba(0, 0, 0, 0.15);
   border-radius: 40px;
-  color: rgba(0, 0, 0, 0.8);
+  color: rgba(0, 0, 0, 0.85);
   font-family: inherit;
-  font-size: 0.88rem;
+  font-size: 0.95rem;
   padding: 0.5rem 1rem;
   outline: none;
   box-sizing: border-box;
-  transition: background 0.2s, border-color 0.2s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), inset 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
 
 .category-search::placeholder {
-  color: rgba(0, 0, 0, 0.35);
+  color: rgba(0, 0, 0, 0.45);
   transition: opacity 0.35s ease;
 }
 
@@ -210,16 +120,16 @@
 }
 
 .category-search:focus {
-  background: rgba(255, 255, 255, 0.9);
-  border-color: rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.98);
+  border-color: rgba(0, 0, 0, 0.25);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12), inset 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
-
 .publisher-sidebar__label {
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  color: rgba(0, 0, 0, 0.35);
+  color: rgba(0, 0, 0, 0.5);
   margin: 0 0 0.75rem 0.5rem;
   max-width: none;
 }
@@ -236,8 +146,8 @@
   cursor: pointer;
   text-align: left;
   font-family: inherit;
-  font-size: 1rem;
-  color: rgba(0, 0, 0, 0.55);
+  font-size: 1.05rem;
+  color: rgba(0, 0, 0, 0.7);
   transition: background 0.15s, color 0.15s;
   gap: 0.5rem;
 }
@@ -260,8 +170,8 @@
 
 .publisher-item__count {
   flex-shrink: 0;
-  font-size: 0.75rem;
-  color: rgba(0, 0, 0, 0.35);
+  font-size: 0.8rem;
+  color: rgba(0, 0, 0, 0.45);
   background: rgba(0, 0, 0, 0.07);
   border-radius: 20px;
   padding: 0.1rem 0.55rem;
@@ -276,27 +186,25 @@
 .api-panel {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 10px;
+  gap: 18px;
   align-items: start;
   min-width: 0;
 }
 
 .api-row-card {
-  background: rgba(255, 255, 255, 0.65);
-  border-radius: 16px;
-  border-left: 3px solid rgba(122, 145, 144, 0.55);
+  background: white;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
   padding: 1.25rem 1.5rem;
   cursor: pointer;
-  transition: background 0.2s, transform 0.15s, border-color 0.2s;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
   min-width: 0;
 }
 
 .api-row-card:hover {
-  border-left-color: rgba(122, 145, 144, 0.9);
-}
-
-.api-row-card:hover {
-  background: rgba(255, 255, 255, 0.95);
+  background: color-mix(in srgb, var(--hero-bg, #90A29D) 12%, white);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.13);
   transform: translateX(4px);
 }
 
@@ -360,35 +268,8 @@
 
 /* ---- Mellomstore skjermer ---- */
 @media (max-width: 1024px) {
-  .category-hero {
-    padding: 3.75rem 0 100px;
-  }
-
   .category-layout {
     gap: 32px;
-  }
-
-  .category-hero__title {
-    font-size: clamp(1.6rem, 4vw, 2.8rem);
-  }
-}
-
-/* ---- Mellomstore/mobil: senter hero-innhold (rad) ---- */
-@media (max-width: 1024px) {
-  .category-hero__inner {
-    justify-content: center;
-    max-width: 600px;
-  }
-
-  .category-hero__text {
-    text-align: center;
-  }
-}
-
-@media (max-width: 480px) {
-  .category-hero__medallion {
-    width: 80px;
-    height: 80px;
   }
 }
 

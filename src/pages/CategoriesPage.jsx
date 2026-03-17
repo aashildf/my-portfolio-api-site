@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CategoryCard from "../components/api/card/CategoryCard";
-import CategoryTabsNav from "../components/CategoryTabsNav";
+import Header from "../components/Header";
 import "./categoriesPage.css";
 
 import imgStatistikk from "../assets/images/statistikk.jpg";
@@ -32,40 +32,29 @@ const categoryColors = {
   "Offentlig forvaltning": "#8A7D7A",
 };
 
-export default function CategoriesPage({ categories }) {
+export default function CategoriesPage({ categories, apis }) {
   const navigate = useNavigate();
   useEffect(() => { document.title = "Kategorier | API-Studio"; }, []);
 
   return (
-    <div className="categories-page">
-      <div className="texture-wrapper categories-hero">
-        <div className="categories-hero__inner">
-          <h1 className="categories-hero__title">API-kategorier</h1>
-          <p className="categories-hero__meta">
-            Velg en kategori for å utforske tilgjengelige API-er
-          </p>
-        </div>
-        <CategoryTabsNav categories={categories} activeCategory={null} />
-      </div>
-
+    <div className="categories-page texture-wrapper">
+      <Header categories={categories} apis={apis} />
       <div className="categories-content">
         <div className="categories-grid">
-          {categories.map((cat) => {
-            return (
-              <div
-                key={cat}
-                className="categories-grid__item"
-                onClick={() => navigate(`/kategori/${encodeURIComponent(cat)}`)}
-              >
-                <CategoryCard
-                  name={cat}
-                  image={categoryImages[cat]}
-                  color={categoryColors[cat]}
-                  showStamp={false}
-                />
-              </div>
-            );
-          })}
+          {categories.map((cat) => (
+            <div
+              key={cat}
+              className="categories-grid__item"
+              onClick={() => navigate(`/kategori/${encodeURIComponent(cat)}`)}
+            >
+              <CategoryCard
+                name={cat}
+                image={categoryImages[cat]}
+                color={categoryColors[cat]}
+                showStamp={false}
+              />
+            </div>
+          ))}
         </div>
       </div>
     </div>

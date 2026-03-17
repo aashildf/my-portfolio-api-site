@@ -5,7 +5,7 @@ import "./apiDetail.css";
 const categoryColors = {
   "Miljø & Energi": "#8F9F99",
   "Transport & Kart": "#9FB3BD",
-  "Økonomi & Næring": "#E4E1E2",
+  "Økonomi & Næring": "#9E8E7A",
   "Statistikk & Analyse": "#B7B9B5",
   "Forsvar & Beredskap": "#8A7D7A",
   Kommuner: "#ADB3B4",
@@ -47,10 +47,12 @@ export default function ApiDetail({ apis, isLoading, publisherGroups }) {
         ← Tilbake
       </button>
 
-      <div className="detail-card">
-        <div className="detail-card__header" style={{ "--card-color": headerColor }}>
+      <div className="detail-card" style={{ "--card-color": headerColor }}>
+        <div className="detail-card__header">
           <p className="detail-card__publisher">{api.publisher}</p>
-          <h1 className="detail-card__title">{api.name}</h1>
+          <h1 className="detail-card__title">
+            {api.name}
+          </h1>
         </div>
 
         {api.description && (

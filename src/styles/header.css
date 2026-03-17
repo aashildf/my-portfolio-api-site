@@ -3,20 +3,93 @@
   position: relative;
 }
 
+/* Forstørrelseglass — terracotta sirkel til høyre */
+.search-icon {
+  position: absolute;
+  right: 0.35rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  padding: 7px;
+  background: #AD6659;
+  border-radius: 50%;
+  color: white;
+  pointer-events: auto;
+  cursor: pointer;
+  z-index: 1;
+  box-shadow: 0 2px 6px rgba(173, 102, 89, 0.45);
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.search-wrapper:hover .search-icon {
+  background: white;
+  color: #AD6659;
+  box-shadow: 0 2px 8px rgba(173, 102, 89, 0.25);
+}
+
+.search-wrapper:hover .header-search::placeholder {
+  opacity: 0;
+}
+
+/* Sirkel tegner seg selv: omkrets = 2π × 6.5 ≈ 41 */
+.search-icon-circle {
+  stroke-dasharray: 41;
+  stroke-dashoffset: 41;
+  animation: drawCircle 3.2s ease-in-out infinite;
+}
+
+/* Strek tegner seg selv: lengde ≈ 8 */
+.search-icon-line {
+  stroke-dasharray: 8;
+  stroke-dashoffset: 8;
+  animation: drawLine 3.2s ease-in-out infinite;
+}
+
+@keyframes drawCircle {
+  0%   { stroke-dashoffset: 41; }
+  35%  { stroke-dashoffset: 0; }
+  70%  { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: 41; }
+}
+
+@keyframes drawLine {
+  0%, 30% { stroke-dashoffset: 8; }
+  55%     { stroke-dashoffset: 0; }
+  70%     { stroke-dashoffset: 0; }
+  100%    { stroke-dashoffset: 8; }
+}
+
+/* Ved fokus: vis ikonet fullt tegnet og gi et lite puff */
+.search-wrapper:focus-within .search-icon {
+  animation: searchPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.search-wrapper:focus-within .search-icon-circle,
+.search-wrapper:focus-within .search-icon-line {
+  animation: none;
+  stroke-dashoffset: 0;
+}
+
+@keyframes searchPop {
+  0%   { transform: translateY(-50%) scale(1) rotate(0deg); }
+  55%  { transform: translateY(-56%) scale(1.28) rotate(12deg); }
+  100% { transform: translateY(-50%) scale(1.1) rotate(0deg); }
+}
+
 .header-search {
-  background: rgba(122, 145, 144, 0.28);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 40px;
-  color: rgba(0, 0, 0, 0.75);
+  color: rgba(0, 0, 0, 0.85);
   font-family: inherit;
   font-size: 0.9rem;
-  padding: 0.5rem 1.2rem;
-  width: 210px;
+  padding: 0.55rem 2.8rem 0.55rem 1.1rem;
+  width: 235px;
   outline: none;
   box-shadow:
-    inset 0 2px 5px rgba(0, 0, 0, 0.14),
-    inset 0 0 0 1px rgba(0, 0, 0, 0.08),
-    0 1px 0 rgba(255, 255, 255, 0.22);
+    inset 0 1px 4px rgba(0, 0, 0, 0.08),
+    0 1px 0 rgba(255, 255, 255, 0.3);
   transition: background 0.2s, border-color 0.2s;
 }
 
@@ -30,8 +103,8 @@
 }
 
 .header-search:focus {
-  background: rgba(122, 145, 144, 0.45);
-  border-color: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.96);
+  border-color: rgba(173, 102, 89, 0.4);
 }
 
 
@@ -86,9 +159,47 @@
   .header-search {
     width: 150px;
     font-size: 0.82rem;
-    padding: 0.45rem 0.9rem;
+    padding: 0.45rem 2.4rem 0.45rem 0.9rem;
+  }
+  .search-icon {
+    width: 26px;
+    height: 26px;
+    padding: 6px;
+    right: 0.3rem;
+    left: auto;
   }
 }
+
+/* Klikk på i-prikken: faller ned og lander foran underteksten.
+   --fall-y settes per breakpoint og brukes av én felles @keyframes. */
+.hero-letter-idot--dropped {
+  --fall-y: calc(28vw + 60px);   /* 1025–1399px */
+  animation: dotFallDown 0.85s ease-in forwards !important;
+  cursor: default !important;
+  pointer-events: none !important;
+}
+
+@media (min-width: 1400px) {
+  .hero-letter-idot--dropped { --fall-y: 620px; }
+}
+
+@media (max-width: 1024px) {
+  .hero-letter-idot--dropped { --fall-y: calc(22vw + 200px); }
+}
+
+@media (max-width: 600px) {
+  .hero-letter-idot--dropped { --fall-y: calc(28vw + 220px); }
+}
+
+@keyframes dotFallDown {
+  0%   { transform: translateY(0);                               animation-timing-function: ease-in; }
+  72%  { transform: translateY(var(--fall-y));                   animation-timing-function: ease-out; }
+  82%  { transform: translateY(calc(var(--fall-y) - 14px));      animation-timing-function: ease-in; }
+  90%  { transform: translateY(calc(var(--fall-y) - 4px));       animation-timing-function: ease-out; }
+  100% { transform: translateY(calc(var(--fall-y) - 8px)); }
+}
+
+
 
 /* Overlay som lukker søket ved klikk utenfor */
 .search-overlay {
@@ -98,13 +209,28 @@
 }
 
 
-/* Fallende prikk — lander med liten squish */
-@keyframes dotFall {
-  0%   { transform: translateY(-90px); opacity: 0; }
-  55%  { opacity: 1; }
-  75%  { transform: translateY(5px) scaleY(0.78) scaleX(1.18); }
-  88%  { transform: translateY(-3px) scaleY(1.08) scaleX(0.96); }
-  100% { transform: translateY(0) scaleY(1) scaleX(1); }
+/*
+  X og Y animeres uavhengig — X lineært, Y med tyngdekraft.
+  Dette gir en ekte parabolsk bue i stedet for knekkete linjer.
+*/
+
+/* X: beveger seg jevnt fra venstre, ankommer I-en ved 78% (samme som Y) */
+@keyframes dotBounceX {
+  0%   { translate: -34vw 0; opacity: 0; }
+  8%   { opacity: 1; }
+  78%  { translate: 0 0; }
+  100% { translate: 0 0; }
+}
+
+/* Y: faller med tyngdekraft, spretter opp forbi I, faller ned på plass */
+@keyframes dotBounceY {
+  0%  { transform: translateY(-9vw);  animation-timing-function: ease-in; }
+  45% { transform: translateY(13vw);  animation-timing-function: ease-out; }
+  65% { transform: translateY(-8vw);  animation-timing-function: ease-in; }
+  78% { transform: translateY(0);     animation-timing-function: ease-in-out; }
+  88% { transform: translateY(-0.2vw); }
+  96% { transform: translateY(0); }
+  100%{ transform: translateY(0); }
 }
 
 /* Prikk-bilde over "I" i API */
@@ -116,7 +242,9 @@
   height: auto;
   z-index: 2;
   pointer-events: none;
-  animation: dotFall 0.85s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both;
+  animation:
+    dotBounceX 2.8s linear        0.6s both,
+    dotBounceY 2.8s linear        0.6s both;
 }
 
 /* Over 1400px låser bokstaven seg på 168px (clamp-maximum) */

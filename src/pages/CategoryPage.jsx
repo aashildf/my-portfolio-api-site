@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import CategoryTabsNav from "../components/CategoryTabsNav";
+import Header from "../components/Header";
 import "./categoryPage.css";
 
 import imgStatistikk from "../assets/images/statistikk.jpg";
@@ -94,23 +94,15 @@ export default function CategoryPage({ apis, publisherGroups }) {
     : publisherFiltered;
 
   return (
-    <div className="category-page">
-      <div className="texture-wrapper category-hero" style={{ "--hero-bg": heroColor, "--hero-img": `url(${categoryImages[category] ?? ""})` }}>
-        <div className="category-hero__inner">
-          {categoryImages[category] && (
-            <div className="category-hero__medallion" />
-          )}
-          <div className="category-hero__text">
-            <h1 className="category-hero__title">{category}</h1>
-            <p className="category-hero__meta">
-              {totalApis} API-er · {Object.keys(grouped).length} etater
-            </p>
-          </div>
-        </div>
-        <CategoryTabsNav categories={Object.keys(publisherGroups)} activeCategory={category} />
-      </div>
+    <div className="category-page texture-wrapper" style={{ "--hero-bg": heroColor }}>
+      <Header categories={Object.keys(publisherGroups)} apis={apis} />
 
       <div className="category-content">
+        <div className="category-heading">
+          <h1 className="category-heading__title">{category}</h1>
+          <p className="category-heading__meta">{totalApis} API-er · {Object.keys(grouped).length} etater</p>
+        </div>
+
         <div className="category-layout">
 
           {/* Venstre: tilbyderliste + søk + tilbake */}

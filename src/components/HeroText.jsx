@@ -14,9 +14,10 @@ const STUDIO_LETTERS = [imgS, imgT, imgU, imgD, imgI, imgO];
 const API_CHARS = ["A", "P", "I"];
 const STUDIO_CHARS = ["S", "T", "U", "D", "I", "O"];
 
-export default function HeroText() {
+export default function HeroText({ dropped = false, onDrop }) {
+
   return (
-    <section className="hero">
+    <section className={`hero${dropped ? " hero--dropped" : ""}`}>
       <div className="hero-content">
         <div className="hero-title">
           <div className="hero-title__letters">
@@ -31,7 +32,14 @@ export default function HeroText() {
                 />
                 {i === 2 && (
                   <>
-                    <img src={imgIDot} alt="" className="hero-letter-idot" draggable={false} />
+                    <img
+                      src={imgIDot}
+                      alt=""
+                      className={`hero-letter-idot${dropped ? " hero-letter-idot--dropped" : ""}`}
+                      draggable={false}
+                      style={{ pointerEvents: "auto", cursor: dropped ? "default" : "pointer" }}
+                      onClick={() => !dropped && onDrop()}
+                    />
                     <span className="hero-dot-shadow" aria-hidden="true">●</span>
                   </>
                 )}

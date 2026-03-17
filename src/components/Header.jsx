@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 const placeholders = [
@@ -16,6 +16,7 @@ export default function Header({ categories = [], apis = [] }) {
   const [searchResults, setSearchResults] = useState([]);
   const [phIdx, setPhIdx] = useState(0);
   const [phFading, setPhFading] = useState(false);
+  const inputRef = useRef(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -81,11 +82,16 @@ export default function Header({ categories = [], apis = [] }) {
             </div>
           </div>
 
-          <div className="search-wrapper">
+          <div className="search-wrapper" onMouseEnter={() => inputRef.current?.focus()}>
+            <svg className="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <circle cx="10.5" cy="10.5" r="6.5" className="search-icon-circle"/>
+              <line x1="15.5" y1="15.5" x2="21" y2="21" className="search-icon-line"/>
+            </svg>
             <input
               type="text"
               placeholder={placeholders[phIdx]}
               className={`header-search${phFading ? " header-search--fading" : ""}`}
+              ref={inputRef}
               value={searchQuery}
               onChange={(e) => handleSearch(e.target.value)}
             />

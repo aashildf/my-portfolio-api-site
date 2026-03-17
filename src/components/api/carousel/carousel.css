@@ -3,7 +3,7 @@
   width: calc(100% - 400px);
   margin: 60px auto;
   padding: 60px 0 100px;
-  background-color: #7A9190;
+  background: linear-gradient(to bottom, #C2C7C1, #A6B6B4);
   border-radius: 40px;
   overflow: hidden;
   opacity: 0;
@@ -21,13 +21,11 @@
   display: block;
   width: fit-content;
   margin: 28px auto 120px;
-  color: rgba(41, 39, 39, 0.55);
-  font-size: 1.65rem;
-  letter-spacing: 0.12em;
+  color: rgba(30, 28, 28, 0.72);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  text-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.6),
-    0 -1px 0 rgba(0, 0, 0, 0.12);
 }
 
 /* Scenen: position relative slik at pilene kan plasseres absolute */
@@ -62,27 +60,45 @@
   left: 50%;
   margin-left: -190px;
   margin-top: -253px;
-  transition: transform 0.85s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.85s ease;
+  transition: transform 0.65s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.65s ease;
   cursor: pointer;
 }
 
 .carousel-slot--active {
   transform: translateX(0) scale(1);
   z-index: 10;
-  cursor: default;
+  cursor: pointer;
   filter: drop-shadow(0 16px 40px rgba(0, 0, 0, 0.35));
+}
+
+.carousel-slot--active:hover {
+  transform: translateX(0) scale(1.035);
+  filter: drop-shadow(0 18px 44px rgba(0, 0, 0, 0.4));
+}
+
+/* Mørkere versjon av kategorifargene for bedre lesbarhet */
+.carousel-slot .cat-card__name {
+  color: color-mix(in srgb, var(--cat-color) 55%, black);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.carousel-slot .cat-card__count {
+  color: color-mix(in srgb, var(--cat-color) 65%, black);
+  opacity: 1;
 }
 
 .carousel-slot--prev {
   transform: translateX(-410px) scale(0.78);
   z-index: 5;
-  opacity: 0.65;
+  opacity: 0.75;
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.28));
 }
 
 .carousel-slot--next {
   transform: translateX(410px) scale(0.78);
   z-index: 5;
-  opacity: 0.65;
+  opacity: 0.75;
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.28));
 }
 
 /* --- Trekant-piler, absolute utenfor kortene --- */
@@ -161,6 +177,10 @@
 
   .carousel-slot--active {
     transform: translateX(0) scale(0.78);
+  }
+
+  .carousel-slot--active:hover {
+    transform: translateX(0) scale(0.807);
   }
 
   .carousel-slot--prev {

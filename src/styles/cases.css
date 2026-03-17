@@ -26,14 +26,12 @@
   display: block;
   width: fit-content;
   margin: 0 auto;
-  padding-bottom: 4rem;
-  font-size: 1.65rem;
+  padding-bottom: 5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: rgba(41, 39, 39, 0.55);
-  text-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.6),
-    0 -1px 0 rgba(0, 0, 0, 0.12);
+  letter-spacing: 0.18em;
+  color: rgba(30, 28, 28, 0.55);
 }
 
 .cases-intro__heading {
@@ -42,7 +40,7 @@
   color: #0f1422;
   letter-spacing: -0.01em;
   line-height: 1.2;
-  margin: 0 auto;
+  margin: 0 auto 2rem;
   max-width: 860px;
 }
 
@@ -67,7 +65,7 @@
   background-size: auto, 250px;
   background-repeat: repeat;
   background-blend-mode: normal, overlay;
-  padding: 100px 0 180px;
+  padding: 52px 0 180px;
   position: relative;
 }
 
@@ -106,7 +104,7 @@
 .cases__grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 56px;
+  gap: 88px;
   justify-items: center;
   align-items: start;
 }

@@ -12,7 +12,7 @@
   border: none;
   cursor: pointer;
   padding: 4px;
-  transition: filter 0.3s ease;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s;
 }
 
 /* Hamburger-knapp øverst til høyre */
@@ -69,7 +69,8 @@
 }
 
 .gnav-logo:hover {
-  filter: brightness(1.08) drop-shadow(0 2px 6px rgba(0, 0, 0, 0.18));
+  transform: scale(1.07);
+  opacity: 0.88;
 }
 
 .gnav-btn:hover {

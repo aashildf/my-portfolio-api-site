@@ -250,7 +250,6 @@ section {
 /* Nav: alltid fast panel fra høyre */
 .nav {
   position: fixed;
-  top: 0;
   right: -100%;
   width: 280px;
   height: 100vh;

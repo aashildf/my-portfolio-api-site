@@ -1,3 +1,4 @@
+
 .detail-page {
   min-height: 100vh;
   padding: 3rem 2rem 5rem;
@@ -95,28 +96,28 @@
 }
 
 .keyword-tag {
-  background: rgba(0, 0, 0, 0.06);
+  background: color-mix(in srgb, var(--card-color, #a1b4b2) 18%, transparent);
   border-radius: 20px;
   padding: 0.25rem 0.8rem;
   font-size: 0.82rem;
   color: rgba(0, 0, 0, 0.6);
 }
 
-/* --- Besøk API-knapp --- */
+/* --- Besøk API-knapp — bruker kategorifargen konsekvent --- */
 .api-link-btn {
   display: inline-block;
   padding: 0.9rem 2.2rem;
-  background: #AD6659;
+  background: var(--card-color, #a1b4b2);
   color: white;
   border-radius: 40px;
   text-decoration: none;
   font-size: 0.95rem;
   letter-spacing: 0.03em;
-  transition: background 0.2s, transform 0.15s;
+  transition: filter 0.2s, transform 0.15s;
 }
 
 .api-link-btn:hover {
-  background: #92524a;
+  filter: brightness(0.85);
   transform: translateY(-2px);
 }
 
@@ -128,12 +129,14 @@
 
 .api-link-btn--secondary {
   background: transparent;
-  color: #AD6659;
-  border: 1.5px solid #AD6659;
+  color: var(--card-color, #a1b4b2);
+  border: 1.5px solid var(--card-color, #a1b4b2);
+  filter: none;
 }
 
 .api-link-btn--secondary:hover {
-  background: rgba(221, 148, 127, 0.1);
+  background: color-mix(in srgb, var(--card-color, #a1b4b2) 12%, transparent);
+  filter: none;
 }
 
 .endpoint-help {

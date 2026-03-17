@@ -15,6 +15,22 @@
   line-height: 1.2;
   margin: 0;
   text-align: center;
+  transition: transform 0.3s ease;
+}
+
+/* Desktop: teksten skyver til høyre når prikken lander */
+@media (min-width: 601px) {
+  .intro-title--dropped {
+    transform: translateX(44px);
+    transition: transform 0.3s ease 0.85s;
+  }
+}
+
+/* Mobil: linjeskift etter "Utforsk" */
+@media (max-width: 600px) {
+  .intro-title--dropped .intro-title__first {
+    display: block;
+  }
 }
 
 .intro-text,
