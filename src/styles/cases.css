@@ -281,6 +281,36 @@
   }
 }
 
+/* ── Mellomstor skjerm: 701–1100px ──
+   Skalert til 51%: 428×0.51=218px, 868×0.51=443px */
+@media (max-width: 1100px) and (min-width: 701px) {
+  .phone-wrapper {
+    width: 218px;
+    height: 443px;
+  }
+  .phone-wrapper .device {
+    transform: scale(0.51);
+  }
+  .cases__grid {
+    gap: 32px;
+  }
+}
+
+/* ── Liten-mellomstor skjerm: 701–880px ──
+   Skalert til 43%: 428×0.43=184px, 868×0.43=374px */
+@media (max-width: 880px) and (min-width: 701px) {
+  .phone-wrapper {
+    width: 184px;
+    height: 374px;
+  }
+  .phone-wrapper .device {
+    transform: scale(0.43);
+  }
+  .cases__grid {
+    gap: 16px;
+  }
+}
+
 /* ── Mobil: alle 3 side om side med horisontal scroll ──
    Skala 0.43: 428×0.43=184px, 868×0.43=373px        */
 @media (max-width: 700px) {

@@ -1,6 +1,7 @@
 .carousel-section {
   /* Litt luft på sidene, ingen hard maks-bredde */
-  width: calc(100% - 400px);
+  width: calc(100% - 200px);
+  max-width: 1400px;
   margin: 60px auto;
   padding: 60px 0 100px;
   background: linear-gradient(to bottom, #C2C7C1, #A6B6B4);
@@ -169,6 +170,10 @@
     width: 100%;
     margin: 0;
     border-radius: 0;
+  }
+
+  .carousel-label {
+    margin-bottom: 72px;
   }
 
   .carousel-stage {

@@ -1,14 +1,12 @@
 # API Studio — Utforskningsportal for offentlige API-er
 
-En nettside for å bla gjennom og utforske offentlige API-er fra [Felles datakatalog (data.norge.no)](https://data.norge.no).
-
-Dataen er hentet som et snapshot fra Felles datakatalog og lagret lokalt som en statisk JSON-fil.
+Et oversiktsverktøy for å finne og utforske offentlige API-er fra norske statlige etater. Dataen er hentet fra [Felles datakatalog (data.norge.no)](https://data.norge.no) og lagret lokalt som en statisk JSON-fil — ingen backend nødvendig.
 
 ## Hva siden gjør
 
-- Viser en interaktiv karusell med API-kategorier på forsiden
-- Lar deg bla gjennom kategorier via navigasjonsmenyen eller karusellen
-- Viser alle API-er innenfor en kategori, med søk og filtrering
+- Samler 583 API-er fra 14 etater på ett sted, gruppert etter kategori
+- Søk direkte fra forsiden for å finne API-er etter navn, utgiver eller beskrivelse
+- Bla gjennom kategorier for å se alle tilgjengelige API-er innenfor et tema
 - Klikk på et API for å se detaljer: beskrivelse, utgiver, tema, nøkkelord og lenke til data.norge.no
 - Hamburger-meny tilgjengelig fra alle sider med navigasjon til kategorier og eksempelprosjekter
 
@@ -48,13 +46,13 @@ npm run deploy
 
 ## Skjermbilder
 
-![Forsiden](src/assets/images/readme/Skjermbilde%202026-03-16%20154913.png)
+![Forsiden](src/assets/images/readme/Skjermbilde%202026-03-17%20144115.png)
 
-![Kategori-karusell](src/assets/images/readme/Skjermbilde%202026-03-16%20155056.png)
+![Kategori-karusell](src/assets/images/readme/Skjermbilde%202026-03-17%20144330.png)
 
-![Eksempelprosjekter](src/assets/images/readme/Skjermbilde%202026-03-16%20155018.png)
+![Eksempelprosjekter](src/assets/images/readme/Skjermbilde%202026-03-17%20144347.png)
 
-![Detaljside for API](src/assets/images/readme/Skjermbilde%202026-03-16%20155531.png)
+![Kategoriside](src/assets/images/readme/Skjermbilde%202026-03-17%20144532.png)
 
 ## Prosjektstruktur
 
