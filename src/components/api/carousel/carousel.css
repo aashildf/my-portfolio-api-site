@@ -1,12 +1,12 @@
+/* ── Section wrapper (unchanged) ── */
 .carousel-section {
-  /* Litt luft på sidene, ingen hard maks-bredde */
   width: calc(100% - 200px);
   max-width: 1400px;
   margin: 60px auto;
   padding: 60px 0 100px;
   background: linear-gradient(to bottom, #C2C7C1, #A6B6B4);
   border-radius: 40px;
-  overflow: hidden;
+  overflow: clip;
   opacity: 0;
   transform: translateY(24px);
   transition: opacity 0.7s ease, transform 0.7s ease;
@@ -17,11 +17,11 @@
   transform: translateY(0);
 }
 
-/* Overskrift */
+/* ── Label ── */
 .carousel-label {
   display: block;
   width: fit-content;
-  margin: 28px auto 120px;
+  margin: 28px auto 48px;
   color: rgba(30, 28, 28, 0.72);
   font-size: 0.95rem;
   font-weight: 600;
@@ -29,126 +29,83 @@
   text-transform: uppercase;
 }
 
-/* Scenen: position relative slik at pilene kan plasseres absolute */
-.carousel-stage {
+/* ── 3D stage ── */
+.carousel-3d-stage {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 100%;
-  height: 420px;
-  margin-top: 64px;
+  height: 380px;
+  overflow: visible;
   cursor: grab;
   user-select: none;
   -webkit-user-select: none;
-  overflow-x: clip;
-  overflow-y: visible;
 }
 
-.carousel-stage:active {
+.carousel-3d-stage:active {
   cursor: grabbing;
 }
 
-/* Kortboksen — 380px bred, kortene flyter absolutt ut fra midten */
-.carousel-cards {
-  position: relative;
-  width: 380px;
-  height: 100%;
-}
 
-.carousel-slot {
+.carousel-3d-perspective {
   position: absolute;
-  width: 380px;
-  top: 50%;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 900px;
+}
+
+.carousel-3d-cylinder {
+  position: relative;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+/* ── Each face ── */
+.carousel-3d-face {
+  position: absolute;
+  top: 0;
   left: 50%;
-  margin-left: -190px;
-  margin-top: -253px;
-  transition: transform 0.65s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.65s ease;
-  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(.22,.61,.36,1);
+  backface-visibility: hidden;
 }
 
-.carousel-slot--active {
-  transform: translateX(0) scale(1);
-  z-index: 10;
-  cursor: pointer;
-  filter: drop-shadow(0 16px 40px rgba(0, 0, 0, 0.35));
-}
 
-.carousel-slot--active:hover {
-  transform: translateX(0) scale(1.035);
-  filter: drop-shadow(0 18px 44px rgba(0, 0, 0, 0.4));
-}
-
-/* Mørkere versjon av kategorifargene for bedre lesbarhet */
-.carousel-slot .cat-card__name {
-  color: color-mix(in srgb, var(--cat-color) 55%, black);
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
-}
-
-.carousel-slot .cat-card__count {
-  color: color-mix(in srgb, var(--cat-color) 65%, black);
-  opacity: 1;
-}
-
-.carousel-slot--prev {
-  transform: translateX(-410px) scale(0.78);
-  z-index: 5;
-  opacity: 0.75;
-  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.28));
-}
-
-.carousel-slot--next {
-  transform: translateX(410px) scale(0.78);
-  z-index: 5;
-  opacity: 0.75;
-  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.28));
-}
-
-/* --- Trekant-piler, absolute utenfor kortene --- */
+/* ── Arrow buttons ── */
 .carousel-arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
   width: 44px;
   height: 44px;
-  border-radius: 50%;
-  background: rgba(173, 102, 89, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  font-size: 1.6rem;
+  line-height: 1;
+  color: rgba(30, 28, 28, 0.75);
   cursor: pointer;
-  z-index: 20;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0;
   transition: background 0.2s, transform 0.2s;
 }
 
-.carousel-arrow svg {
-  width: 20px;
-  height: 20px;
-}
-
-.carousel-arrow--left {
-  left: calc(45% - 560px);
-}
-
-.carousel-arrow--right {
-  right: calc(45% - 560px);
-}
-
 .carousel-arrow:hover {
-  background: rgba(173, 102, 89, 0.95);
-  transform: translateY(-50%) scale(1.1);
+  background: rgba(255, 255, 255, 0.5);
 }
 
-/* --- Prikke-indikatorer --- */
+.carousel-arrow--left  { left: 20px; }
+.carousel-arrow--right { right: 20px; }
+
+/* ── Dots ── */
 .carousel-dots {
   display: flex;
   justify-content: center;
   gap: 10px;
-  margin-top: 72px;
+  margin-top: 48px;
 }
 
 .carousel-dot {
@@ -167,6 +124,7 @@
   transform: scale(1.35);
 }
 
+/* ── Responsive ── */
 @media (max-width: 1100px) {
   .carousel-section {
     width: 100%;
@@ -174,36 +132,8 @@
     border-radius: 0;
   }
 
-  .carousel-label {
-    margin-bottom: 72px;
-  }
-
-  .carousel-stage {
-    height: 340px;
-  }
-
-  .carousel-slot--active {
-    transform: translateX(0) scale(0.78);
-  }
-
-  .carousel-slot--active:hover {
-    transform: translateX(0) scale(0.807);
-  }
-
-  .carousel-slot--prev {
-    transform: translateX(-310px) scale(0.60);
-  }
-
-  .carousel-slot--next {
-    transform: translateX(310px) scale(0.60);
-  }
-
-  .carousel-arrow--left {
-    left: 20px;
-  }
-
-  .carousel-arrow--right {
-    right: 20px;
+  .carousel-3d-stage {
+    height: 380px;
   }
 }
 
@@ -212,59 +142,13 @@
     padding: 48px 0 44px;
   }
 
-  .carousel-stage {
-    height: 100vw;
-  }
-
-  .carousel-cards {
-    width: 64vw;
-  }
-
-  .carousel-slot {
-    width: 64vw;
-    margin-left: calc(-64vw / 2);
-    margin-top: calc(-64vw * 2 / 3);
-  }
-
-  .carousel-slot--prev {
-    transform: translateX(-58vw) scale(0.75);
-  }
-
-  .carousel-slot--next {
-    transform: translateX(58vw) scale(0.75);
-  }
-
-  .carousel-arrow--left {
-    left: 14px;
-  }
-
-  .carousel-arrow--right {
-    right: 14px;
+  .carousel-3d-stage {
+    height: 320px;
   }
 }
 
 @media (max-width: 480px) {
-  .carousel-stage {
-    height: 115vw;
-  }
-
-  .carousel-cards {
-    width: 78vw;
-  }
-
-  .carousel-slot {
-    width: 78vw;
-    margin-left: calc(-78vw / 2);
-    margin-top: calc(-78vw * 2 / 3);
-  }
-
-  .carousel-slot--prev {
-    transform: translateX(-70vw) scale(0.72);
-    opacity: 0.4;
-  }
-
-  .carousel-slot--next {
-    transform: translateX(70vw) scale(0.72);
-    opacity: 0.4;
+  .carousel-3d-stage {
+    height: 260px;
   }
 }

@@ -11,184 +11,206 @@ import imgOkonomi from "../../../assets/images/okonomi.jpg";
 import imgForsvar from "../../../assets/images/forsvar.jpg";
 import imgForvaltning from "../../../assets/images/forvaltning.jpg";
 
+const categoryImages = {
+  "Statistikk & Analyse": imgStatistikk,
+  Kommuner: imgKommuner,
+  "Miljø & Energi": imgMiljo,
+  "Transport & Kart": imgTransport,
+  "Økonomi & Næring": imgOkonomi,
+  "Forsvar & Beredskap": imgForsvar,
+  "Offentlig forvaltning": imgForvaltning,
+};
+
+const categoryColors = {
+  "Miljø & Energi": "#99A6A1",
+  "Transport & Kart": "#A7B7BF",
+  "Økonomi & Næring": "#88857E",
+  "Statistikk & Analyse": "#555C50",
+  "Forsvar & Beredskap": "#BCA6A2",
+  Kommuner: "#ADB3B4",
+  "Offentlig forvaltning": "#8A7D7A",
+};
+
+const FACE_WIDTH = 260;
+
 export default function ApiCarousel({ items }) {
-  const [activeIndex, setActiveIndex] = useState(0);
   const [visible, setVisible] = useState(false);
-  const navigate = useNavigate();
+  const [activeIndex, setActiveIndex] = useState(0);
   const sectionRef = useRef(null);
   const stageRef = useRef(null);
-  const cardsRef = useRef(null);
-  const dragStartRef = useRef(null);
-  const dragHappenedRef = useRef(false);
-  const isPausedRef = useRef(false);
-
-  const categoryImages = {
-    "Statistikk & Analyse": imgStatistikk,
-    Kommuner: imgKommuner,
-    "Miljø & Energi": imgMiljo,
-    "Transport & Kart": imgTransport,
-    "Økonomi & Næring": imgOkonomi,
-    "Forsvar & Beredskap": imgForsvar,
-    "Offentlig forvaltning": imgForvaltning,
-  };
-
-  const categoryColors = {
-    "Miljø & Energi": "#99A6A1",
-    "Transport & Kart": "#A7B7BF",
-    "Økonomi & Næring": "#88857E",
-    "Statistikk & Analyse": "#555C50",
-    "Forsvar & Beredskap": "#BCA6A2",
-    Kommuner: "#ADB3B4",
-    "Offentlig forvaltning": "#8A7D7A",
-  };
+  const navigate = useNavigate();
+  const isPaused = useRef(false);
 
   const count = items?.length ?? 0;
-  const prevIndex = (activeIndex - 1 + count) % count;
-  const nextIndex = (activeIndex + 1) % count;
+  if (!items || items.length === 0) return null;
 
-  // Scroll-triggered entrance
+  const goTo = (idx) => {
+    const i = ((idx % count) + count) % count;
+    setActiveIndex(i);
+  };
+
+  const prev = () => goTo(activeIndex - 1);
+  const next = () => goTo(activeIndex + 1);
+
+  // Scroll entrance
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
+    const obs = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
           setVisible(true);
-          observer.disconnect();
+          obs.disconnect();
         }
       },
-      { threshold: 0.15 }
+      { threshold: 0.15 },
     );
-    observer.observe(el);
-    return () => observer.disconnect();
+    obs.observe(el);
+    return () => obs.disconnect();
   }, []);
 
   // Auto-advance
   useEffect(() => {
+    if (count === 0) return;
     const id = setInterval(() => {
-      if (!isPausedRef.current) {
-        setActiveIndex((i) => (i + 1) % count);
-      }
-    }, 5000);
+      if (!isPaused.current) next();
+    }, 4000);
     return () => clearInterval(id);
-  }, [count]);
+  }, [count, activeIndex]);
 
+  // Drag (swipe) – bare bytter activeIndex
   useEffect(() => {
     const el = stageRef.current;
     if (!el) return;
 
-    // pointerdown på scenen starter draget
+    let startX = 0;
+    let dragging = false;
+
     const onDown = (e) => {
-      if (e.target.closest("button")) return; // ikke forstyrr pil-klikk
-      dragStartRef.current = e.clientX;
-      dragHappenedRef.current = false;
+      startX = e.clientX;
+      dragging = true;
     };
 
-    // pointermove og pointerup lytter på window — da mister vi aldri
-    // slipp-hendelsen selv om pekeren glir utenfor scenen.
-    const onWindowMove = (e) => {
-      if (dragStartRef.current === null) return;
-      if (Math.abs(e.clientX - dragStartRef.current) > 8) {
-        dragHappenedRef.current = true;
+    const onMove = (e) => {
+      if (!dragging) return;
+      const dx = e.clientX - startX;
+      if (Math.abs(dx) > 60) {
+        if (dx > 0) prev();
+        else next();
+        dragging = false;
       }
     };
 
-    const onWindowUp = (e) => {
-      if (dragStartRef.current === null) return;
-      const dx = e.clientX - dragStartRef.current;
-      dragStartRef.current = null;
-      if (dx > 50) setActiveIndex((i) => (i - 1 + count) % count);
-      else if (dx < -50) setActiveIndex((i) => (i + 1) % count);
-    };
-
-    // Capture-phase click-blocker: hindrer at et drag trigger onClick på slot
-    const onClickCapture = (e) => {
-      if (dragHappenedRef.current) {
-        e.stopPropagation();
-        dragHappenedRef.current = false;
-      }
+    const onUp = () => {
+      dragging = false;
     };
 
     el.addEventListener("pointerdown", onDown);
-    window.addEventListener("pointermove", onWindowMove);
-    window.addEventListener("pointerup", onWindowUp);
-    el.addEventListener("click", onClickCapture, true);
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
 
     return () => {
       el.removeEventListener("pointerdown", onDown);
-      window.removeEventListener("pointermove", onWindowMove);
-      window.removeEventListener("pointerup", onWindowUp);
-      el.removeEventListener("click", onClickCapture, true);
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onUp);
     };
-  }, [count]);
-
-  if (!items || items.length === 0) return null;
-
-  const slots = [
-    { item: items[prevIndex], position: "prev", index: prevIndex },
-    { item: items[activeIndex], position: "active", index: activeIndex },
-    { item: items[nextIndex], position: "next", index: nextIndex },
-  ];
+  }, [activeIndex, count]);
 
   return (
     <section
       className={`carousel-section${visible ? " carousel-section--visible" : ""}`}
       ref={sectionRef}
-      onMouseEnter={() => { isPausedRef.current = true; }}
-      onMouseLeave={() => { isPausedRef.current = false; }}
+      onMouseEnter={() => {
+        isPaused.current = true;
+      }}
+      onMouseLeave={() => {
+        isPaused.current = false;
+      }}
     >
       <p className="carousel-label">Bla gjennom kategoriene</p>
 
-      <div className="carousel-stage" ref={stageRef}>
-        {/* Pilene er absolute og sitter utenfor kortene */}
+      <div className="carousel-3d-stage" ref={stageRef}>
         <button
           className="carousel-arrow carousel-arrow--left"
-          onClick={() => setActiveIndex(prevIndex)}
+          onClick={prev}
           aria-label="Forrige"
         >
-          <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="15 18 9 12 15 6" />
-          </svg>
+          ‹
         </button>
+
+        <div className="carousel-3d-perspective">
+          <div
+            className="carousel-3d-cylinder"
+            style={{
+              width: FACE_WIDTH,
+              transformStyle: "preserve-3d",
+              position: "relative",
+              height: "100%",
+            }}
+          >
+            {items.map((item, i) => {
+              const rawDist = Math.abs(i - activeIndex);
+              const dist = Math.min(rawDist, count - rawDist);
+
+              const side =
+                (i - activeIndex + count) % count > count / 2 ? -1 : 1;
+
+              const offset = dist * 220 * side;
+              const tilt = side * -18 * dist;
+              const depth =
+                dist === 0 ? 120 : dist === 1 ? 0 : dist === 2 ? -80 : -140;
+
+              const opacity =
+                dist === 0 ? 1 : dist === 1 ? 0.72 : dist === 2 ? 0.18 : 0;
+
+              return (
+                <div
+                  key={item.id}
+                  className="carousel-3d-face"
+                  style={{
+                    width: `${FACE_WIDTH}px`,
+                    transform: `
+                      translateX(calc(-50% + ${offset}px))
+                      translateZ(${depth}px)
+                      rotateY(${tilt}deg)
+                    `,
+                    opacity,
+                    transition:
+                      "transform 0.6s cubic-bezier(.22,.61,.36,1), opacity 0.4s ease",
+                  }}
+                  onClick={() =>
+                    navigate(`/kategori/${encodeURIComponent(item.id)}`)
+                  }
+                >
+                  <CategoryCard
+                    name={item.name}
+                    image={categoryImages[item.id]}
+                    color={categoryColors[item.id]}
+                    count={item.count}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
         <button
           className="carousel-arrow carousel-arrow--right"
-          onClick={() => setActiveIndex(nextIndex)}
+          onClick={next}
           aria-label="Neste"
         >
-          <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="9 18 15 12 9 6" />
-          </svg>
+          ›
         </button>
-
-        <div className="carousel-cards" ref={cardsRef}>
-          {slots.map(({ item, position, index }) => (
-            <div
-              key={item.id + "-" + position}
-              className={`carousel-slot carousel-slot--${position}`}
-              onClick={
-                position === "active"
-                  ? () => navigate(`/kategori/${encodeURIComponent(item.id)}`)
-                  : () => setActiveIndex(index)
-              }
-            >
-              <CategoryCard
-                name={item.name}
-                image={categoryImages[item.id]}
-                color={categoryColors[item.id]}
-                count={item.count}
-              />
-            </div>
-          ))}
-        </div>
       </div>
 
-      {/* Prikker som viser posisjon i karusellen */}
       <div className="carousel-dots">
         {items.map((item, i) => (
           <button
             key={item.id}
-            className={`carousel-dot${i === activeIndex ? " carousel-dot--active" : ""}`}
-            onClick={() => setActiveIndex(i)}
+            className={`carousel-dot${
+              i === activeIndex ? " carousel-dot--active" : ""
+            }`}
+            onClick={() => goTo(i)}
             aria-label={item.name}
           />
         ))}
