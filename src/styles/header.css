@@ -170,35 +170,6 @@
   }
 }
 
-/* Klikk på i-prikken: faller ned og lander foran underteksten.
-   --fall-y settes per breakpoint og brukes av én felles @keyframes. */
-.hero-letter-idot--dropped {
-  --fall-y: calc(28vw + 60px);   /* 1025–1399px */
-  animation: dotFallDown 0.85s ease-in forwards !important;
-  cursor: default !important;
-  pointer-events: none !important;
-}
-
-@media (min-width: 1400px) {
-  .hero-letter-idot--dropped { --fall-y: 620px; }
-}
-
-@media (max-width: 1024px) {
-  .hero-letter-idot--dropped { --fall-y: calc(22vw + 200px); }
-}
-
-@media (max-width: 600px) {
-  .hero-letter-idot--dropped { --fall-y: calc(28vw + 220px); }
-}
-
-@keyframes dotFallDown {
-  0%   { transform: translateY(0);                               animation-timing-function: ease-in; }
-  72%  { transform: translateY(var(--fall-y));                   animation-timing-function: ease-out; }
-  82%  { transform: translateY(calc(var(--fall-y) - 14px));      animation-timing-function: ease-in; }
-  90%  { transform: translateY(calc(var(--fall-y) - 4px));       animation-timing-function: ease-out; }
-  100% { transform: translateY(calc(var(--fall-y) - 8px)); }
-}
-
 
 
 /* Overlay som lukker søket ved klikk utenfor */
@@ -235,22 +206,153 @@
 
 /* Prikk-bilde over "I" i API */
 .hero-letter-idot {
+  --dot-size: 40px;
   position: absolute;
-  top: calc(-12vw - 4px);
-  left: -39px;
-  width: 40px;
+  /* midt over i-en, med en liten luft */
+  bottom: calc(100% + var(--dot-size) * 0.2);
+  left: 50%;
+  margin-left: calc(var(--dot-size) / -2);
+  width: var(--dot-size);
   height: auto;
+  aspect-ratio: 1;
+  container-type: inline-size;
   z-index: 2;
-  pointer-events: none;
+  /* knapp-reset */
+  padding: 0;
+  border: none;
+  background: none;
+  border-radius: 50%;
+  cursor: pointer;
   animation:
     dotBounceX 2.8s linear        0.6s both,
     dotBounceY 2.8s linear        0.6s both;
 }
 
-/* Over 1400px låser bokstaven seg på 168px (clamp-maximum) */
-@media (min-width: 1400px) {
-  .hero-letter-idot {
-    top: -175px;
+.hero-letter-idot:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.9);
+  outline-offset: 4px;
+}
+
+/* ── Kula (brukes både på i-en og når den spretter rundt) ──
+   Selve kula er en tegnet SVG-ball (se dotBallSvg.js).
+   Her får den bare en myk skygge. */
+.dot-ball {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-origin: 50% 100%;
+  filter: drop-shadow(0 2px 1.5px rgba(30, 18, 14, 0.35));
+}
+
+.dot-ball svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.hero-idot-ball {
+  transform-origin: 50% 100%;
+  transition: scale 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.25s;
+  /* Lite hopp innimellom som hint om at den kan klikkes.
+     Starter etter at prikken har sprettet inn på plass (0.6s + 2.8s). */
+  animation: dotIdleHop 3.6s ease-in-out 4s infinite;
+}
+
+.hero-letter-idot:hover .hero-idot-ball,
+.hero-letter-idot:focus-visible .hero-idot-ball {
+  animation-play-state: paused;
+  scale: 1.06;
+}
+
+@keyframes dotIdleHop {
+  0%, 62%, 100% { transform: translateY(0) scale(1, 1); }
+  66%  { transform: translateY(0) scale(1.18, 0.82); }
+  74%  { transform: translateY(-70%) scale(0.92, 1.1); }
+  81%  { transform: translateY(0) scale(1.16, 0.84); }
+  85%  { transform: translateY(-22%) scale(0.97, 1.03); }
+  89%  { transform: translateY(0) scale(1.07, 0.93); }
+  93%  { transform: translateY(0) scale(1, 1); }
+}
+
+/* Mens ballen er på tur: tom plass på i-en */
+.hero-letter-idot--away {
+  visibility: hidden;
+}
+
+.hero-dot-shadow--away {
+  opacity: 0;
+}
+
+/* Kula som spretter nedover siden (lages i dotJourney.js).
+   Ytre knapp = posisjon, .dot-ball = klem/hint */
+.dot-traveller {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 60;
+  padding: 0;
+  border: none;
+  background: none;
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* Ligger i ro: klikkbar, og hopper litt som hint */
+.dot-traveller--resting {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.dot-ball--idle {
+  animation: dotIdleHop 3.6s ease-in-out 1.2s infinite;
+}
+
+.dot-traveller--resting:hover .dot-ball,
+.dot-traveller--resting:focus-visible .dot-ball {
+  animation-play-state: paused;
+  scale: 1.06;
+}
+
+.dot-traveller:focus-visible {
+  outline: none;
+}
+
+.dot-traveller:focus-visible .dot-ball {
+  outline: 2px solid rgba(173, 102, 89, 0.8);
+  outline-offset: 3px;
+  border-radius: 50%;
+}
+
+/* Første ord i en overskrift flytter seg til side når kula legger seg foran */
+.dot-slot-word {
+  display: inline-block;
+  transition: margin-left 0.4s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+.dot-slot-word--open {
+  margin-left: var(--dot-space, 0px);
+}
+
+.dot-ball-shadow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 59;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(20, 30, 28, 0.6) 0%, rgba(20, 30, 28, 0) 70%);
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-idot-ball,
+  .dot-ball--idle {
+    animation: none;
+  }
+  .dot-slot-word {
+    transition: none;
   }
 }
 
@@ -272,9 +374,7 @@
 
 @media (max-width: 1024px) {
   .hero-letter-idot {
-    width: 22px;
-    top: calc(-9vw - 4px);
-    left: -21.5px;
+    --dot-size: 22px;
   }
   .hero-dot-shadow {
     font-size: 22px;
@@ -284,8 +384,7 @@
 
 @media (max-width: 768px) {
   .hero-letter-idot {
-    width: 18px;
-    left: -17px;
+    --dot-size: 18px;
   }
   .hero-dot-shadow {
     font-size: 18px;
@@ -293,17 +392,9 @@
   }
 }
 
-/* Under ~622px låser bokstaven seg på 56px (clamp-minimum) */
-@media (max-width: 622px) {
-  .hero-letter-idot {
-    top: -60px;
-  }
-}
-
 @media (max-width: 480px) {
   .hero-letter-idot {
-    width: 14px;
-    left: -13px;
+    --dot-size: 14px;
   }
   .hero-dot-shadow {
     font-size: 14px;
@@ -390,5 +481,38 @@
   }
   .hero-title__hyphen {
     height: clamp(44px, 6vw, 80px);
+  }
+}
+
+/* Mobil: bokstavene skaleres med skjermbredden så hele "API-STUDIO"
+   får plass (9 bokstaver + bindestrek ≈ 9.5 × høyden + mellomrom) */
+@media (max-width: 600px) {
+  .hero-title__letters {
+    gap: 2px;
+  }
+  .hero-letter--api,
+  .hero-letter--studio {
+    height: 9.5vw;
+  }
+  .hero-title__hyphen {
+    height: 7vw;
+    margin: 0 1.5vw;
+  }
+  .hero-letter-shadow--api,
+  .hero-letter-shadow--studio {
+    font-size: 9.5vw;
+  }
+  .hero-letter-shadow--hyphen {
+    font-size: 7vw;
+  }
+  .hero-letter-idot {
+    --dot-size: 3.2vw;
+  }
+  .hero-subtitle,
+  .hero-tagline {
+    font-size: 18px;
+  }
+  .hero-subtitle {
+    margin-top: 48px;
   }
 }

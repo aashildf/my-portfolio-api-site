@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "../assets/devices.min.css";
 import "../styles/cases.css";
 import imgCatFacts from "../assets/images/cat_facrt_animated.png";
@@ -122,12 +122,29 @@ const cases = [
 ];
 
 export default function Cases() {
+  // Mobil: én telefon om gangen i en sveipbar rad, med piler og prikker
+  const gridRef = useRef(null);
+  const [active, setActive] = useState(0);
+
+  const handleScroll = () => {
+    const grid = gridRef.current;
+    if (!grid || !grid.clientWidth) return;
+    setActive(Math.round(grid.scrollLeft / grid.clientWidth));
+  };
+
+  const goTo = (i) => {
+    const grid = gridRef.current;
+    if (!grid) return;
+    const idx = Math.max(0, Math.min(cases.length - 1, i));
+    grid.scrollTo({ left: idx * grid.clientWidth, behavior: "smooth" });
+  };
+
   return (
     <>
       <section className="cases-intro" id="eksempelprosjekter">
         <div className="cases-intro__inner">
           <h2 className="cases-intro__heading">
-            Hva kan du bygge med offentlige API-er?
+            <span className="cases-intro__first dot-slot-word">Hva</span> kan du bygge med offentlige API-er?
           </h2>
           <p className="cases-intro__sub">
             Offentlige API-er gjør det mulig å hente data direkte fra eksterne
@@ -143,7 +160,17 @@ export default function Cases() {
       <section className="cases">
         <div className="cases__inner">
           <p className="cases-intro__label">Eksempelprosjekter</p>
-          <div className="cases__grid">
+          <div className="cases__viewport">
+          <button
+            type="button"
+            className="cases__arrow cases__arrow--prev"
+            onClick={() => goTo(active - 1)}
+            disabled={active === 0}
+            aria-label="Forrige prosjekt"
+          >
+            ‹
+          </button>
+          <div className="cases__grid" ref={gridRef} onScroll={handleScroll}>
             {cases.map((c) => (
               <a
                 key={c.title}
@@ -172,10 +199,39 @@ export default function Cases() {
                     <div className="device-power" />
                   </div>
                 </div>
+                {/* Mobil har ikke hover, så tittelen vises under telefonen */}
+                <p className="case-card__caption">
+                  {c.title} <span aria-hidden="true">→</span>
+                </p>
               </a>
             ))}
           </div>
+          <button
+            type="button"
+            className="cases__arrow cases__arrow--next"
+            onClick={() => goTo(active + 1)}
+            disabled={active === cases.length - 1}
+            aria-label="Neste prosjekt"
+          >
+            ›
+          </button>
+          </div>
+
+          <div className="cases__dots">
+            {cases.map((c, i) => (
+              <button
+                key={c.title}
+                type="button"
+                className={`cases__dot${i === active ? " cases__dot--active" : ""}`}
+                onClick={() => goTo(i)}
+                aria-label={`Vis ${c.title}`}
+              />
+            ))}
+          </div>
+          <p className="cases__swipe-hint">Sveip eller trykk på pilene for å se flere</p>
         </div>
+        {/* Her lander prikken fra hero-tittelen (se dotJourney.js) */}
+        <div className="dot-landing" aria-hidden="true" />
       </section>
     </>
   );

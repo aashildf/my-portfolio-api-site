@@ -42,6 +42,7 @@
   line-height: 1.2;
   margin: 0 auto 2rem;
   max-width: 860px;
+  text-wrap: balance;
 }
 
 .cases-intro__sub {
@@ -311,45 +312,169 @@
   }
 }
 
-/* ── Mobil: alle 3 side om side med horisontal scroll ──
-   Skala 0.43: 428×0.43=184px, 868×0.43=373px        */
+/* ── Mobil-navigasjon (piler, prikker, hint, tittel) — skjult på større skjermer ── */
+.cases__viewport {
+  position: relative;
+}
+
+.cases__arrow,
+.cases__dots,
+.cases__swipe-hint,
+.case-card__caption {
+  display: none;
+}
+
+/* ── Mobil: én telefon om gangen, sveip eller trykk på pilene ──
+   Skala 0.55: 428×0.55=235px, 868×0.55=477px */
 @media (max-width: 700px) {
   .cases {
-    padding: 60px 0 80px;
+    padding: 60px 0 72px;
   }
 
   .cases__inner {
     width: 100%;
     max-width: 100%;
-    overflow-x: auto;
-    padding: 0 5vw 20px;
-    box-sizing: border-box;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
   }
 
-  .cases__inner::-webkit-scrollbar {
-    display: none;
+  .cases-intro__label {
+    padding-bottom: 2rem;
   }
 
   .cases__grid {
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 18px;
-    width: max-content;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 100%;
+    grid-template-columns: none;
+    gap: 0;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
   }
 
-  .phone-wrapper {
-    width: 184px;
-    height: 374px;
-  }
-
-  .phone-wrapper .device {
-    transform: scale(0.43);
+  .cases__grid::-webkit-scrollbar {
+    display: none;
   }
 
   .case-card {
-    width: 184px;
-    flex-shrink: 0;
+    width: 100%;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+  }
+
+  .phone-wrapper {
+    width: 235px;
+    height: 477px;
+  }
+
+  .phone-wrapper .device {
+    transform: scale(0.55);
+  }
+
+  .case-card__caption {
+    display: block;
+    margin: 18px 0 0;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #0f1422;
+    letter-spacing: 0.02em;
+  }
+
+  /* Piler på hver side av telefonen */
+  .cases__arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 238px; /* midt på telefonen (477 / 2) */
+    transform: translateY(-50%);
+    z-index: 5;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(4px);
+    color: rgba(30, 28, 28, 0.8);
+    font-size: 1.7rem;
+    line-height: 1;
+    padding: 0 0 3px;
+    cursor: pointer;
+    transition: opacity 0.25s, background 0.2s;
+  }
+
+  .cases__arrow:active {
+    background: rgba(255, 255, 255, 0.55);
+  }
+
+  .cases__arrow:disabled {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .cases__arrow--prev { left: 8px; }
+  .cases__arrow--next {
+    right: 8px;
+    /* liten "puff" som viser at det finnes flere */
+    animation: casesArrowNudge 2.4s ease-in-out 1.5s infinite;
+  }
+
+  @keyframes casesArrowNudge {
+    0%, 70%, 100% { translate: 0 0; }
+    80% { translate: 5px 0; }
+    90% { translate: 0 0; }
+  }
+
+  .cases__dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 22px;
+  }
+
+  .cases__dot {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.45);
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+  }
+
+  .cases__dot--active {
+    background: white;
+    transform: scale(1.35);
+  }
+
+  .cases__swipe-hint {
+    display: block;
+    margin: 12px 0 0;
+    text-align: center;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    color: rgba(30, 28, 28, 0.55);
+  }
+}
+
+@media (max-width: 700px) and (prefers-reduced-motion: reduce) {
+  .cases__arrow--next {
+    animation: none;
+  }
+}
+
+/* Landingsplass for prikken under mobilene (se dotJourney.js) */
+.dot-landing {
+  position: relative;
+  width: 0;
+  height: 0;
+  margin: 64px auto 0;
+}
+
+@media (max-width: 700px) {
+  .dot-landing {
+    margin-top: 40px;
   }
 }

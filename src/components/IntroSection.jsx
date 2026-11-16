@@ -1,10 +1,10 @@
 import "../styles/introSection.css";
 
-export default function IntroSection({ dropped = false }) {
+export default function IntroSection() {
   return (
     <section className="intro-section">
       <div className="container intro-grid">
-        <h2 className={`intro-title${dropped ? " intro-title--dropped" : ""}`}><span className="intro-title__first">Utforsk</span> Norges offentlige API-landskap</h2>
+        <h2 className="intro-title"><span className="intro-title__first dot-slot-word">Utforsk</span> Norges offentlige API-landskap</h2>
 
         <div className="intro-text">
           API-studio er en samlet oversikt over API-er fra norske offentlige

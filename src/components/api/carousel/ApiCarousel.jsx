@@ -31,7 +31,7 @@ const categoryColors = {
   "Offentlig forvaltning": "#8A7D7A",
 };
 
-const FACE_WIDTH = 260;
+const MAX_FACE_WIDTH = 260;
 
 export default function ApiCarousel({ items }) {
   const [visible, setVisible] = useState(false);
@@ -40,6 +40,20 @@ export default function ApiCarousel({ items }) {
   const stageRef = useRef(null);
   const navigate = useNavigate();
   const isPaused = useRef(false);
+
+  // Kortbredden følger scenens bredde, så kortene ikke kuttes på mobil
+  const [faceWidth, setFaceWidth] = useState(MAX_FACE_WIDTH);
+  useEffect(() => {
+    const el = stageRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([entry]) => {
+      const w = entry.contentRect.width;
+      setFaceWidth(Math.round(Math.min(MAX_FACE_WIDTH, w * 0.58)));
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  const scale = faceWidth / MAX_FACE_WIDTH;
 
   const count = items?.length ?? 0;
   if (!items || items.length === 0) return null;
@@ -129,7 +143,12 @@ export default function ApiCarousel({ items }) {
     >
       <p className="carousel-label">Bla gjennom kategoriene</p>
 
-      <div className="carousel-3d-stage" ref={stageRef}>
+      <div
+        className="carousel-3d-stage"
+        ref={stageRef}
+        // kort (3:4) + litt ekstra for at det midterste er dratt fram i 3D
+        style={{ height: Math.round(faceWidth * (4 / 3) * 1.12) }}
+      >
         <button
           className="carousel-arrow carousel-arrow--left"
           onClick={prev}
@@ -142,7 +161,7 @@ export default function ApiCarousel({ items }) {
           <div
             className="carousel-3d-cylinder"
             style={{
-              width: FACE_WIDTH,
+              width: faceWidth,
               transformStyle: "preserve-3d",
               position: "relative",
               height: "100%",
@@ -155,10 +174,10 @@ export default function ApiCarousel({ items }) {
               const side =
                 (i - activeIndex + count) % count > count / 2 ? -1 : 1;
 
-              const offset = dist * 220 * side;
+              const offset = dist * 220 * scale * side;
               const tilt = side * -18 * dist;
               const depth =
-                dist === 0 ? 120 : dist === 1 ? 0 : dist === 2 ? -80 : -140;
+                (dist === 0 ? 120 : dist === 1 ? 0 : dist === 2 ? -80 : -140) * scale;
 
               const opacity =
                 dist === 0 ? 1 : dist === 1 ? 0.72 : dist === 2 ? 0.18 : 0;
@@ -168,7 +187,7 @@ export default function ApiCarousel({ items }) {
                   key={item.id}
                   className="carousel-3d-face"
                   style={{
-                    width: `${FACE_WIDTH}px`,
+                    width: `${faceWidth}px`,
                     transform: `
                       translateX(calc(-50% + ${offset}px))
                       translateZ(${depth}px)

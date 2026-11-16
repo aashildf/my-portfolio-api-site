@@ -359,6 +359,8 @@ section {
   font-weight: 300;
   font-size: 24px;
   opacity: 0.85;
+  /* Fordel ordene jevnt over linjene, så det ikke blir ett ord alene nederst */
+  text-wrap: balance;
 }
 
 .hero-subtitle {

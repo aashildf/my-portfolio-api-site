@@ -2,6 +2,7 @@
   position: relative;
   width: 100%;
   aspect-ratio: 3 / 4;
+  container-type: inline-size; /* tekst skalerer med kortbredden */
 
   border-radius: 28px;
   overflow: hidden;
@@ -60,7 +61,7 @@
   transform: translate(-50%, -50%);
   z-index: 2;
 
-  font-size: 1.15rem;
+  font-size: clamp(0.8rem, 7cqi, 1.15rem);
   font-family: Georgia, 'Times New Roman', serif;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -82,12 +83,12 @@
   left: 0;
   right: 0;
   z-index: 2;
-  padding: 0 28px;
+  padding: 0 clamp(14px, 10cqi, 28px);
   text-align: center;
 }
 
 .cat-card__name {
-  font-size: 2.1rem;
+  font-size: clamp(1.15rem, 12.5cqi, 2.1rem);
   font-weight: 600;
   letter-spacing: 0.03em;
   line-height: 1.15;

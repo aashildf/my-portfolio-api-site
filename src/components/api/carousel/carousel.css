@@ -131,24 +131,27 @@
     margin: 0;
     border-radius: 0;
   }
-
-  .carousel-3d-stage {
-    height: 380px;
-  }
 }
 
+/* Scenehøyden settes i ApiCarousel.jsx ut fra kortbredden */
 @media (max-width: 768px) {
   .carousel-section {
     padding: 48px 0 44px;
   }
 
-  .carousel-3d-stage {
-    height: 320px;
+  .carousel-label {
+    margin-bottom: 28px;
   }
-}
 
-@media (max-width: 480px) {
-  .carousel-3d-stage {
-    height: 260px;
+  .carousel-dots {
+    margin-top: 28px;
   }
+
+  .carousel-arrow {
+    width: 38px;
+    height: 38px;
+  }
+
+  .carousel-arrow--left  { left: 10px; }
+  .carousel-arrow--right { right: 10px; }
 }
