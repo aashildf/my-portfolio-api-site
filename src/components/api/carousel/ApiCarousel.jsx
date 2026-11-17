@@ -141,7 +141,9 @@ export default function ApiCarousel({ items }) {
         isPaused.current = false;
       }}
     >
-      <p className="carousel-label">Bla gjennom kategoriene</p>
+      <p className="carousel-label">
+        <span className="carousel-label__first dot-slot-word">Bla</span> gjennom kategoriene
+      </p>
 
       <div
         className="carousel-3d-stage"

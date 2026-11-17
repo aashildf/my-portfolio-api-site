@@ -3,9 +3,13 @@
 
     1. klikk på prikken over i-en → spretter ned og lander OPPÅ "Utforsk",
        ordet flytter seg til side, og kula hopper ned på plassen foran det
-    2. klikk på kula → samme ved "Hva kan du bygge …"
-    3. klikk på kula → spretter rolig fra mobil 1 til 2 til 3, ruller ned
-       fra den siste og triller bort til plassen under mobilene
+    2. klikk på kula → samme ved "Bla gjennom kategoriene"
+       og så ved "Hva kan du bygge …"
+    3. klikk på kula → spretter rolig fra mobil 1 til 2 til 3 (på smal
+       skjerm: tre sprett på mobilen som vises), ruller ned fra den siste
+       og triller bort til plassen under mobilene
+
+  Scroller man nedover uten å klikke, spretter kula videre av seg selv.
     4. klikk på kula → spretter helt opp igjen og blir prikken over i-en
 
   Kula tegnes imperativt med requestAnimationFrame (ikke React-state),
@@ -79,86 +83,111 @@ function phonesStop(ballSize) {
   const landing = document.querySelector(".dot-landing");
   const phones = [...document.querySelectorAll(".cases .phone-wrapper")];
   if (!landing || !phones.length) return null;
-  const scroller = document.querySelector(".cases__grid");
+  const row = document.querySelector(".cases__grid");
 
-  // Boink, boink, boink: høye, myke buer fra mobil til mobil. Lav
-  // tyngdekraft gjør at den svever rolig gjennom buen, og den spretter
-  // videre med en gang (bare et kort klem), slik en ekte ball gjør.
-  const targets = phones.map((phone, i) => ({
-    apex: i === 0 ? 120 : 150,
-    gravity: 950,
-    pause: 0.03,
-    bump: phone,
-    scroller,
-    scrollTo: phone,
-    point: () => {
-      const r = phone.getBoundingClientRect();
-      return toPage(r.left + r.width / 2, r.top + 3);
-    },
-  }));
+  // Ruta bygges i det kula skal hit (build), fordi den avhenger av
+  // om alle mobilene vises (desktop) eller bare én om gangen (mobil).
+  const build = () => {
+    // Sveipbar rad (mobil) = overflow-x: auto og innhold bredere enn raden.
+    // (På desktop stikker raden litt ut, men kan ikke scrolles.)
+    const rowScrolls =
+      row &&
+      ["auto", "scroll"].includes(getComputedStyle(row).overflowX) &&
+      row.scrollWidth > row.clientWidth + 1;
 
-  // Fra den siste: rull mot kanten (i retning landingsplassen) og dett av.
-  // Kula beholder farten fremover: den lander et stykke ut, spretter
-  // videre fremover i stadig lavere buer, og ruller bare litt til slutt.
-  const last = phones[phones.length - 1];
-  const dir = () => {
-    const r = last.getBoundingClientRect();
-    const dx = landing.getBoundingClientRect().left - (r.left + r.width / 2);
-    return Math.abs(dx) < 10 ? 1 : Math.sign(dx);
-  };
-  const edge = () => {
-    const r = last.getBoundingClientRect();
-    const inset = r.width * 0.17; // før de runde hjørnene
-    const x = dir() > 0 ? r.right - inset : r.left + inset;
-    return toPage(x, r.top + 3);
-  };
-
-  // Strekningen på "gulvet" regnes ut én gang i det kula detter av, og
-  // lagres relativt til landingsfeltet (så den ligger stille om man
-  // senere sveiper i mobil-raden). Den går mot landingsplassen hvis den
-  // ligger i fartsretningen, ellers så langt det er plass.
-  let plan = null;
-  const makePlan = () => {
-    const r = last.getBoundingClientRect();
-    const l = landing.getBoundingClientRect();
-    const section = landing.closest(".cases")?.getBoundingClientRect() ?? {
-      left: 0,
-      right: window.innerWidth,
+    // Mobil: bruk telefonen som vises nå — kula scroller ikke raden
+    const visiblePhone = () => {
+      const rr = row.getBoundingClientRect();
+      const mid = rr.left + rr.width / 2;
+      return phones.reduce((best, p) => {
+        const r = p.getBoundingClientRect();
+        const d = Math.abs(r.left + r.width / 2 - mid);
+        return !best || d < best.d ? { p, d } : best;
+      }, null).p;
     };
-    const d = dir();
-    const start = d > 0 ? r.right + ballSize * 0.55 : r.left - ballSize * 0.55;
-    const room = (d > 0 ? section.right - start : start - section.left) - ballSize - 12;
-    const toLanding = (l.left - start) * d;
-    const total = Math.max(
-      20,
-      toLanding > 0 ? Math.min(toLanding, room) : Math.min(room, 140)
+    const last = rowScrolls ? visiblePhone() : phones[phones.length - 1];
+
+    // Hvilken vei kula skal ut over kanten (mot landingsplassen)
+    const dir = () => {
+      const r = last.getBoundingClientRect();
+      const dx = landing.getBoundingClientRect().left - (r.left + r.width / 2);
+      return Math.abs(dx) < 10 ? 1 : Math.sign(dx);
+    };
+    // Punkt på toppen av en mobil, `frac` (0–1) av bredden målt i fartsretningen
+    const onPhone = (phone, frac) => () => {
+      const r = phone.getBoundingClientRect();
+      const x = dir() > 0 ? r.left + r.width * frac : r.right - r.width * frac;
+      return toPage(x, r.top + 3);
+    };
+
+    // Boink, boink, boink: høye, myke buer. Lav tyngdekraft gjør at den
+    // svever rolig gjennom buen, og den spretter videre med en gang.
+    const boink = (phone, frac, apex) => ({
+      apex,
+      gravity: 950,
+      pause: 0.03,
+      bump: phone,
+      point: onPhone(phone, frac),
+    });
+
+    const targets = rowScrolls
+      ? // Mobil: tre boink på samme telefon, mens den driver mot kanten
+        [boink(last, 0.35, 120), boink(last, 0.5, 130), boink(last, 0.65, 120)]
+      : // Desktop: fra mobil 1 til 2 til 3
+        phones.map((phone, i) => boink(phone, 0.5, i === 0 ? 120 : 150));
+
+    // Fra den siste: rull mot kanten og dett av. Kula beholder farten
+    // fremover: den lander et stykke ut, spretter videre fremover i
+    // stadig lavere buer, og ruller bare litt til slutt.
+    //
+    // Strekningen på "gulvet" regnes ut én gang i det kula detter av, og
+    // lagres relativt til landingsfeltet (så den ligger stille om man
+    // senere sveiper i mobil-raden). Den går mot landingsplassen hvis den
+    // ligger i fartsretningen, ellers så langt det er plass.
+    let plan = null;
+    const makePlan = () => {
+      const r = last.getBoundingClientRect();
+      const l = landing.getBoundingClientRect();
+      const section = landing.closest(".cases")?.getBoundingClientRect() ?? {
+        left: 0,
+        right: window.innerWidth,
+      };
+      const d = dir();
+      const start = d > 0 ? r.right + ballSize * 0.55 : r.left - ballSize * 0.55;
+      const room = (d > 0 ? section.right - start : start - section.left) - ballSize - 12;
+      const toLanding = (l.left - start) * d;
+      const total = Math.max(
+        20,
+        toLanding > 0 ? Math.min(toLanding, room) : Math.min(room, 140)
+      );
+      plan = { startOffset: start - l.left, d, total };
+    };
+    const floorAt = (frac) => () => {
+      if (!plan) makePlan();
+      const l = landing.getBoundingClientRect();
+      return toPage(l.left + plan.startOffset + plan.d * plan.total * frac, l.top);
+    };
+
+    targets.push(
+      { roll: true, speed: 110, ease: "in", point: onPhone(last, 0.83) },
+      { apex: 4, gravity: 1400, pause: 0.03, point: floorAt(0.3) },
+      { apex: 55, gravity: 1300, pause: 0.03, point: floorAt(0.62) },
+      { apex: 20, gravity: 1300, pause: 0.03, point: floorAt(0.84) },
+      { apex: 6, gravity: 1300, pause: 0.03, point: floorAt(0.95) },
+      { roll: true, speed: 45, ease: "out", point: floorAt(1) }
     );
-    plan = { startOffset: start - l.left, d, total };
+    return targets;
   };
-  // Punkt på gulvet, `frac` (0–1) av strekningen
-  const floorAt = (frac) => () => {
-    if (!plan) makePlan();
-    const l = landing.getBoundingClientRect();
-    return toPage(l.left + plan.startOffset + plan.d * plan.total * frac, l.top);
-  };
-  targets[0].onLand = () => (plan = null); // ny tur, ny plan
 
-  targets.push(
-    { roll: true, speed: 110, ease: "in", point: edge },
-    { apex: 4, gravity: 1400, pause: 0.03, point: floorAt(0.3) },
-    { apex: 55, gravity: 1300, pause: 0.03, point: floorAt(0.62) },
-    { apex: 20, gravity: 1300, pause: 0.03, point: floorAt(0.84) },
-    { apex: 6, gravity: 1300, pause: 0.03, point: floorAt(0.95) },
-    { roll: true, speed: 45, ease: "out", point: floorAt(1) }
-  );
-
-  return { targets, final: true, trigger: phones[0], triggerAt: 0.5 };
+  return { build, final: true, trigger: phones[0], triggerAt: 0.5 };
 }
 
 function buildStops(ballSize) {
   const stops = [];
   const utforsk = document.querySelector(".intro-title__first");
   if (utforsk) stops.push(slotStop(utforsk, 60, ballSize));
+  const bla = document.querySelector(".carousel-label__first");
+  if (bla) stops.push(slotStop(bla, 80, ballSize));
   const hva = document.querySelector(".cases-intro__first");
   if (hva) stops.push(slotStop(hva, 90, ballSize));
   const phones = phonesStop(ballSize);
@@ -196,8 +225,8 @@ function movePosition(move, t) {
     };
   }
 
-  // Målet kan flytte seg underveis (teksten glir til side, mobil-raden
-  // scroller) — vi glir gradvis over til det levende punktet.
+  // Målet kan flytte seg underveis (f.eks. teksten som glir til side)
+  // — vi glir gradvis over til det levende punktet.
   const dx = live.x - move.to0.x;
   const dy = live.y - move.to0.y;
   return {
@@ -335,19 +364,6 @@ export function startDotJourney({ startEl, onReturned, followCamera: followAtSta
     }
   };
 
-  // Mobil: telefonraden scrolles (mykt, med snap) til telefonen kula
-  // skal treffe. Målpunktet er "levende", så kula følger med.
-  const scrollRowTo = (target) => {
-    const { scroller, scrollTo } = target;
-    if (!scroller || !scrollTo || scroller.scrollWidth <= scroller.clientWidth) return;
-    const cr = scroller.getBoundingClientRect();
-    const pr = scrollTo.getBoundingClientRect();
-    const delta = pr.left + pr.width / 2 - (cr.left + cr.width / 2);
-    if (Math.abs(delta) > 1) {
-      scroller.scrollTo({ left: scroller.scrollLeft + delta, behavior: "smooth" });
-    }
-  };
-
   /* --- Én serie med bevegelser (ett klikk) --- */
 
   const runMoves = (targets, onArrive) => {
@@ -378,7 +394,6 @@ export function startDotJourney({ startEl, onReturned, followCamera: followAtSta
     let contactUntil = 0;
     let contactTarget = null;
     let impactAt = -1;
-    scrollRowTo(move.target);
 
     const next = (now, withContact) => {
       index += 1;
@@ -391,7 +406,6 @@ export function startDotJourney({ startEl, onReturned, followCamera: followAtSta
       }
       move = makeMove(pos, targets[index]);
       moveStart = contactUntil;
-      scrollRowTo(move.target);
     };
 
     const frame = (now) => {
@@ -481,7 +495,7 @@ export function startDotJourney({ startEl, onReturned, followCamera: followAtSta
     stops[stopIndex]?.close?.(); // teksten vi forlater glir tilbake
     stopIndex = n;
     follow = followCam;
-    runMoves(stop.targets, () => {
+    runMoves(stop.build ? stop.build() : stop.targets, () => {
       atEnd = Boolean(stop.final);
       setResting(true);
       // Har brukeren scrollet forbi neste stopp mens kula var i lufta,

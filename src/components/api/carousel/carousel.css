@@ -139,8 +139,10 @@
     padding: 48px 0 44px;
   }
 
+  /* Det fremste kortet er dratt fram i 3D og blir litt større enn
+     scenen, så overskriften trenger god luft over kortene */
   .carousel-label {
-    margin-bottom: 28px;
+    margin-bottom: 56px;
   }
 
   .carousel-dots {
